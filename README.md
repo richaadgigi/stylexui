@@ -1,1 +1,1 @@
-# <p style="text-align: center;">Stylexui [Style You]</p>
+# <div align="center">Stylexui [Style You]</div>
