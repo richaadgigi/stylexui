@@ -1,8 +1,8 @@
-<FilesMatch "\.(ttf|otf|eot|woff|woff2)$">
-    <IfModule mod_headers.c>
-        Header set Access-Control-Allow-Origin "*"
-    </IfModule>
-</FilesMatch>
+<IfModule mod_headers.c>
+  <FilesMatch ".(eot|otf|svg|ttf|woff|woff2?)$">
+    Header set Access-Control-Allow-Origin "*"
+  </FilesMatch>
+</IfModule>
 Options +FollowSymLinks 
 Options -Indexes
 ErrorDocument 404 https://stylexui.com/404
