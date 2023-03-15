@@ -1,5 +1,5 @@
 "use strict";
-let loadingScreen = () => {
+let xuiLoadingScreen = () => {
     let loader = document.querySelector(".xui-loader");
     if (loader !== null) {
         loader.style.display = "flex";
@@ -16,7 +16,7 @@ let loadingScreen = () => {
         }
     }, 100);
 };
-let hideSkeleton = (ele) => {
+let xuiHideSkeleton = (ele) => {
     setTimeout(function () {
         if(ele !== undefined){
             let xuiSkeleton = document.querySelectorAll(ele + " .xui--skeleton");
@@ -39,7 +39,7 @@ let hideSkeleton = (ele) => {
         }
     }, 2500);
 };
-let modal = () => {
+let xuiModal = () => {
     let modals = document.querySelectorAll('[xui-modal]');
     function getParents(el, parentSelector /* optional */) {
 
@@ -134,7 +134,7 @@ let isHidden = (el) => {
     var style = window.getComputedStyle(el);
     return (style.display === 'none');
 };
-let accordion = () => {
+let xuiAccordion = () => {
     let accordionHeaders = document.querySelectorAll('.xui-accordion-box .xui-accordion-header');
     for (var i = 0; i < accordionHeaders.length; i++) {
         accordionHeaders[i].addEventListener('click', ((j) => {
@@ -190,7 +190,7 @@ let accordion = () => {
         })(i));
     }
 };
-let alerts = () => {
+let xuiAlerts = () => {
     let alertBoxesClose = document.querySelectorAll('.xui-alert .xui-alert-close');
     for (var i = 0; i < alertBoxesClose.length; i++) {
         alertBoxesClose[i].addEventListener('click', ((j) => {
@@ -221,7 +221,7 @@ let alerts = () => {
         })(i));
     }
 };
-let navbarMenu = () => {
+let xuiNavbarMenu = () => {
     let xuiNavbar = document.getElementsByClassName('xui-navbar');
     if (xuiNavbar.length > 0) {
         let xuiNavbarMenu = document.querySelector(".xui-navbar .menu");
@@ -230,8 +230,6 @@ let navbarMenu = () => {
         let xuiDashboardAnimate = document.querySelector(".xui-dashboard.animate");
         let xuiNavbarLinksUrl = document.querySelectorAll(".xui-navbar .links a");
         document.addEventListener("click", function (e) {
-            console.log(e.target);
-            console.log(e.target.parentNode);
             while (e.target && !e.target.classList.contains('xui-dashboard') && !e.target.classList.contains('animate')) {
                 e.target = e.target.parentNode;
             }
@@ -289,7 +287,7 @@ let navbarMenu = () => {
         }
     }
 };
-let lazyLoadings = () => {
+let xuiLazyLoadings = () => {
     (function () {
         var elements = document.querySelectorAll('[xui-bg-img]');
         var index = 0;
@@ -337,7 +335,7 @@ let lazyLoadings = () => {
         return init();
     })();
 };
-let anime = (customDefinition) => {
+let xuiAnime = (customDefinition) => {
     let xuiCustom = customDefinition;
     if (xuiCustom !== undefined) {
         let el = document.querySelector('[xui-custom="' + xuiCustom + '"]');
@@ -380,7 +378,7 @@ let anime = (customDefinition) => {
         console.warn("xui.animate() is missing a parameter");
     }
 };
-let animeStart = (customDefinition) => {
+let letAnimeStart = (customDefinition) => {
     let xuiCustom = customDefinition;
     if (xuiCustom !== undefined) {
         let el = document.querySelector('[xui-custom="' + xuiCustom + '"]');
@@ -403,7 +401,7 @@ let animeStart = (customDefinition) => {
         console.warn("xui.animate() is missing a parameter");
     }
 };
-let animeEnd = (customDefinition) => {
+let letAnimeEnd = (customDefinition) => {
     let xuiCustom = customDefinition;
     if (xuiCustom !== undefined) {
         let el = document.querySelector('[xui-custom="' + xuiCustom + '"]');
@@ -545,7 +543,7 @@ let xuiTypeWriter = (obj) => {
         console.error("No target found in xui.effect.typewriter(obj)");
     }
 };
-let scrollOnAnimation = () => {
+let xuiScrollOnAnimation = () => {
     // Check if xui-aos is available in the body tag
     let xuiBody = document.querySelector("body");
     if (xuiBody !== null) {
@@ -763,6 +761,22 @@ let scrollOnAnimation = () => {
         }
     }
 };
+let xuiModalShow = (name) => {
+    let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
+    if (modalName !== null) {
+        modalName.removeAttribute("open");
+        void modalName.offsetWidth;
+        modalName.setAttribute("open", true);
+    }
+}
+let xuiModalHide = (name) => {
+    let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
+    if (modalName !== null) {
+        modalName.removeAttribute("open");
+        void modalName.offsetWidth;
+        modalName.setAttribute("open", false);
+    }
+}
 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
     // dark mode
     let qs = document.querySelector("[xui-mode=\"auto\"]");
@@ -785,31 +799,34 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', eve
         }
     }
 });
+let xuiRun = () => {
+    xuiLazyLoadings();
+    xuiModal();
+    xuiAccordion();
+    xuiAlerts();
+    xuiScrollOnAnimation();
+}
 let xui = {
     run: () => {
-        lazyLoadings();
-        modal();
-        accordion();
-        alerts();
-        scrollOnAnimation();
+        xuiRun();
     },
     control: {
         navbar: () => {
-            navbarMenu();
+            xuiNavbarMenu();
         },
         loader: () => {
-            loadingScreen();
+            xuiLoadingScreen();
         }
     },
     animate: {
         default: (custom) => {
-            anime(custom);
+            xuiAnime(custom);
         },
         start: (custom) => {
-            animeStart(custom);
+            xuiAnimeStart(custom);
         },
         end: (custom) => {
-            animeEnd(custom);
+            xuiAnimeEnd(custom);
         }
     },
     effect: {
@@ -824,14 +841,14 @@ let xui = {
     },
     reveal: {
         images: () => {
-            lazyLoadings();
+            xuiLazyLoadings();
         },
         skeletons: (ele) => {
-            hideSkeleton(ele);
+            xuiHideSkeleton(ele);
         }
     },
     modal: {
-        show: (name) => {
+        show: () => {
             let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
             if (modalName !== null) {
                 modalName.removeAttribute("open");
