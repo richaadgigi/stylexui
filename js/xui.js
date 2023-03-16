@@ -1,5 +1,5 @@
 "use strict";
-let xuiLoadingScreen = () => {
+function xuiLoadingScreen(){
     let loader = document.querySelector(".xui-loader");
     if (loader !== null) {
         loader.style.display = "flex";
@@ -16,7 +16,7 @@ let xuiLoadingScreen = () => {
         }
     }, 100);
 };
-let xuiHideSkeleton = (ele) => {
+function xuiHideSkeleton(ele){
     setTimeout(function () {
         if(ele !== undefined){
             let xuiSkeleton = document.querySelectorAll(ele + " .xui--skeleton");
@@ -39,7 +39,7 @@ let xuiHideSkeleton = (ele) => {
         }
     }, 2500);
 };
-let xuiModal = () => {
+function xuiModal(){
     let modals = document.querySelectorAll('[xui-modal]');
     function getParents(el, parentSelector /* optional */) {
 
@@ -130,11 +130,11 @@ let xuiModal = () => {
         }
     };
 };
-let isHidden = (el) => {
+function isHidden(el){
     var style = window.getComputedStyle(el);
     return (style.display === 'none');
 };
-let xuiAccordion = () => {
+function xuiAccordion(){
     let accordionHeaders = document.querySelectorAll('.xui-accordion-box .xui-accordion-header');
     for (var i = 0; i < accordionHeaders.length; i++) {
         accordionHeaders[i].addEventListener('click', ((j) => {
@@ -190,7 +190,7 @@ let xuiAccordion = () => {
         })(i));
     }
 };
-let xuiAlerts = () => {
+function xuiAlerts(){
     let alertBoxesClose = document.querySelectorAll('.xui-alert .xui-alert-close');
     for (var i = 0; i < alertBoxesClose.length; i++) {
         alertBoxesClose[i].addEventListener('click', ((j) => {
@@ -221,7 +221,7 @@ let xuiAlerts = () => {
         })(i));
     }
 };
-let xuiNavbarMenu = () => {
+function xuiNavbarMenu(){
     let xuiNavbar = document.getElementsByClassName('xui-navbar');
     if (xuiNavbar.length > 0) {
         let xuiNavbarMenu = document.querySelector(".xui-navbar .menu");
@@ -287,7 +287,7 @@ let xuiNavbarMenu = () => {
         }
     }
 };
-let xuiLazyLoadings = () => {
+function xuiLazyLoadings(){
     (function () {
         var elements = document.querySelectorAll('[xui-bg-img]');
         var index = 0;
@@ -335,7 +335,7 @@ let xuiLazyLoadings = () => {
         return init();
     })();
 };
-let xuiAnime = (customDefinition) => {
+function xuiAnime(customDefinition){
     let xuiCustom = customDefinition;
     if (xuiCustom !== undefined) {
         let el = document.querySelector('[xui-custom="' + xuiCustom + '"]');
@@ -378,7 +378,7 @@ let xuiAnime = (customDefinition) => {
         console.warn("xui.animate() is missing a parameter");
     }
 };
-let letAnimeStart = (customDefinition) => {
+function letAnimeStart(customDefinition){
     let xuiCustom = customDefinition;
     if (xuiCustom !== undefined) {
         let el = document.querySelector('[xui-custom="' + xuiCustom + '"]');
@@ -401,7 +401,7 @@ let letAnimeStart = (customDefinition) => {
         console.warn("xui.animate() is missing a parameter");
     }
 };
-let letAnimeEnd = (customDefinition) => {
+function xuiAnimeEnd(customDefinition){
     let xuiCustom = customDefinition;
     if (xuiCustom !== undefined) {
         let el = document.querySelector('[xui-custom="' + xuiCustom + '"]');
@@ -424,7 +424,7 @@ let letAnimeEnd = (customDefinition) => {
         console.warn("xui.animate() is missing a parameter");
     }
 };
-let xuiTypeWriter = (obj) => {
+function xuiTypeWriter(obj){
     let quoteArray = obj.words;
     let speed = obj.duration;
     let target = obj.target;
@@ -543,7 +543,7 @@ let xuiTypeWriter = (obj) => {
         console.error("No target found in xui.effect.typewriter(obj)");
     }
 };
-let xuiScrollOnAnimation = () => {
+function xuiScrollOnAnimation(){
     // Check if xui-aos is available in the body tag
     let xuiBody = document.querySelector("body");
     if (xuiBody !== null) {
@@ -761,7 +761,7 @@ let xuiScrollOnAnimation = () => {
         }
     }
 };
-let xuiModalShow = (name) => {
+function xuiModalShow(name){
     let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
     if (modalName !== null) {
         modalName.removeAttribute("open");
@@ -769,7 +769,7 @@ let xuiModalShow = (name) => {
         modalName.setAttribute("open", true);
     }
 }
-let xuiModalHide = (name) => {
+function xuiModalHide(name){
     let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
     if (modalName !== null) {
         modalName.removeAttribute("open");
@@ -799,7 +799,7 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', eve
         }
     }
 });
-let xuiRun = () => {
+function xuiRun(){
     xuiLazyLoadings();
     xuiModal();
     xuiAccordion();
@@ -867,7 +867,7 @@ let xui = {
     }
 };
 // For modules usage
-let autoRun = () => {
+function autoRun(){
     let body = document.querySelector("body");
     if (body !== null) {
         let xuiRun = body.getAttribute("xui-run");
