@@ -1,3 +1,10 @@
+// Handling click events
+document.addEventListener("click", (e) => {
+    // Functionalities for navabar goes here
+    let xuiNavbar = document.getElementsByClassName('xui-navbar');
+    console.log(xuiNavbar.length);
+    // Functionalities for navabar goes here
+});
 function tryingLink(){
     alert("This is a test phase!");
 }
@@ -232,13 +239,15 @@ function xuiNavbarMenu(){
         let xuiDashboardAnimate = document.querySelector(".xui-dashboard.animate");
         let xuiNavbarLinksUrl = document.querySelectorAll(".xui-navbar .links a");
         document.addEventListener("click", function (e) {
-            while (e.target && !e.target.classList.contains('xui-dashboard') && !e.target.classList.contains('animate')) {
-                e.target = e.target.parentNode;
-            }
-            if(e.target){
+            // while (e.target && !e.target.classList.contains('xui-dashboard') && !e.target.classList.contains('animate')) {
+            //     e.target = e.target.parentNode;
+            // }
+            console.log(xuiNavbarMenu);
+            if(e.target && !e.target.classList.contains('animate')){
                 xuiDashboard.classList.remove("animate");
                 xuiNavbarMenu.classList.remove("animate");
             }
+            console.log(xuiNavbarMenu);
         });
         if (xuiNavbarMenu !== null) {
             xuiNavbarMenu.classList.remove("animate");
