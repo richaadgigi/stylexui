@@ -1,8 +1,60 @@
 // Handling click events
 document.addEventListener("click", (e) => {
     // Functionalities for navabar goes here
-    let xuiNavbar = document.getElementsByClassName('xui-navbar');
-    console.log(xuiNavbar.length);
+    const xuiNavbar = document.getElementsByClassName('xui-navbar');
+    if (xuiNavbar.length > 0) {
+        const xuiNavbarMenu = document.querySelector(".xui-navbar .menu");
+        const xuiNavbarLinksMain = document.querySelector(".xui-navbar .links .main");
+        const xuiDashboard = document.querySelector(".xui-dashboard");
+        const xuiDashboardAnimate = document.querySelector(".xui-dashboard.animate");
+        const xuiNavbarLinksUrl = document.querySelectorAll(".xui-navbar .links a");
+        console.log(e.target);
+        console.log(xuiNavbarMenu);
+        console.log(e.target === xuiNavbarMenu);
+        if(e.target === xuiNavbarMenu){
+            if(e.target && e.target.classList.contains('animate')){
+                if(xuiDashboard){
+                    xuiDashboard.classList.remove("animate");
+                }
+                if(xuiNavbarLinksMain){
+                    xuiNavbarLinksMain.classList.remove("animate");
+                }
+                xuiNavbarMenu.classList.remove("animate");
+            }
+            else {
+                if(xuiDashboard){
+                    xuiDashboard.classList.add("animate");
+                }
+                if(xuiNavbarLinksMain){
+                    xuiNavbarLinksMain.classList.add("animate");
+                }
+                xuiNavbarMenu.classList.add("animate");
+            }
+        }
+        if(e.target === xuiDashboard){
+            if(e.target && e.target.classList.contains('animate')){
+                if(xuiDashboard){
+                    xuiDashboard.classList.remove("animate");
+                }
+                xuiNavbarMenu.classList.remove("animate");
+            }
+        }
+        // Closing animations when a link with url is clicked
+        const target = e.target;
+        if (target.closest('.xui-navbar .links .main a') || target.closest('.xui-dashboard .navigator .links a')) {
+            const href = target.getAttribute("href");
+            if ((href !== "#") && (href !== "")) {
+                if (xuiNavbarMenu !== null) {
+                    xuiNavbarMenu.classList.remove("animate");
+                    xuiDashboard.classList.remove("animate");
+                }
+                if (xuiNavbarLinksMain !== null) {
+                    xuiNavbarLinksMain.classList.remove("animate");
+                }
+            }
+        }
+        
+    }
     // Functionalities for navabar goes here
 });
 function tryingLink(){
@@ -228,74 +280,6 @@ function xuiAlerts(){
                 }
             };
         })(i));
-    }
-};
-function xuiNavbarMenu(){
-    let xuiNavbar = document.getElementsByClassName('xui-navbar');
-    if (xuiNavbar.length > 0) {
-        let xuiNavbarMenu = document.querySelector(".xui-navbar .menu");
-        let xuiNavbarLinksMain = document.querySelector(".xui-navbar .links .main");
-        let xuiDashboard = document.querySelector(".xui-dashboard");
-        let xuiDashboardAnimate = document.querySelector(".xui-dashboard.animate");
-        let xuiNavbarLinksUrl = document.querySelectorAll(".xui-navbar .links a");
-        document.addEventListener("click", function (e) {
-            // while (e.target && !e.target.classList.contains('xui-dashboard') && !e.target.classList.contains('animate')) {
-            //     e.target = e.target.parentNode;
-            // }
-            console.log(xuiNavbarMenu);
-            if(e.target && !e.target.classList.contains('animate')){
-                xuiDashboard.classList.remove("animate");
-                xuiNavbarMenu.classList.remove("animate");
-            }
-            console.log(xuiNavbarMenu);
-        });
-        if (xuiNavbarMenu !== null) {
-            xuiNavbarMenu.classList.remove("animate");
-            xuiNavbarMenu.addEventListener("click", function (event) {
-                event.preventDefault();
-                if (xuiNavbarMenu !== null) {
-                    xuiNavbarMenu.classList.toggle("animate");
-                }
-                if (xuiNavbarLinksMain !== null) {
-                    xuiNavbarLinksMain.classList.toggle("animate");
-                }
-                xuiDashboard.classList.add("animate");
-            });
-        }
-        if (xuiNavbarLinksMain !== null) {
-            xuiNavbarLinksMain.classList.remove("animate");
-        }
-        let newXuiNavbar = document.querySelector('.xui-navbar');
-        if (newXuiNavbar !== null) {
-            newXuiNavbar.addEventListener('click', (e) => {
-                const target = e.target;
-                if (target.closest('.xui-navbar .links .main a') || target.closest('.xui-dashboard .navigator .links a')) {
-                    let href = target.getAttribute("href");
-                    if ((href !== "#") && (href !== "")) {
-                        if (xuiNavbarMenu !== null) {
-                            xuiNavbarMenu.classList.toggle("animate");
-                        }
-                        if (xuiNavbarLinksMain !== null) {
-                            xuiNavbarLinksMain.classList.toggle("animate");
-                        }
-                    }
-                }
-            });
-        }
-        if (xuiDashboard !== null) {
-            xuiDashboard.addEventListener('click', (e) => {
-                const target = e.target;
-                if (target.closest('.xui-dashboard .navigator .links a')) {
-                    let href = target.getAttribute("href");
-                    if ((href !== "#") && (href !== "")) {
-                        if (xuiNavbarMenu !== null) {
-                            xuiNavbarMenu.classList.toggle("animate");
-                            xuiDashboard.classList.toggle("animate");
-                        }
-                    }
-                }
-            });
-        }
     }
 };
 function xuiLazyLoadings(){
@@ -823,7 +807,7 @@ let xui = {
     },
     control: {
         navbar: () => {
-            xuiNavbarMenu();
+            // xuiNavbarMenu();
         },
         loader: () => {
             xuiLoadingScreen();
