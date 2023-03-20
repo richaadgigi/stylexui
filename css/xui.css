@@ -1632,7 +1632,7 @@ img {
 
 .xui-btn,
 .xui-btn-block {
-  padding: 1.2em 2em;
+  padding: 1em 1.5em;
 }
 
 .xui-btn {
@@ -3267,7 +3267,7 @@ select:-webkit-autofill:focus {
 }
 
 .xui-badge {
-  padding: .6rem 1rem;
+  padding: .4rem .6rem;
   display: inline-block;
 }
 
@@ -3283,7 +3283,7 @@ select:-webkit-autofill:focus {
 
 .xui-badge-danger {
   background-color: #f7d4d6;
-  color: hsl(357, 69%, 43%);
+  color: #b9222a;
 }
 
 .xui-badge-warning {
