@@ -25255,25 +25255,25 @@ select:-webkit-autofill:focus {
 
 
 /* Custom Attributes */
-.xui-modal[open="true"] {
+.xui-modal[display="true"] {
   animation-name: modalClose;
   animation-iteration-count: 1;
   animation-fill-mode: backwards;
 }
 
-.xui-modal[open="false"] {
+.xui-modal[display="false"] {
   animation-name: modalOpen;
   animation-delay: .15s;
   animation-iteration-count: 1;
 }
 
-.xui-modal[open="true"] .xui-modal-content {
+.xui-modal[display="true"] .xui-modal-content {
   animation-name: modal;
   animation-duration: .25s;
   animation-iteration-count: 1;
 }
 
-.xui-modal[open="false"] .xui-modal-content {
+.xui-modal[display="false"] .xui-modal-content {
   animation-name: modal;
   animation-duration: .25s;
   animation-iteration-count: 1;
@@ -25289,7 +25289,7 @@ select:-webkit-autofill:focus {
   right: -100%;
 }
 
-.xui-alert[open="true"][xui-placed="top-right"] {
+.xui-alert[display="true"][xui-placed="top-right"] {
   top: .5rem;
   right: .5rem;
 }
@@ -25299,7 +25299,7 @@ select:-webkit-autofill:focus {
   left: -100%;
 }
 
-.xui-alert[open="true"][xui-placed="top-left"] {
+.xui-alert[display="true"][xui-placed="top-left"] {
   top: .5rem;
   left: .5rem;
 }
@@ -25309,7 +25309,7 @@ select:-webkit-autofill:focus {
   right: -100%;
 }
 
-.xui-alert[open="true"][xui-placed="bottom-right"] {
+.xui-alert[display="true"][xui-placed="bottom-right"] {
   bottom: .5rem;
   right: .5rem;
 }
@@ -25333,21 +25333,21 @@ select:-webkit-autofill:focus {
   transform: translateX(-50%);
 }
 
-.xui-alert[open="true"][xui-placed="bottom-left"] {
+.xui-alert[display="true"][xui-placed="bottom-left"] {
   bottom: .5rem;
   left: .5rem;
 }
 
-.xui-alert[open="true"][xui-placed="bottom-left"] {
+.xui-alert[display="true"][xui-placed="bottom-left"] {
   bottom: .5rem;
   left: .5rem;
 }
 
-.xui-alert[open="true"][xui-placed="top-center"] {
+.xui-alert[display="true"][xui-placed="top-center"] {
   top: .5rem;
 }
 
-.xui-alert[open="true"][xui-placed="bottom-center"] {
+.xui-alert[display="true"][xui-placed="bottom-center"] {
   bottom: .5rem;
 }
 
