@@ -25354,7 +25354,7 @@ select:-webkit-autofill:focus {
 
 
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 768px) {
 
   .xui-navbar .menu {
     display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
