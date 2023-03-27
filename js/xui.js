@@ -106,6 +106,60 @@ document.addEventListener("click", (e) => {
         }
     }
     // Functionalities for modal goes here
+
+    // Functionalities for accordion goes here
+    const xuiAccordionHeaders = Array.from(document.querySelectorAll('.xui-accordion-box .xui-accordion-header'));
+    if(e.target.closest('.xui-accordion-box .xui-accordion-header')){
+        let index = xuiAccordionHeaders.indexOf(e.target.closest('.xui-accordion-box .xui-accordion-header'));
+        let accordionHeader = document.querySelectorAll('.xui-accordion-box .xui-accordion-header')[index];
+        let accordionIconOpen = accordionHeader.querySelector(".xui-accordion-box .xui-accordion-header .xui-accordion-header-icon-open");
+        let accordionIconClose = accordionHeader.querySelector(".xui-accordion-box .xui-accordion-header .xui-accordion-header-icon-close");
+        let accordionContent = document.querySelectorAll('.xui-accordion-box .xui-accordion-content')[index];
+        if (isHidden(accordionContent)) {
+            let accordionBoxes = document.querySelectorAll('.xui-accordion-box');
+            for (var k = 0; k < accordionBoxes.length; k++) {
+                let accordionIconOpen = accordionBoxes[k].querySelector(".xui-accordion-header .xui-accordion-header-icon-open");
+                let accordionIconClose = accordionBoxes[k].querySelector(".xui-accordion-header .xui-accordion-header-icon-close");
+                let accordionContent = accordionBoxes[k].querySelector('.xui-accordion-content');
+                if (accordionIconOpen !== null) {
+                    accordionIconOpen.style.display = "inline-block";
+                }
+                if (accordionIconClose !== null) {
+                    accordionIconClose.style.display = "none";
+                }
+                if (accordionContent !== null) {
+                    accordionContent.style.display = "none";
+                }
+            }
+            if (accordionIconOpen !== null) {
+                accordionIconOpen.style.display = "none";
+            }
+            if (accordionIconClose !== null) {
+                accordionIconClose.style.display = "inline-block";
+            }
+            if (accordionContent !== null) {
+                accordionContent.style.display = "block";
+            }
+        }
+        else {
+            let accordionBoxes = document.querySelectorAll('.xui-accordion-box');
+            for (var k = 0; k < accordionBoxes.length; k++) {
+                let accordionIconOpen = accordionBoxes[k].querySelector(".xui-accordion-header .xui-accordion-header-icon-open");
+                let accordionIconClose = accordionBoxes[k].querySelector(".xui-accordion-header .xui-accordion-header-icon-close");
+                let accordionContent = accordionBoxes[k].querySelector('.xui-accordion-content');
+                if (accordionIconOpen !== null) {
+                    accordionIconOpen.style.display = "inline-block";
+                }
+                if (accordionIconClose !== null) {
+                    accordionIconClose.style.display = "none";
+                }
+                if (accordionContent !== null) {
+                    accordionContent.style.display = "none";
+                }
+            }
+        }
+    }
+    // Functionalities for accordion goes here
 });
 function tryingLink(){
     alert("This is a test phase!");
@@ -271,6 +325,7 @@ function xuiAccordion(){
                 let accordionIconOpen = accordionHeader.querySelector(".xui-accordion-box .xui-accordion-header .xui-accordion-header-icon-open");
                 let accordionIconClose = accordionHeader.querySelector(".xui-accordion-box .xui-accordion-header .xui-accordion-header-icon-close");
                 let accordionContent = document.querySelectorAll('.xui-accordion-box .xui-accordion-content')[j];
+                console.log(accordionContent);
                 if (isHidden(accordionContent)) {
                     let accordionBoxes = document.querySelectorAll('.xui-accordion-box');
                     for (var k = 0; k < accordionBoxes.length; k++) {
