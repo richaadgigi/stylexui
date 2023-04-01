@@ -2272,6 +2272,20 @@ button[disabled]:hover,
   color: inherit;
 }
 
+.xui-form[layout="2"] input,
+.xui-form-input[layout="2"],
+.xui-form[layout="2"] select,
+.xui-form-select[layout="2"],
+.xui-form[layout="2"] textarea,
+.xui-form-textarea[layout="2"],
+.xui-form-textbox[layout="2"] {
+  padding-left: 0;
+  padding-right: 0;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
 .xui-form input:focus,
 .xui-form-input:focus,
 .xui-form select:focus,
@@ -2296,6 +2310,15 @@ textarea::placeholder,
 .xui-form textarea::placeholder,
 .xui-form-textarea::placeholder {
   opacity: .5;
+}
+
+input[layout="2"]::placeholder,
+.xui-form[layout="2"] input::placeholder,
+.xui-form-input[layout="2"]::placeholder,
+textarea[layout="2"]::placeholder,
+.xui-form[layout="2"] textarea::placeholder,
+.xui-form-textarea[layout="2"]::placeholder {
+  opacity: .8;
 }
 
 select:invalid,
@@ -8349,6 +8372,10 @@ select:-webkit-autofill:focus {
   width: 100%;
   height: 100%;
   padding-bottom: 150px;
+}
+
+.xui-dashboard .screen .content .xui-open-sidebar {
+  cursor: pointer;
 }
 
 .xui-dashboard .screen[xui-aside="true"] .content {
@@ -25589,6 +25616,30 @@ select:-webkit-autofill:focus {
     top: 50%;
     transform: translateY(-50%);
     right: 20px;
+  }
+  .xui-dashboard .screen .content {
+    width: 100% !important;
+  }
+  .xui-dashboard .screen .aside {
+    transition: .2s;
+    position: fixed !important;
+    right: -100% !important;
+    z-index: 2;
+  }
+  .xui-dashboard .screen .aside.animate {
+    right: 0 !important;
+    z-index: 5 !important;
+  }
+  .xui-dashboard .screen .content.animate::before {
+    background-color: rgba(0, 0, 0, .5);
+    width: 100%;
+    content: '';
+    height: 100vh;
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    right: 0;
+    cursor: pointer;
   }
 }
 

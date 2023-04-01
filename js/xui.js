@@ -160,6 +160,25 @@ document.addEventListener("click", (e) => {
         }
     }
     // Functionalities for accordion goes here
+
+    // Functionalities for dashboard sidebar goes here
+    const xuiDashboardContent = document.querySelector('.xui-dashboard .screen .content');
+    const xuiDashboardAside = document.querySelector('.xui-dashboard .screen .aside');
+    const xuiSidebarBtn = document.querySelector(".xui-dashboard .screen .content .xui-open-sidebar");
+    // const xuiNavbarLinksMain = document.querySelector(".xui-navbar .links .main");
+    // const xuiDashboard = document.querySelector(".xui-dashboard");
+    // const xuiDashboardAnimate = document.querySelector(".xui-dashboard.animate");
+    // const xuiNavbarLinksUrl = document.querySelectorAll(".xui-navbar .links a");
+    if(e.target === xuiSidebarBtn){
+        xuiDashboardContent.classList.add("animate");
+        xuiDashboardAside.classList.add("animate");
+    }
+    
+    if(e.target === xuiDashboardContent){
+        xuiDashboardContent.classList.remove("animate");
+        xuiDashboardAside.classList.remove("animate");
+    }
+    // Functionalities for dashboard sidebar goes here
 });
 function tryingLink(){
     alert("This is a test phase!");
