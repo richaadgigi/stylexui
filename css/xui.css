@@ -1121,6 +1121,14 @@ img {
   position: relative;
   z-index: 10;
 }
+.xui-navbar.xui-navbar-blurred {
+  background: #FFFFFF;
+  background-color: rgba(255, 255, 255, .9);
+  -webkit-backdrop-filter: blur(16px);
+  -o-backdrop-filter: blur(16px);
+  -moz-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
 
 .xui-navbar .brand {
   width: 300px;
@@ -1495,21 +1503,21 @@ img {
 
 /* XUI AOS */
 [xui-aos="fade-up"] {
-  opacity: 0;
+  opacity: 0 !important;
   transform: translateY(50px);
 }
 
 [xui-aos="fade-down"] {
-  opacity: 0;
+  opacity: 0 !important;
 }
 
 [xui-aos="fade-left"] {
-  opacity: 0;
+  opacity: 0 !important;
   transform: translateX(-50px);
 }
 
 [xui-aos="fade-right"] {
-  opacity: 0;
+  opacity: 0 !important;
   transform: translateX(50px);
 }
 
@@ -1519,18 +1527,18 @@ img {
 
 .xui-aos-animate[xui-aos="fade-up"] {
   transform: translateY(0);
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 .xui-aos-animate[xui-aos="fade-down"] {
   animation-name: fadeDown;
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 .xui-aos-animate[xui-aos="fade-left"],
 .xui-aos-animate[xui-aos="fade-right"] {
   transform: translateX(0);
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 
@@ -7621,6 +7629,42 @@ select:-webkit-autofill:focus {
 
 .xui-opacity-9 {
   opacity: .9;
+}
+
+.xui-aos-animate.xui-opacity-1 {
+  opacity: .1 !important;
+}
+
+.xui-aos-animate.xui-opacity-2 {
+  opacity: .2 !important;
+}
+
+.xui-aos-animate.xui-opacity-3 {
+  opacity: .3 !important;
+}
+
+.xui-aos-animate.xui-opacity-4 {
+  opacity: .4 !important;
+}
+
+.xui-aos-animate.xui-opacity-5 {
+  opacity: .5 !important;
+}
+
+.xui-aos-animate.xui-opacity-6 {
+  opacity: .6 !important;
+}
+
+.xui-aos-animate.xui-opacity-7 {
+  opacity: .7 !important;
+}
+
+.xui-aos-animate.xui-opacity-8 {
+  opacity: .8 !important;
+}
+
+.xui-aos-animate.xui-opacity-9 {
+  opacity: .9 !important;
 }
 
 
@@ -25485,7 +25529,7 @@ select:-webkit-autofill:focus {
   /* Navbar Menu 2 */
   .xui-navbar[menu="2"] .menu {
     width: 35px;
-    height: 20px;
+    height: 30px;
     justify-content: flex-end;
   }
   
