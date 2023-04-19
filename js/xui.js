@@ -43,6 +43,8 @@ document.addEventListener("click", (e) => {
             if ((href !== "#") && (href !== "")) {
                 if (xuiNavbarMenu !== null) {
                     xuiNavbarMenu.classList.remove("animate");
+                }
+                if(xuiDashboard !== null){
                     xuiDashboard.classList.remove("animate");
                 }
                 if (xuiNavbarLinksMain !== null) {
