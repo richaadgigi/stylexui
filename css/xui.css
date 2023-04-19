@@ -1123,7 +1123,7 @@ img {
 }
 .xui-navbar.xui-navbar-blurred {
   background: #FFFFFF;
-  background-color: rgba(255, 255, 255, .9);
+  background-color: rgba(255, 255, 255, .8);
   -webkit-backdrop-filter: blur(16px);
   -o-backdrop-filter: blur(16px);
   -moz-backdrop-filter: blur(16px);
