@@ -8357,9 +8357,9 @@ select:-webkit-autofill:focus {
 }
 
 .xui-dashboard .navigator .links {
-  padding-bottom: 300px;
+  padding-bottom: 180px;
   position: relative;
-  min-height: calc(100% - (var(--default-sidebar-top-height) + 30px));
+  min-height: calc(100% - (var(--default-sidebar-top-height) + 100px));
 }
 
 .xui-dashboard .navigator .links .link-box {
@@ -8429,6 +8429,12 @@ select:-webkit-autofill:focus {
 
 .xui-dashboard .screen[xui-navbar="true"] .content {
   top: var(--default-sidebar-top-height);
+  padding-top: var(--navbarHeight);
+}
+.xui-dashboard .screen[xui-navbar="true"] .content nav {
+  position: fixed;
+  left: var(--default-sidebar-width);
+  width: calc(100% - var(--default-sidebar-width));
 }
 
 .xui-dashboard .screen .aside {
@@ -25664,9 +25670,14 @@ select:-webkit-autofill:focus {
   .xui-dashboard .screen .content {
     width: 100% !important;
   }
+  .xui-dashboard .screen[xui-navbar="true"] .content nav {
+    width: 100%;
+    left: 0;
+  }
   .xui-dashboard .screen .aside {
     transition: .2s;
     position: fixed !important;
+    top: 0 !important;
     right: -100% !important;
     z-index: 2;
   }
