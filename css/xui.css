@@ -1640,7 +1640,7 @@ img {
 
 .xui-btn,
 .xui-btn-block {
-  padding: 1em 1.5em;
+  padding: .8em 1.5em;
 }
 
 .xui-btn {
@@ -3269,7 +3269,7 @@ select:-webkit-autofill:focus {
 
 .xui-table tr th,
 .xui-table tr td {
-  padding: 1rem 1rem;
+  padding: .75rem 1rem;
 }
 
 .xui-table.xui-table-left tr th {
@@ -3298,7 +3298,7 @@ select:-webkit-autofill:focus {
 }
 
 .xui-badge {
-  padding: .4rem .6rem;
+  padding: .3rem .6rem;
   display: inline-block;
 }
 
