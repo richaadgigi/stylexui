@@ -354,7 +354,6 @@ function xuiAccordion(){
                 let accordionIconOpen = accordionHeader.querySelector(".xui-accordion-box .xui-accordion-header .xui-accordion-header-icon-open");
                 let accordionIconClose = accordionHeader.querySelector(".xui-accordion-box .xui-accordion-header .xui-accordion-header-icon-close");
                 let accordionContent = document.querySelectorAll('.xui-accordion-box .xui-accordion-content')[j];
-                console.log(accordionContent);
                 if (isHidden(accordionContent)) {
                     let accordionBoxes = document.querySelectorAll('.xui-accordion-box');
                     for (var k = 0; k < accordionBoxes.length; k++) {
