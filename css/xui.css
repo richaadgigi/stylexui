@@ -3298,7 +3298,7 @@ select:-webkit-autofill:focus {
 }
 
 .xui-badge {
-  padding: .3rem .6rem;
+  padding: .4rem .7rem;
   display: inline-block;
 }
 
@@ -6145,7 +6145,6 @@ select:-webkit-autofill:focus {
 
 /*Background Images*/
 .xui-bg-lazy {
-  background-color: #F1F1F1;
   background-image: url("../images/image-loading.png");
 }
 
