@@ -1,12 +1,14 @@
 <IfModule mod_headers.c>
-  <FilesMatch ".(eot|otf|svg|ttf|woff|woff2?)$">
+  <FilesMatch "\.(ttf|ttc|otf|eot|woff|woff2|font.css)$">
     Header set Access-Control-Allow-Origin "*"
   </FilesMatch>
 </IfModule>
-Options +FollowSymLinks 
-Options -Indexes
-ErrorDocument 404 https://stylexui.com/404
-RewriteEngine on
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}.php -f
-RewriteRule ^([^\.]+)$ $1.php [NC,L]
+<IfModule mod_rewrite.c>
+  Options +FollowSymLinks 
+  Options -Indexes
+  ErrorDocument 404 https://stylexui.com/404
+  RewriteEngine on
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}.php -f
+  RewriteRule ^([^\.]+)$ $1.php [NC,L]
+</IfModule>
