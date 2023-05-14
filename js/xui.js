@@ -77,14 +77,18 @@ document.addEventListener("click", (e) => {
     let modalClose = target.getAttribute("xui-modal-close");
     if(!modalOpen){
         const parentNode = target.parentNode;
-        if(parentNode.getAttribute){
-            modalOpen = parentNode.getAttribute("xui-modal-open");
+        if(parentNode){
+            if(parentNode.getAttribute){
+                modalOpen = parentNode.getAttribute("xui-modal-open");
+            }
         }
     }
     if(!modalClose){
         const parentNode = target.parentNode;
-        if(parentNode.getAttribute){
-            modalClose = parentNode.getAttribute("xui-modal-close");
+        if(parentNode){
+            if(parentNode.getAttribute){
+                modalClose = parentNode.getAttribute("xui-modal-close");
+            }
         }
     }
     if (modalOpen !== null) {
@@ -305,14 +309,18 @@ function xuiModal(){
         let modalClose = target.getAttribute("xui-modal-close");
         if(!modalOpen){
             const parentNode = target.parentNode;
-            if(parentNode.getAttribute){
-                modalOpen = parentNode.getAttribute("xui-modal-open");
+            if(parentNode){
+                if(parentNode.getAttribute){
+                    modalOpen = parentNode.getAttribute("xui-modal-open");
+                }
             }
         }
         if(!modalClose){
             const parentNode = target.parentNode;
-            if(parentNode.getAttribute){
-                modalClose = parentNode.getAttribute("xui-modal-close");
+            if(parentNode){
+                if(parentNode.getAttribute){
+                    modalClose = parentNode.getAttribute("xui-modal-close");
+                }
             }
         }
         if (modalOpen !== null) {
