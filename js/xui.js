@@ -70,6 +70,10 @@ document.addEventListener("click", (e) => {
                     }
                 }
             }
+            let xuiBody = document.querySelector('body');
+            if (xuiBody !== null) {
+                xuiBody.style.overflow = "auto";
+            }
         }
     }
     const target = e.target;
@@ -917,17 +921,17 @@ function xuiScrollOnAnimation(){
 function xuiModalShow(name){
     let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
     if (modalName !== null) {
-        modalName.removeAttribute("open");
+        modalName.removeAttribute("display");
         void modalName.offsetWidth;
-        modalName.setAttribute("open", true);
+        modalName.setAttribute("display", true);
     }
 }
 function xuiModalHide(name){
     let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
     if (modalName !== null) {
-        modalName.removeAttribute("open");
+        modalName.removeAttribute("display");
         void modalName.offsetWidth;
-        modalName.setAttribute("open", false);
+        modalName.setAttribute("display", false);
     }
 }
 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {

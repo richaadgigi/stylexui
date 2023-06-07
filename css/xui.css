@@ -25355,6 +25355,17 @@ select:-webkit-autofill:focus {
   animation-iteration-count: 1;
   animation-direction: reverse;
 }
+.xui-modal[xui-placed="bottom-center"] {
+  align-items: flex-end !important;
+}
+.xui-modal[xui-placed="bottom-left"] {
+  align-items: flex-end !important;
+  justify-content: flex-start !important;
+}
+.xui-modal[xui-placed="bottom-right"] {
+  align-items: flex-end !important;
+  justify-content: flex-end !important;
+}
 
 .xui-alert[xui-placed] {
   position: fixed;
