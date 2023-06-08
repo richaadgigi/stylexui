@@ -194,9 +194,6 @@ document.addEventListener("click", (e) => {
     }
     // Functionalities for dashboard sidebar goes here
 });
-function tryingLink(){
-    alert("This is a test phase!");
-}
 function xuiLoadingScreen(){
     let loader = document.querySelector(".xui-loader");
     if (loader !== null) {
