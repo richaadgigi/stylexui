@@ -18,291 +18,291 @@
 /*Primary Font*/
 @font-face {
 font-family: "font-primary-regular";
-src: url("fonts/primary/regular.ttf") format("ttf");
+src: url("fonts/primary/regular.ttf");
 }
 
 @font-face {
 font-family: "font-primary-medium";
-src: url("fonts/primary/medium.ttf") format("ttf");
+src: url("fonts/primary/medium.ttf");
 }
 
 @font-face {
 font-family: "font-primary-bold";
-src: url("fonts/primary/bold.ttf") format("ttf");
+src: url("fonts/primary/bold.ttf");
 }
 
 /*Secondary Font*/
 @font-face {
 font-family: "font-secondary-light";
-src: url("fonts/secondary/light.ttf") format("ttf");
+src: url("fonts/secondary/light.ttf");
 }
 
 @font-face {
 font-family: "font-secondary-regular";
-src: url("fonts/secondary/regular.ttf") format("ttf");
+src: url("fonts/secondary/regular.ttf");
 }
 
 @font-face {
 font-family: "font-secondary-bold";
-src: url("fonts/secondary/bold.ttf") format("ttf");
+src: url("fonts/secondary/bold.ttf");
 }
 
 /*Third Font*/
 @font-face {
   font-family: "font-3-bold";
-  src: url("fonts/Erode/Erode-Bold.ttf") format("ttf");
+  src: url("fonts/Erode/Erode-Bold.ttf");
 }
   
 @font-face {
   font-family: "font-3-light";
-  src: url("fonts/Erode/Erode-Light.ttf") format("ttf");
+  src: url("fonts/Erode/Erode-Light.ttf");
 }
   
 @font-face {
   font-family: "font-3-medium";
-  src: url("fonts/Erode/Erode-Medium.ttf") format("ttf");
+  src: url("fonts/Erode/Erode-Medium.ttf");
 }
 
 @font-face {
   font-family: "font-3-regular";
-  src: url("fonts/Erode/Erode-Regular.ttf") format("ttf");
+  src: url("fonts/Erode/Erode-Regular.ttf");
 }
 
 @font-face {
   font-family: "font-3-semibold";
-  src: url("fonts/Erode/Erode-Semibold.ttf") format("ttf");
+  src: url("fonts/Erode/Erode-Semibold.ttf");
 }
 
 /*Fourth Font*/
 @font-face {
 font-family: "font-4-thin";
-src: url("fonts/others/outfit/thin.ttf") format("ttf");
+src: url("fonts/others/outfit/thin.ttf");
 }
 
 @font-face {
 font-family: "font-4-extralight";
-src: url("fonts/others/outfit/extralight.ttf") format("ttf");
+src: url("fonts/others/outfit/extralight.ttf");
 }
 
 @font-face {
 font-family: "font-4-light";
-src: url("fonts/others/outfit/light.ttf") format("ttf");
+src: url("fonts/others/outfit/light.ttf");
 }
 
 @font-face {
 font-family: "font-4-regular";
-src: url("fonts/others/outfit/regular.ttf") format("ttf");
+src: url("fonts/others/outfit/regular.ttf");
 }
 
 @font-face {
 font-family: "font-4-medium";
-src: url("fonts/others/outfit/medium.ttf") format("ttf");
+src: url("fonts/others/outfit/medium.ttf");
 }
 
 @font-face {
 font-family: "font-4-semibold";
-src: url("fonts/others/outfit/semibold.ttf") format("ttf");
+src: url("fonts/others/outfit/semibold.ttf");
 }
 
 @font-face {
 font-family: "font-4-bold";
-src: url("fonts/others/outfit/bold.ttf") format("ttf");
+src: url("fonts/others/outfit/bold.ttf");
 }
 
 @font-face {
 font-family: "font-4-extrabold";
-src: url("fonts/others/outfit/extrabold.ttf") format("ttf");
+src: url("fonts/others/outfit/extrabold.ttf");
 }
 
 @font-face {
 font-family: "font-4-black";
-src: url("fonts/others/outfit/black.ttf") format("ttf");
+src: url("fonts/others/outfit/black.ttf");
 }
 
 /*Fifth Font*/
 @font-face {
 font-family: "font-5-extralight";
-src: url("fonts/others/manrope/extralight.ttf") format("ttf");
+src: url("fonts/others/manrope/extralight.ttf");
 }
 
 @font-face {
 font-family: "font-5-light";
-src: url("fonts/others/manrope/light.ttf") format("ttf");
+src: url("fonts/others/manrope/light.ttf");
 }
 
 @font-face {
 font-family: "font-5-regular";
-src: url("fonts/others/manrope/regular.ttf") format("ttf");
+src: url("fonts/others/manrope/regular.ttf");
 }
 
 @font-face {
 font-family: "font-5-medium";
-src: url("fonts/others/manrope/medium.ttf") format("ttf");
+src: url("fonts/others/manrope/medium.ttf");
 }
 
 @font-face {
 font-family: "font-5-bold";
-src: url("fonts/others/manrope/bold.ttf") format("ttf");
+src: url("fonts/others/manrope/bold.ttf");
 }
 
 @font-face {
 font-family: "font-5-semibold";
-src: url("fonts/others/manrope/semibold.ttf") format("ttf");
+src: url("fonts/others/manrope/semibold.ttf");
 }
 
 @font-face {
 font-family: "font-5-extrabold";
-src: url("fonts/others/manrope/extrabold.ttf") format("ttf");
+src: url("fonts/others/manrope/extrabold.ttf");
 }
 
 /*Sixth Font*/
 @font-face {
 font-family: "font-6-lightitalic";
-src: url("fonts/others/euclid-circular-a/lightitalic.ttf") format("ttf");
+src: url("fonts/others/euclid-circular-a/lightitalic.ttf");
 }
 
 @font-face {
 font-family: "font-6-light";
-src: url("fonts/others/euclid-circular-a/light.ttf") format("ttf");
+src: url("fonts/others/euclid-circular-a/light.ttf");
 }
 
 @font-face {
 font-family: "font-6-italic";
-src: url("fonts/others/euclid-circular-a/italic.ttf") format("ttf");
+src: url("fonts/others/euclid-circular-a/italic.ttf");
 }
 
 @font-face {
 font-family: "font-6-regular";
-src: url("fonts/others/euclid-circular-a/regular.ttf") format("ttf");
+src: url("fonts/others/euclid-circular-a/regular.ttf");
 }
 
 @font-face {
 font-family: "font-6-medium";
-src: url("fonts/others/euclid-circular-a/medium.ttf") format("ttf");
+src: url("fonts/others/euclid-circular-a/medium.ttf");
 }
 
 @font-face {
 font-family: "font-6-mediumitalic";
-src: url("fonts/others/euclid-circular-a/mediumitalic.ttf") format("ttf");
+src: url("fonts/others/euclid-circular-a/mediumitalic.ttf");
 }
 
 @font-face {
 font-family: "font-6-bold";
-src: url("fonts/others/euclid-circular-a/bold.ttf") format("ttf");
+src: url("fonts/others/euclid-circular-a/bold.ttf");
 }
 
 @font-face {
 font-family: "font-6-bolditalic";
-src: url("fonts/others/euclid-circular-a/bolditalic.ttf") format("ttf");
+src: url("fonts/others/euclid-circular-a/bolditalic.ttf");
 }
 
 @font-face {
 font-family: "font-6-semibold";
-src: url("fonts/others/euclid-circular-a/semibold.ttf") format("ttf");
+src: url("fonts/others/euclid-circular-a/semibold.ttf");
 }
 
 @font-face {
 font-family: "font-6-semibolditalic";
-src: url("fonts/others/euclid-circular-a/semibolditalic.ttf") format("ttf");
+src: url("fonts/others/euclid-circular-a/semibolditalic.ttf");
 }
 
 /*Seventh Font*/
 @font-face {
 font-family: "font-7-bold";
-src: url("fonts/Epilogue/Epilogue-Bold.ttf") format("ttf");
+src: url("fonts/Epilogue/Epilogue-Bold.ttf");
 }
 
 @font-face {
 font-family: "font-7-light";
-src: url("fonts/Epilogue/Epilogue-Light.ttf") format("ttf");
+src: url("fonts/Epilogue/Epilogue-Light.ttf");
 }
 
 @font-face {
 font-family: "font-7-medium";
-src: url("fonts/Epilogue/Epilogue-Medium.ttf") format("ttf");
+src: url("fonts/Epilogue/Epilogue-Medium.ttf");
 }
 
 @font-face {
 font-family: "font-7-regular";
-src: url("fonts/Epilogue/Epilogue-Regular.ttf") format("ttf");
+src: url("fonts/Epilogue/Epilogue-Regular.ttf");
 }
 
 @font-face {
 font-family: "font-7-semibold";
-src: url("fonts/Epilogue/Epilogue-SemiBold.ttf") format("ttf");
+src: url("fonts/Epilogue/Epilogue-SemiBold.ttf");
 }
 
 /*Eighth Font*/
 @font-face {
   font-family: "font-8-bold";
-  src: url("fonts/PlusJakartaSans/PlusJakartaSans-Bold.ttf") format("ttf");
+  src: url("fonts/PlusJakartaSans/PlusJakartaSans-Bold.ttf");
   }
   
   @font-face {
   font-family: "font-8-light";
-  src: url("fonts/PlusJakartaSans/PlusJakartaSans-Light.ttf") format("ttf");
+  src: url("fonts/PlusJakartaSans/PlusJakartaSans-Light.ttf");
   }
   
   @font-face {
   font-family: "font-8-medium";
-  src: url("fonts/PlusJakartaSans/PlusJakartaSans-Medium.ttf") format("ttf");
+  src: url("fonts/PlusJakartaSans/PlusJakartaSans-Medium.ttf");
   }
   
   @font-face {
   font-family: "font-8-regular";
-  src: url("fonts/PlusJakartaSans/PlusJakartaSans-Regular.ttf") format("ttf");
+  src: url("fonts/PlusJakartaSans/PlusJakartaSans-Regular.ttf");
   }
   
   @font-face {
   font-family: "font-8-semibold";
-  src: url("fonts/PlusJakartaSans/PlusJakartaSans-SemiBold.ttf") format("ttf");
+  src: url("fonts/PlusJakartaSans/PlusJakartaSans-SemiBold.ttf");
   }
 
 /*Ninth Font*/
 @font-face {
   font-family: "font-9-bold";
-  src: url("fonts/Author/Author-Bold.ttf") format("ttf");
+  src: url("fonts/Author/Author-Bold.ttf");
   }
   
   @font-face {
   font-family: "font-9-light";
-  src: url("fonts/Author/Author-Light.ttf") format("ttf");
+  src: url("fonts/Author/Author-Light.ttf");
   }
   
   @font-face {
   font-family: "font-9-medium";
-  src: url("fonts/Author/Author-Medium.ttf") format("ttf");
+  src: url("fonts/Author/Author-Medium.ttf");
   }
   
   @font-face {
   font-family: "font-9-regular";
-  src: url("fonts/PlusJakartaSans/PlusJakartaSans-Regular.ttf") format("ttf");
+  src: url("fonts/PlusJakartaSans/PlusJakartaSans-Regular.ttf");
   }
   
   @font-face {
   font-family: "font-9-semibold";
-  src: url("fonts/Author/Author-Semibold.ttf") format("ttf");
+  src: url("fonts/Author/Author-Semibold.ttf");
   }
 
 /*Tenth Font*/
 @font-face {
   font-family: "font-10-bold";
-  src: url("fonts/Supreme/Supreme-Bold.ttf") format("ttf");
+  src: url("fonts/Supreme/Supreme-Bold.ttf");
   }
   
   @font-face {
   font-family: "font-10-light";
-  src: url("fonts/Supreme/Supreme-Light.ttf") format("ttf");
+  src: url("fonts/Supreme/Supreme-Light.ttf");
   }
   
   @font-face {
   font-family: "font-10-medium";
-  src: url("fonts/Supreme/Supreme-Medium.ttf") format("ttf");
+  src: url("fonts/Supreme/Supreme-Medium.ttf");
   }
   
   @font-face {
   font-family: "font-10-regular";
-  src: url("fonts/Supreme/Supreme-Regular.ttf") format("ttf");
+  src: url("fonts/Supreme/Supreme-Regular.ttf");
   }
 
 
