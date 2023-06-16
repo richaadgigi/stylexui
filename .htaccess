@@ -10,3 +10,8 @@ RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^([^\.]+)$ $1.php [NC,L]
+<FilesMatch "\.(?i:gif|jpe?g|png|ico|css|js|swf)$">
+  <IfModule mod_headers.c>
+    Header set Cache-Control "max-age=172800, public, must-revalidate"
+  </IfModule>
+</FilesMatch>
