@@ -17,33 +17,39 @@
 
 /*Primary Font*/
 @font-face {
-font-family: "font-primary-regular";
+font-family: "font-primary-regular", sans-serif;
+font-display: swap;
 src: url("fonts/primary/regular.ttf");
 }
 
 @font-face {
-font-family: "font-primary-medium";
+font-family: "font-primary-medium", sans-serif;
+font-display: swap;
 src: url("fonts/primary/medium.ttf");
 }
 
 @font-face {
-font-family: "font-primary-bold";
+font-family: "font-primary-bold", sans-serif;
+font-display: swap;
 src: url("fonts/primary/bold.ttf");
 }
 
 /*Secondary Font*/
 @font-face {
-font-family: "font-secondary-light";
+font-family: "font-secondary-light", sans-serif;
+font-display: swap;
 src: url("fonts/secondary/light.ttf");
 }
 
 @font-face {
-font-family: "font-secondary-regular";
+font-family: "font-secondary-regular", sans-serif;
+font-display: swap;
 src: url("fonts/secondary/regular.ttf");
 }
 
 @font-face {
-font-family: "font-secondary-bold";
+font-family: "font-secondary-bold", sans-serif;
+font-display: swap;
 src: url("fonts/secondary/bold.ttf");
 }
 
@@ -121,37 +127,44 @@ src: url("fonts/others/outfit/black.ttf");
 
 /*Fifth Font*/
 @font-face {
-font-family: "font-5-extralight";
+font-family: "font-5-extralight", sans-serif;
+font-display: swap;
 src: url("fonts/others/manrope/extralight.ttf");
 }
 
 @font-face {
-font-family: "font-5-light";
+font-family: "font-5-light", sans-serif;
+font-display: swap;
 src: url("fonts/others/manrope/light.ttf");
 }
 
 @font-face {
-font-family: "font-5-regular";
+font-family: "font-5-regular", sans-serif;
+font-display: swap;
 src: url("fonts/others/manrope/regular.ttf");
 }
 
 @font-face {
-font-family: "font-5-medium";
+font-family: "font-5-medium", sans-serif;
+font-display: swap;
 src: url("fonts/others/manrope/medium.ttf");
 }
 
 @font-face {
-font-family: "font-5-bold";
+font-family: "font-5-bold", sans-serif;
+font-display: swap;
 src: url("fonts/others/manrope/bold.ttf");
 }
 
 @font-face {
-font-family: "font-5-semibold";
+font-family: "font-5-semibold", sans-serif;
+font-display: swap;
 src: url("fonts/others/manrope/semibold.ttf");
 }
 
 @font-face {
-font-family: "font-5-extrabold";
+font-family: "font-5-extrabold", sans-serif;
+font-display: swap;
 src: url("fonts/others/manrope/extrabold.ttf");
 }
 
