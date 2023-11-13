@@ -8663,8 +8663,9 @@ select:-webkit-autofill:focus {
 .xui-dashboard .screen nav,
 .xui-dashboard .screen .nav {
   height: var(--default-sidebar-top-height);
-  position: sticky;
+  position: absolute;
   top: 0;
+  left: 0;
   z-index: 2;
 }
 
