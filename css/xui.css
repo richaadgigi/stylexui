@@ -8663,7 +8663,7 @@ select:-webkit-autofill:focus {
 .xui-dashboard .screen nav,
 .xui-dashboard .screen .nav {
   height: var(--default-sidebar-top-height);
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
   z-index: 2;
@@ -12971,8 +12971,8 @@ select:-webkit-autofill:focus {
 
 
 
-/*Medium devices (tablets, 820px and up)*/
-@media screen and (min-width: 820px) {
+/*Medium devices (tablets, 1024px and up)*/
+@media screen and (min-width: 1024px) {
 
   .xui-md-z-index-auto {
     z-index: auto;
@@ -17219,8 +17219,8 @@ select:-webkit-autofill:focus {
 
 
 
-/*Large devices (desktops, 992px and up)*/
-@media screen and (min-width: 992px) {
+/*Large devices (desktops, 1025px and up)*/
+@media screen and (min-width: 1025px) {
 
   .xui-lg-z-index-auto {
     z-index: auto;
@@ -21469,8 +21469,8 @@ select:-webkit-autofill:focus {
 
 
 
-/*Extra large devices (large desktops, 1200px and up)*/
-@media screen and (min-width: 1200px) {
+/*Extra large devices (large desktops, 1440px and up)*/
+@media screen and (min-width: 1440px) {
 
   .xui-xl-z-index-auto {
     z-index: auto;
@@ -25864,7 +25864,7 @@ select:-webkit-autofill:focus {
 
 
 
-@media screen and (max-width: 820px) {
+@media screen and (max-width: 1024px) {
 
   .xui-navbar .menu {
     display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
@@ -26058,7 +26058,7 @@ select:-webkit-autofill:focus {
 
 }
 
-@media screen and (max-width: 820px) {
+@media screen and (max-width: 1024px) {
   .xui-alert[xui-placed] {
     max-width: 90%;
   }
