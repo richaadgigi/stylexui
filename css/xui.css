@@ -12971,8 +12971,8 @@ select:-webkit-autofill:focus {
 
 
 
-/*Medium devices (tablets, 1024px and up)*/
-@media screen and (min-width: 1024px) {
+/*Medium devices (tablets, 768px and up)*/
+@media screen and (min-width: 768px) {
 
   .xui-md-z-index-auto {
     z-index: auto;
@@ -17219,8 +17219,8 @@ select:-webkit-autofill:focus {
 
 
 
-/*Large devices (desktops, 1025px and up)*/
-@media screen and (min-width: 1025px) {
+/*Large devices (desktops, 1024px and up)*/
+@media screen and (min-width: 1024px) {
 
   .xui-lg-z-index-auto {
     z-index: auto;
@@ -26131,7 +26131,7 @@ select:-webkit-autofill:focus {
   }
 }
 
-@media screen and (min-width: 820px) and (max-width: 1023px){
+@media screen and (min-width: 820px) and (max-width: 1024px){
   .xui-navbar[menu="2"] .links .main {
     padding-left: 40px;
     padding-right: 40px;
@@ -26143,7 +26143,7 @@ select:-webkit-autofill:focus {
   }
 }
 
-@media screen and (min-width: 1024px){
+@media screen and (min-width: 1025px){
   .xui-navbar[layout="1"] .links .main,
   .xui-navbar[layout="2"] .links .main {
     background-color: transparent;
