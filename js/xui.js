@@ -532,7 +532,7 @@ function xuiAnime(customDefinition){
         console.warn("xui.animate() is missing a parameter");
     }
 };
-function letAnimeStart(customDefinition){
+function xuiAnimeStart(customDefinition){
     let xuiCustom = customDefinition;
     if (xuiCustom !== undefined) {
         let el = document.querySelector('[xui-custom="' + xuiCustom + '"]');
