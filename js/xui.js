@@ -1,3 +1,12 @@
+function findElementWithAttribute(element, attributeName) {
+    while (element) {
+        if (element.hasAttribute(attributeName)) {
+            return element;
+        }
+        element = element.parentElement;
+    }
+    return null;
+}
 // Handling click events
 document.addEventListener("click", (e) => {
     // Functionalities for navabar goes here
@@ -80,7 +89,7 @@ document.addEventListener("click", (e) => {
     let modalOpen = target.getAttribute("xui-modal-open");
     let modalClose = target.getAttribute("xui-modal-close");
     if(!modalOpen){
-        const parentNode = target.parentNode;
+        const parentNode = findElementWithAttribute(target, "xui-modal-open");
         if(parentNode){
             if(parentNode.getAttribute){
                 modalOpen = parentNode.getAttribute("xui-modal-open");
@@ -88,7 +97,7 @@ document.addEventListener("click", (e) => {
         }
     }
     if(!modalClose){
-        const parentNode = target.parentNode;
+        const parentNode = findElementWithAttribute(target, "xui-modal-close");
         if(parentNode){
             if(parentNode.getAttribute){
                 modalClose = parentNode.getAttribute("xui-modal-close");
