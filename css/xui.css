@@ -7794,6 +7794,46 @@ select:-webkit-autofill:focus {
   font-size: 500%;
 }
 
+.xui-font-sz-550 {
+  font-size: 550%;
+}
+
+.xui-font-sz-600 {
+  font-size: 600%;
+}
+
+.xui-font-sz-650 {
+  font-size: 650%;
+}
+
+.xui-font-sz-700 {
+  font-size: 700%;
+}
+
+.xui-font-sz-750 {
+  font-size: 750%;
+}
+
+.xui-font-sz-800 {
+  font-size: 800%;
+}
+
+.xui-font-sz-850 {
+  font-size: 850%;
+}
+
+.xui-font-sz-900 {
+  font-size: 900%;
+}
+
+.xui-font-sz-950 {
+  font-size: 950%;
+}
+
+.xui-font-sz-1000 {
+  font-size: 1000%;
+}
+
 
 
 /*Texts*/
@@ -12739,6 +12779,46 @@ select:-webkit-autofill:focus {
     font-size: 500%;
   }
 
+  .xui-sm-font-sz-550 {
+    font-size: 550%;
+  }
+  
+  .xui-sm-font-sz-600 {
+    font-size: 600%;
+  }
+  
+  .xui-sm-font-sz-650 {
+    font-size: 650%;
+  }
+  
+  .xui-sm-font-sz-700 {
+    font-size: 700%;
+  }
+  
+  .xui-sm-font-sz-750 {
+    font-size: 750%;
+  }
+  
+  .xui-sm-font-sz-800 {
+    font-size: 800%;
+  }
+  
+  .xui-sm-font-sz-850 {
+    font-size: 850%;
+  }
+  
+  .xui-sm-font-sz-900 {
+    font-size: 900%;
+  }
+  
+  .xui-sm-font-sz-950 {
+    font-size: 950%;
+  }
+  
+  .xui-sm-font-sz-1000 {
+    font-size: 1000%;
+  }
+
 
 
 
@@ -16989,6 +17069,46 @@ select:-webkit-autofill:focus {
     font-size: 500%;
   }
 
+  .xui-md-font-sz-550 {
+    font-size: 550%;
+  }
+  
+  .xui-md-font-sz-600 {
+    font-size: 600%;
+  }
+  
+  .xui-md-font-sz-650 {
+    font-size: 650%;
+  }
+  
+  .xui-md-font-sz-700 {
+    font-size: 700%;
+  }
+  
+  .xui-md-font-sz-750 {
+    font-size: 750%;
+  }
+  
+  .xui-md-font-sz-800 {
+    font-size: 800%;
+  }
+  
+  .xui-md-font-sz-850 {
+    font-size: 850%;
+  }
+  
+  .xui-md-font-sz-900 {
+    font-size: 900%;
+  }
+  
+  .xui-md-font-sz-950 {
+    font-size: 950%;
+  }
+  
+  .xui-md-font-sz-1000 {
+    font-size: 1000%;
+  }
+
 
 
 
@@ -21071,6 +21191,46 @@ select:-webkit-autofill:focus {
 
   .xui-lg-font-sz-500 {
     font-size: 500%;
+  }
+
+  .xui-lg-font-sz-550 {
+    font-size: 550%;
+  }
+  
+  .xui-lg-font-sz-600 {
+    font-size: 600%;
+  }
+  
+  .xui-lg-font-sz-650 {
+    font-size: 650%;
+  }
+  
+  .xui-lg-font-sz-700 {
+    font-size: 700%;
+  }
+  
+  .xui-lg-font-sz-750 {
+    font-size: 750%;
+  }
+  
+  .xui-lg-font-sz-800 {
+    font-size: 800%;
+  }
+  
+  .xui-lg-font-sz-850 {
+    font-size: 850%;
+  }
+  
+  .xui-lg-font-sz-900 {
+    font-size: 900%;
+  }
+  
+  .xui-lg-font-sz-950 {
+    font-size: 950%;
+  }
+  
+  .xui-lg-font-sz-1000 {
+    font-size: 1000%;
   }
 
 
@@ -25487,6 +25647,46 @@ select:-webkit-autofill:focus {
 
   .xui-xl-font-sz-500 {
     font-size: 500%;
+  }
+
+  .xui-xl-font-sz-550 {
+    font-size: 550%;
+  }
+  
+  .xui-xl-font-sz-600 {
+    font-size: 600%;
+  }
+  
+  .xui-xl-font-sz-650 {
+    font-size: 650%;
+  }
+  
+  .xui-xl-font-sz-700 {
+    font-size: 700%;
+  }
+  
+  .xui-xl-font-sz-750 {
+    font-size: 750%;
+  }
+  
+  .xui-xl-font-sz-800 {
+    font-size: 800%;
+  }
+  
+  .xui-xl-font-sz-850 {
+    font-size: 850%;
+  }
+  
+  .xui-xl-font-sz-900 {
+    font-size: 900%;
+  }
+  
+  .xui-xl-font-sz-950 {
+    font-size: 950%;
+  }
+  
+  .xui-xl-font-sz-1000 {
+    font-size: 1000%;
   }
 
 
