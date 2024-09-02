@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+      "moduleResolution": "node",
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+      // other options...
+    },
+    "include": ["src/**/*", "index.d.ts"],
+    "exclude": ["node_modules"]
+}  
