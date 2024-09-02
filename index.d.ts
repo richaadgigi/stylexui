@@ -1,4 +1,4 @@
-declare module 'stylexui' {
+declare module '@richaadgigi/stylexui' {
     function findElementWithAttribute(
         element: Element | null,
         attributeName: string
