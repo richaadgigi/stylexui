@@ -1,7 +1,5 @@
 <IfModule mod_headers.c>
-  <FilesMatch ".(eot|otf|svg|ttf|woff|woff2?)$">
-    Header set Access-Control-Allow-Origin "*"
-  </FilesMatch>
+  Header set Access-Control-Allow-Origin "*"
 </IfModule>
 Options +FollowSymLinks 
 Options -Indexes
