@@ -18,6 +18,9 @@ module.exports = {
     output: {
         filename: 'index.js',
         path: path.resolve(__dirname),
+        libraryTarget: 'umd', // Universal Module Definition (UMD) for compatibility
+        library: '@richaadgigistylexui', // Name of the library when used as a global
+        globalObject: 'this' // Ensures proper global scope resolution
     },
     plugins: [
         new CopyWebpackPlugin({
