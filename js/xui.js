@@ -452,49 +452,80 @@ function xuiAlerts(){
 };
 function xuiLazyLoadings(){
     (function () {
-        var elements = document.querySelectorAll('[xui-bg-img]');
-        var index = 0;
-        var lazyLoad = function () {
-            if (index >= elements.length)
-                return;
-            var item = elements[index];
-            if ((window.scrollY + window.innerHeight) > item.offsetTop) {
-                var src = item.getAttribute("xui-bg-img");
-                item.style.backgroundImage = "url('" + src + "')";
-                item.addEventListener('load', function () {
-                    item.removeAttribute('xui-bg-img');
-                });
-                index++;
-                lazyLoad();
+        const elements = document.querySelectorAll('[xui-bg-img]');
+        let loadedElements = 0; // Track how many elements have been lazy-loaded
+    
+        const lazyLoad = function () {
+            elements.forEach((item) => {
+                const rect = item.getBoundingClientRect(); // Get the element's position relative to the viewport
+                // Check if the item is in the viewport
+                if (rect.top <= window.innerHeight && rect.bottom >= 0 && item.getAttribute('xui-bg-img')) {
+                    const src = item.getAttribute('xui-bg-img');
+                    if (src) {
+                        item.style.backgroundImage = `url('${src}')`;
+                        item.onload = function () {
+                            item.removeAttribute('xui-bg-img');
+                        };
+                    }
+                }
+            });
+    
+            // Stop listening to scroll events if all elements have been lazy-loaded
+            loadedElements = Array.from(elements).filter(el => el.getAttribute('xui-bg-img') === null).length;
+            if (loadedElements === elements.length) {
+                window.removeEventListener('scroll', lazyLoad);
             }
         };
-        var init = function () {
+    
+        const init = function () {
             window.addEventListener('scroll', lazyLoad);
-            lazyLoad();
+            // Add scroll event listener to the specific container
+            const contentElement = document.querySelector('.xui-dashboard .screen .content');
+            if (contentElement) {
+                contentElement.addEventListener('scroll', lazyLoad);
+            }
+            lazyLoad(); // Initial check in case some elements are already in view
         };
+    
         return init();
     })();
+    
     (function () {
-        let elements = document.querySelectorAll('[xui-img-src]');
-        let index = 0;
-        let lazyLoad = function () {
-            if (index >= elements.length)
-                return;
-            var item = elements[index];
-            if ((window.scrollY + window.innerHeight) > item.offsetTop) {
-                var src = item.getAttribute("xui-img-src");
-                item.src = src;
-                item.addEventListener('load', function () {
-                    item.removeAttribute('xui-img-src');
-                });
-                index++;
-                lazyLoad();
+        const elements = document.querySelectorAll('[xui-img-src]');
+        let loadedElements = 0; // Track how many elements have been lazy-loaded
+    
+        const lazyLoad = function () {
+            elements.forEach((item) => {
+                const rect = item.getBoundingClientRect(); // Get the element's position relative to the viewport
+                // Check if the item is in the viewport
+                if (rect.top <= window.innerHeight && rect.bottom >= 0 && item.getAttribute('xui-img-src')) {
+                    const src = item.getAttribute('xui-img-src');
+                    if (src) {
+                        item.src = src;
+                        item.onload = function () {
+                            item.removeAttribute('xui-img-src');
+                        };
+                    }
+                }
+            });
+    
+            // Stop listening to scroll events if all elements have been lazy-loaded
+            loadedElements = Array.from(elements).filter(el => el.getAttribute('xui-img-src') === null).length;
+            if (loadedElements === elements.length) {
+                window.removeEventListener('scroll', lazyLoad);
             }
         };
-        var init = function () {
+    
+        const init = function () {
             window.addEventListener('scroll', lazyLoad);
-            lazyLoad();
+            // Add scroll event listener to the specific container
+            const contentElement = document.querySelector('.xui-dashboard .screen .content');
+            if (contentElement) {
+                contentElement.addEventListener('scroll', lazyLoad);
+            }
+            lazyLoad(); // Initial check in case some elements are already in view
         };
+    
         return init();
     })();
 };
@@ -595,7 +626,7 @@ function xuiTypeWriter(obj){
     let cursor = obj.cursor;
     let textPosition = 0;
     if (quoteArray === undefined) {
-        quoteArray = ["Hello friend 👋. This is a default text from XUI. I hope you're enjoying this", "It can be changed as well! Just like this."];
+        quoteArray = ["Hello friend ðŸ‘‹. This is a default text from XUI. I hope you're enjoying this", "It can be changed as well! Just like this."];
         console.warn("XUI Typewriter: We didn't find \"words\" parameter in your object");
     }
     if ((typeof speed === undefined) || (typeof speed !== "number")) {
