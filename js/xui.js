@@ -360,8 +360,11 @@ function xuiModal(){
     };
 };
 function isHidden(el){
-    var style = window.getComputedStyle(el);
-    return (style.display === 'none');
+    if (typeof window !== "undefined") {
+        // Client-side-only code
+        var style = window.getComputedStyle(el);
+        return (style.display === 'none');
+    }
 };
 function xuiAccordion(){
     let accordionHeaders = document.querySelectorAll('.xui-accordion-box .xui-accordion-header');
@@ -459,13 +462,16 @@ function xuiLazyLoadings(){
             elements.forEach((item) => {
                 const rect = item.getBoundingClientRect(); // Get the element's position relative to the viewport
                 // Check if the item is in the viewport
-                if (rect.top <= window.innerHeight && rect.bottom >= 0 && item.getAttribute('xui-bg-img')) {
-                    const src = item.getAttribute('xui-bg-img');
-                    if (src) {
-                        item.style.backgroundImage = `url('${src}')`;
-                        item.onload = function () {
-                            item.removeAttribute('xui-bg-img');
-                        };
+                if (typeof window !== "undefined") {
+                    // Client-side-only code
+                    if (rect.top <= window.innerHeight && rect.bottom >= 0 && item.getAttribute('xui-bg-img')) {
+                        const src = item.getAttribute('xui-bg-img');
+                        if (src) {
+                            item.style.backgroundImage = `url('${src}')`;
+                            item.onload = function () {
+                                item.removeAttribute('xui-bg-img');
+                            };
+                        }
                     }
                 }
             });
@@ -473,12 +479,18 @@ function xuiLazyLoadings(){
             // Stop listening to scroll events if all elements have been lazy-loaded
             loadedElements = Array.from(elements).filter(el => el.getAttribute('xui-bg-img') === null).length;
             if (loadedElements === elements.length) {
-                window.removeEventListener('scroll', lazyLoad);
+                if (typeof window !== "undefined") {
+                    // Client-side-only code
+                    window.removeEventListener('scroll', lazyLoad);
+                }
             }
         };
     
         const init = function () {
-            window.addEventListener('scroll', lazyLoad);
+            if (typeof window !== "undefined") {
+                // Client-side-only code
+                window.addEventListener('scroll', lazyLoad);
+            }
             // Add scroll event listener to the specific container
             const contentElement = document.querySelector('.xui-dashboard .screen .content');
             if (contentElement) {
@@ -498,13 +510,16 @@ function xuiLazyLoadings(){
             elements.forEach((item) => {
                 const rect = item.getBoundingClientRect(); // Get the element's position relative to the viewport
                 // Check if the item is in the viewport
-                if (rect.top <= window.innerHeight && rect.bottom >= 0 && item.getAttribute('xui-img-src')) {
-                    const src = item.getAttribute('xui-img-src');
-                    if (src) {
-                        item.src = src;
-                        item.onload = function () {
-                            item.removeAttribute('xui-img-src');
-                        };
+                if (typeof window !== "undefined") {
+                    // Client-side-only code
+                    if (rect.top <= window.innerHeight && rect.bottom >= 0 && item.getAttribute('xui-img-src')) {
+                        const src = item.getAttribute('xui-img-src');
+                        if (src) {
+                            item.src = src;
+                            item.onload = function () {
+                                item.removeAttribute('xui-img-src');
+                            };
+                        }
                     }
                 }
             });
@@ -512,12 +527,18 @@ function xuiLazyLoadings(){
             // Stop listening to scroll events if all elements have been lazy-loaded
             loadedElements = Array.from(elements).filter(el => el.getAttribute('xui-img-src') === null).length;
             if (loadedElements === elements.length) {
-                window.removeEventListener('scroll', lazyLoad);
+                if (typeof window !== "undefined") {
+                    // Client-side-only code
+                    window.removeEventListener('scroll', lazyLoad);
+                }
             }
         };
     
         const init = function () {
-            window.addEventListener('scroll', lazyLoad);
+            if (typeof window !== "undefined") {
+                // Client-side-only code
+                window.addEventListener('scroll', lazyLoad);
+            }
             // Add scroll event listener to the specific container
             const contentElement = document.querySelector('.xui-dashboard .screen .content');
             if (contentElement) {
@@ -751,54 +772,30 @@ function xuiScrollOnAnimation(){
         if ('IntersectionObserver' in window) {
             let xuiScroll = (ele, repeat, rootMargin) => {
                 let observer = new IntersectionObserver(function (entries) {
-                    let deviceWidth = window.outerWidth;
-                    let duration;
-                    let delay;
-                    if ((deviceWidth > 576) && (deviceWidth < 768)) {
-                        duration = entries[0].target.getAttribute("xui-sm-aos-duration");
-                        if (duration === 0) {
-                            duration = entries[0].target.getAttribute("xui-aos-duration");
-                        }
-                        delay = Number(entries[0].target.getAttribute("xui-sm-aos-delay") * 1000);
-                        if (delay === 0) {
-                            delay = Number(entries[0].target.getAttribute("xui-aos-delay") * 1000);
-                        }
-                        if (duration !== null) {
-                            entries[0].target.style.animationDuration = duration + "s";
-                            entries[0].target.style.transition = duration + "s";
-                        }
-                        else {
-                            entries[0].target.style.animationDuration = ".5s";
-                            entries[0].target.style.transition = ".5s";
-                        }
-                    }
-                    else if ((deviceWidth > 768) && (deviceWidth < 992)) {
-                        duration = entries[0].target.getAttribute("xui-md-aos-duration");
-                        if (duration === 0) {
+                    if (typeof window !== "undefined") {
+                        // Client-side-only code
+                        let deviceWidth = window.outerWidth;
+                        let duration;
+                        let delay;
+                        if ((deviceWidth > 576) && (deviceWidth < 768)) {
                             duration = entries[0].target.getAttribute("xui-sm-aos-duration");
                             if (duration === 0) {
                                 duration = entries[0].target.getAttribute("xui-aos-duration");
                             }
-                        }
-                        delay = Number(entries[0].target.getAttribute("xui-md-aos-delay") * 1000);
-                        if (delay === 0) {
                             delay = Number(entries[0].target.getAttribute("xui-sm-aos-delay") * 1000);
                             if (delay === 0) {
                                 delay = Number(entries[0].target.getAttribute("xui-aos-delay") * 1000);
                             }
+                            if (duration !== null) {
+                                entries[0].target.style.animationDuration = duration + "s";
+                                entries[0].target.style.transition = duration + "s";
+                            }
+                            else {
+                                entries[0].target.style.animationDuration = ".5s";
+                                entries[0].target.style.transition = ".5s";
+                            }
                         }
-                        if (duration !== null) {
-                            entries[0].target.style.animationDuration = duration + "s";
-                            entries[0].target.style.transition = duration + "s";
-                        }
-                        else {
-                            entries[0].target.style.animationDuration = ".5s";
-                            entries[0].target.style.transition = ".5s";
-                        }
-                    }
-                    else if ((deviceWidth > 992) && (deviceWidth < 1200)) {
-                        duration = entries[0].target.getAttribute("xui-lg-aos-duration");
-                        if (duration === 0) {
+                        else if ((deviceWidth > 768) && (deviceWidth < 992)) {
                             duration = entries[0].target.getAttribute("xui-md-aos-duration");
                             if (duration === 0) {
                                 duration = entries[0].target.getAttribute("xui-sm-aos-duration");
@@ -806,9 +803,6 @@ function xuiScrollOnAnimation(){
                                     duration = entries[0].target.getAttribute("xui-aos-duration");
                                 }
                             }
-                        }
-                        delay = Number(entries[0].target.getAttribute("xui-lg-aos-delay") * 1000);
-                        if (delay === 0) {
                             delay = Number(entries[0].target.getAttribute("xui-md-aos-delay") * 1000);
                             if (delay === 0) {
                                 delay = Number(entries[0].target.getAttribute("xui-sm-aos-delay") * 1000);
@@ -816,19 +810,16 @@ function xuiScrollOnAnimation(){
                                     delay = Number(entries[0].target.getAttribute("xui-aos-delay") * 1000);
                                 }
                             }
+                            if (duration !== null) {
+                                entries[0].target.style.animationDuration = duration + "s";
+                                entries[0].target.style.transition = duration + "s";
+                            }
+                            else {
+                                entries[0].target.style.animationDuration = ".5s";
+                                entries[0].target.style.transition = ".5s";
+                            }
                         }
-                        if (duration !== null) {
-                            entries[0].target.style.animationDuration = duration + "s";
-                            entries[0].target.style.transition = duration + "s";
-                        }
-                        else {
-                            entries[0].target.style.animationDuration = ".5s";
-                            entries[0].target.style.transition = ".5s";
-                        }
-                    }
-                    else if (deviceWidth > 1200) {
-                        duration = entries[0].target.getAttribute("xui-xl-aos-duration");
-                        if (duration === 0) {
+                        else if ((deviceWidth > 992) && (deviceWidth < 1200)) {
                             duration = entries[0].target.getAttribute("xui-lg-aos-duration");
                             if (duration === 0) {
                                 duration = entries[0].target.getAttribute("xui-md-aos-duration");
@@ -839,9 +830,6 @@ function xuiScrollOnAnimation(){
                                     }
                                 }
                             }
-                        }
-                        delay = Number(entries[0].target.getAttribute("xui-xl-aos-delay") * 1000);
-                        if (delay === 0) {
                             delay = Number(entries[0].target.getAttribute("xui-lg-aos-delay") * 1000);
                             if (delay === 0) {
                                 delay = Number(entries[0].target.getAttribute("xui-md-aos-delay") * 1000);
@@ -852,43 +840,79 @@ function xuiScrollOnAnimation(){
                                     }
                                 }
                             }
+                            if (duration !== null) {
+                                entries[0].target.style.animationDuration = duration + "s";
+                                entries[0].target.style.transition = duration + "s";
+                            }
+                            else {
+                                entries[0].target.style.animationDuration = ".5s";
+                                entries[0].target.style.transition = ".5s";
+                            }
                         }
-                        if (duration !== null) {
-                            entries[0].target.style.animationDuration = duration + "s";
-                            entries[0].target.style.transition = duration + "s";
+                        else if (deviceWidth > 1200) {
+                            duration = entries[0].target.getAttribute("xui-xl-aos-duration");
+                            if (duration === 0) {
+                                duration = entries[0].target.getAttribute("xui-lg-aos-duration");
+                                if (duration === 0) {
+                                    duration = entries[0].target.getAttribute("xui-md-aos-duration");
+                                    if (duration === 0) {
+                                        duration = entries[0].target.getAttribute("xui-sm-aos-duration");
+                                        if (duration === 0) {
+                                            duration = entries[0].target.getAttribute("xui-aos-duration");
+                                        }
+                                    }
+                                }
+                            }
+                            delay = Number(entries[0].target.getAttribute("xui-xl-aos-delay") * 1000);
+                            if (delay === 0) {
+                                delay = Number(entries[0].target.getAttribute("xui-lg-aos-delay") * 1000);
+                                if (delay === 0) {
+                                    delay = Number(entries[0].target.getAttribute("xui-md-aos-delay") * 1000);
+                                    if (delay === 0) {
+                                        delay = Number(entries[0].target.getAttribute("xui-sm-aos-delay") * 1000);
+                                        if (delay === 0) {
+                                            delay = Number(entries[0].target.getAttribute("xui-aos-delay") * 1000);
+                                        }
+                                    }
+                                }
+                            }
+                            if (duration !== null) {
+                                entries[0].target.style.animationDuration = duration + "s";
+                                entries[0].target.style.transition = duration + "s";
+                            }
+                            else {
+                                entries[0].target.style.animationDuration = ".5s";
+                                entries[0].target.style.transition = ".5s";
+                            }
                         }
                         else {
-                            entries[0].target.style.animationDuration = ".5s";
-                            entries[0].target.style.transition = ".5s";
+                            duration = entries[0].target.getAttribute("xui-aos-duration");
+                            delay = Number(entries[0].target.getAttribute("xui-aos-delay") * 1000);
+                            if (duration !== null) {
+                                entries[0].target.style.animationDuration = duration + "s";
+                                entries[0].target.style.transition = duration + "s";
+                            }
+                            else {
+                                entries[0].target.style.animationDuration = ".5s";
+                                entries[0].target.style.transition = ".5s";
+                            }
                         }
-                    }
-                    else {
-                        duration = entries[0].target.getAttribute("xui-aos-duration");
-                        delay = Number(entries[0].target.getAttribute("xui-aos-delay") * 1000);
-                        if (duration !== null) {
-                            entries[0].target.style.animationDuration = duration + "s";
-                            entries[0].target.style.transition = duration + "s";
-                        }
-                        else {
-                            entries[0].target.style.animationDuration = ".5s";
-                            entries[0].target.style.transition = ".5s";
-                        }
-                    }
-                    if (entries[0].isIntersecting === true) {
-                        if (delay !== null) {
-                            setTimeout(() => {
+                        if (entries[0].isIntersecting === true) {
+                            if (delay !== null) {
+                                setTimeout(() => {
+                                    entries[0].target.classList.add("xui-aos-animate");
+                                }, delay);
+                            }
+                            else {
                                 entries[0].target.classList.add("xui-aos-animate");
-                            }, delay);
+                            }
+                            if (repeat) {
+                                observer.unobserve(entries[0].target);
+                            }
                         }
                         else {
-                            entries[0].target.classList.add("xui-aos-animate");
+                            entries[0].target.classList.remove("xui-aos-animate");
                         }
-                        if (repeat) {
-                            observer.unobserve(entries[0].target);
-                        }
-                    }
-                    else {
-                        entries[0].target.classList.remove("xui-aos-animate");
                     }
                 }, { rootMargin: rootMargin, threshold: 0 });
                 observer.observe(ele);
@@ -896,25 +920,16 @@ function xuiScrollOnAnimation(){
             let xuiAOS = document.querySelectorAll("[xui-aos]");
             for (var i = 0; i < xuiAOS.length; i++) {
                 var offset;
-                let deviceWidth = window.outerWidth;
-                if ((deviceWidth > 576) && (deviceWidth < 768)) {
-                    offset = Number(xuiAOS[i].getAttribute("xui-sm-aos-offset"));
-                    if (offset === 0) {
-                        offset = Number(xuiAOS[i].getAttribute("xui-aos-offset"));
-                    }
-                }
-                else if ((deviceWidth > 768) && (deviceWidth < 992)) {
-                    offset = Number(xuiAOS[i].getAttribute("xui-md-aos-offset"));
-                    if (offset === 0) {
+                if (typeof window !== "undefined") {
+                    // Client-side-only code
+                    let deviceWidth = window.outerWidth;
+                    if ((deviceWidth > 576) && (deviceWidth < 768)) {
                         offset = Number(xuiAOS[i].getAttribute("xui-sm-aos-offset"));
                         if (offset === 0) {
                             offset = Number(xuiAOS[i].getAttribute("xui-aos-offset"));
                         }
                     }
-                }
-                else if ((deviceWidth > 992) && (deviceWidth < 1200)) {
-                    offset = Number(xuiAOS[i].getAttribute("xui-lg-aos-offset"));
-                    if (offset === 0) {
+                    else if ((deviceWidth > 768) && (deviceWidth < 992)) {
                         offset = Number(xuiAOS[i].getAttribute("xui-md-aos-offset"));
                         if (offset === 0) {
                             offset = Number(xuiAOS[i].getAttribute("xui-sm-aos-offset"));
@@ -923,10 +938,7 @@ function xuiScrollOnAnimation(){
                             }
                         }
                     }
-                }
-                else if (deviceWidth > 1200) {
-                    offset = Number(xuiAOS[i].getAttribute("xui-xl-aos-offset"));
-                    if (offset === 0) {
+                    else if ((deviceWidth > 992) && (deviceWidth < 1200)) {
                         offset = Number(xuiAOS[i].getAttribute("xui-lg-aos-offset"));
                         if (offset === 0) {
                             offset = Number(xuiAOS[i].getAttribute("xui-md-aos-offset"));
@@ -938,18 +950,33 @@ function xuiScrollOnAnimation(){
                             }
                         }
                     }
-                }
-                else {
-                    offset = xuiAOS[i].getAttribute("xui-aos-offset");
-                }
-                let getNoRepeatAttr = xuiAOS[i].hasAttribute("xui-aos-once");
-                if (offset !== null) {
-                    let rootMargin = "0px 0px -" + offset + "%";
-                    xuiScroll(xuiAOS[i], getNoRepeatAttr, rootMargin);
-                }
-                else {
-                    let rootMargin = "0px 0px -5%";
-                    xuiScroll(xuiAOS[i], getNoRepeatAttr, rootMargin);
+                    else if (deviceWidth > 1200) {
+                        offset = Number(xuiAOS[i].getAttribute("xui-xl-aos-offset"));
+                        if (offset === 0) {
+                            offset = Number(xuiAOS[i].getAttribute("xui-lg-aos-offset"));
+                            if (offset === 0) {
+                                offset = Number(xuiAOS[i].getAttribute("xui-md-aos-offset"));
+                                if (offset === 0) {
+                                    offset = Number(xuiAOS[i].getAttribute("xui-sm-aos-offset"));
+                                    if (offset === 0) {
+                                        offset = Number(xuiAOS[i].getAttribute("xui-aos-offset"));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        offset = xuiAOS[i].getAttribute("xui-aos-offset");
+                    }
+                    let getNoRepeatAttr = xuiAOS[i].hasAttribute("xui-aos-once");
+                    if (offset !== null) {
+                        let rootMargin = "0px 0px -" + offset + "%";
+                        xuiScroll(xuiAOS[i], getNoRepeatAttr, rootMargin);
+                    }
+                    else {
+                        let rootMargin = "0px 0px -5%";
+                        xuiScroll(xuiAOS[i], getNoRepeatAttr, rootMargin);
+                    }
                 }
             }
         }
@@ -971,28 +998,31 @@ function xuiModalHide(name){
         modalName.setAttribute("display", false);
     }
 }
-if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    // dark mode
-    let qs = document.querySelector("[xui-mode=\"auto\"]");
-    if (qs !== null) {
-        qs.classList.add("xui-dark-mode");
+if (typeof window !== "undefined") {
+    // Client-side-only code
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // dark mode
+        let qs = document.querySelector("[xui-mode=\"auto\"]");
+        if (qs !== null) {
+            qs.classList.add("xui-dark-mode");
+        }
     }
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+        const newColorScheme = event.matches ? "dark" : "light";
+        if (newColorScheme == "dark") {
+            let xuiModeAuto = document.querySelector("[xui-mode=\"auto\"]");
+            if (xuiModeAuto !== null) {
+                xuiModeAuto.classList.add("xui-dark-mode");
+            }
+        }
+        else {
+            let xuiModeAuto = document.querySelector("[xui-mode=\"auto\"]");
+            if (xuiModeAuto !== null) {
+                xuiModeAuto.classList.remove("xui-dark-mode");
+            }
+        }
+    });
 }
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-    const newColorScheme = event.matches ? "dark" : "light";
-    if (newColorScheme == "dark") {
-        let xuiModeAuto = document.querySelector("[xui-mode=\"auto\"]");
-        if (xuiModeAuto !== null) {
-            xuiModeAuto.classList.add("xui-dark-mode");
-        }
-    }
-    else {
-        let xuiModeAuto = document.querySelector("[xui-mode=\"auto\"]");
-        if (xuiModeAuto !== null) {
-            xuiModeAuto.classList.remove("xui-dark-mode");
-        }
-    }
-});
 function xuiRun(){
     xuiLazyLoadings();
     xuiModal();
