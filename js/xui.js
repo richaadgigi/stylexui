@@ -1109,3 +1109,74 @@ function autoRun(){
 };
 // Always Run THIS
 autoRun();
+
+
+(function dynamicCSS() {
+    // Map dynamic class prefixes to CSS properties
+    const propertyMap = {
+      "xui-bdr-rad": "border-radius",
+      "xui-img": "max-width",
+      "xui-column-count": "column-count",
+      "xui-xl-font-sz": "font-size",
+      "xui-font-sz": "font-size",
+      "xui-font-w": "font-weight",
+      "xui-xl-h": "height",
+      "xui-mt": "margin-top",
+      "xui-mb": "margin-bottom",
+      "xui-ml": "margin-left",
+      "xui-mr": "margin-right",
+      "xui-pt": "padding-top",
+      "xui-pb": "padding-bottom",
+      "xui-pl": "padding-left",
+      "xui-pr": "padding-right",
+      "xui-px": ["padding-left", "padding-right"], // Horizontal padding
+      "xui-py": ["padding-top", "padding-bottom"], // Vertical padding
+    };
+  
+    // Create a single <style> tag for all dynamic styles
+    const styleSheet = document.createElement("style");
+    document.head.appendChild(styleSheet);
+  
+    // Track already processed classes to avoid duplicates
+    const processedClasses = new Set();
+  
+    // Select all elements with classes containing `[]`
+    const elements = document.querySelectorAll("[class*='[']");
+  
+    elements.forEach((el) => {
+      const classes = el.className.split(" "); // Get all classes on the element
+  
+      classes.forEach((cls) => {
+        // Check if the class contains `[]` syntax and hasn't been processed yet
+        if (cls.includes("[") && cls.includes("]") && !processedClasses.has(cls)) {
+          const match = cls.match(/(xui-[a-z-]+)-\[(.+)\]/); // Match the class and extract its prefix and value
+          if (match) {
+            const prefix = match[1]; // Extract the prefix, e.g., "xui-px"
+            const value = match[2];  // Extract the value, e.g., "20px"
+  
+            // Map the prefix to the corresponding CSS property
+            const properties = propertyMap[prefix];
+            if (properties) {
+              // Sanitize the class name for use in CSS (escape brackets)
+              const sanitizedClass = cls.replace(/\[/g, "\\[").replace(/\]/g, "\\]");
+  
+              // Generate the CSS rule(s)
+              if (Array.isArray(properties)) {
+                // Handle multiple properties (e.g., xui-px, xui-py)
+                const rules = properties.map((prop) => `${prop}: ${value};`).join(" ");
+                const rule = `.${sanitizedClass} { ${rules} }`;
+                styleSheet.sheet.insertRule(rule, styleSheet.sheet.cssRules.length);
+              } else {
+                // Handle single property
+                const rule = `.${sanitizedClass} { ${properties}: ${value}; }`;
+                styleSheet.sheet.insertRule(rule, styleSheet.sheet.cssRules.length);
+              }
+  
+              // Mark the class as processed
+              processedClasses.add(cls);
+            }
+          }
+        }
+      });
+    });
+  })();
