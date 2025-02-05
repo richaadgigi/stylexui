@@ -7,6 +7,25 @@ function findElementWithAttribute(element, attributeName) {
     }
     return null;
 }
+
+/* Handling card tilt effect */
+document.querySelectorAll('.xui-tilt-card').forEach((card) => {
+    card.addEventListener('mousemove', (e) => {
+        let rect = card.getBoundingClientRect();
+        let x = (e.clientX - rect.left) / rect.width - 0.5;
+        let y = (e.clientY - rect.top) / rect.height - 0.5;
+
+        let tiltX = y * 45; 
+        let tiltY = x * -45;
+
+        card.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'rotateX(0deg) rotateY(0deg)';
+    });
+});
+  
 // Handling click events
 document.addEventListener("click", (e) => {
     // Functionalities for navabar goes here

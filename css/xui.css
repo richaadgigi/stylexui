@@ -1029,7 +1029,34 @@ img {
   background: #161616;
 }
 
+.xui-tilt-card-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  perspective: 1000px; /* Adds depth */
+}
 
+/* CARD TILT EFFECT */
+.xui-tilt-card {
+  padding: 60px 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.xui-tilt-card h3,
+.xui-tilt-card p {
+  transform: translateZ(20px);
+  transition: transform 0.2s ease-out;
+}
+
+.xui-tilt-card:hover {
+  box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.2);
+}
 
 
 /*Objects*/
@@ -1875,6 +1902,135 @@ img {
   background-color: transparent;
   color: inherit;
   opacity: .5;
+}
+.xui-btn-liquid {
+  background: linear-gradient(#646cff 0 0) no-repeat calc(200% - var(--p, 0%)) 100% / 200% var(--p, 0.2em);
+  transition: 0.3s var(--t, 0s),
+    background-position 0.3s calc(0.3s - var(--t, 0s));
+    /* border: 2px solid #646cff; */
+    overflow: hidden;
+}
+
+.xui-btn-liquid:hover {
+  --p: 100%;
+  --t: 0.3s;
+  color: #fff;
+}
+.xui-btn-bdr-reveal {
+  background-color: transparent;
+  border: 2px solid #646cff;
+  position: relative;
+}
+
+.xui-btn-bdr-reveal::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #646cff;
+  transition: width 0.3s ease;
+  z-index: -1;
+}
+
+.xui-btn-bdr-reveal:hover::after {
+  width: 100%;
+}
+.xui-btn-load span:nth-child(1)
+{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:2px;
+  background:linear-gradient(to right, #0c002b ,#1779ff);
+  animation: animate1 2s linear infinite;
+  animation-delay:1s;
+  
+}
+@keyframes animate1
+{
+  0%
+  {
+    transform:translateX(-100%);
+}
+  100%
+  {
+    transform:translateX(100%);
+  }
+}
+.xui-btn-load span:nth-child(2)
+{
+  position:absolute;
+  top:0;
+  right:0;
+  width:2px;
+  height:100%;
+  background:linear-gradient(to bottom, #0c002b ,#1779ff);
+  animation: animate2 2s linear infinite;
+  animation-delay:2s;
+}
+@keyframes animate2
+{
+  0%
+  {
+    transform:translateY(-100%);
+}
+  100%
+  {
+    transform:translateY(100%);
+  }
+}
+.xui-btn-load span:nth-child(3)
+{
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:2px;
+  background:linear-gradient(to left, #0c002b ,#1779ff);
+   animation: animate3 2s linear infinite;
+  animation-delay:1s;
+  
+}
+@keyframes animate3
+{
+  0%
+  {
+    transform:translateX(100%);
+}
+  100%
+  {
+    transform:translateX(-100%);
+  }
+}
+.xui-btn-load span:nth-child(4)
+{
+  position:absolute;
+  top:0;
+  left:0;
+  width:2px;
+  height:100%;
+  background:linear-gradient(to top, #0c002b ,#1779ff);
+   animation: animate4 2s linear infinite;
+  animation-delay:2s;
+  
+}
+@keyframes animate4
+{
+  0%
+  {
+    transform:translateY(100%);
+}
+  100%
+  {
+    transform:translateY(-100%);
+  }
+}
+
+.xui-btn-bdr-reveal:hover {
+  color: white;
 }
 
 .xui-btn-fade:hover {
