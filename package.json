@@ -1,6 +1,6 @@
 {
   "name": "@richaadgigi/stylexui",
-  "version": "1.2.0",
+  "version": "1.0.0-beta",
   "description": "Style you and do it effortlessly!",
   "main": "index.js",
   "types": "index.d.ts",
