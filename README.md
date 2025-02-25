@@ -14,10 +14,17 @@ Dive in and see how StyleXui can bring your projects to life! 🎨✨
 
 ## 🌟 Features
 
-✔ **Responsive Design** – Built with mobile-first principles to ensure seamless adaptability across all devices.  
-✔ **Pre-Built Components** – Buttons, modals, navigation bars, and more to save you time and effort.  
-✔ **Utility-First Approach** – Style elements quickly without writing custom CSS.  
-✔ **Accessibility Focused** – Designed with accessibility in mind to ensure usability for everyone.  
+✔ **Fully Responsive** – Built with a mobile-first approach, ensuring flawless adaptability across all screen sizes. Whether on a phone, tablet, or desktop, your design remains pixel-perfect and seamless.
+
+✔ **Pre-Built Components** – Speed up development with a library of ready-to-use elements like buttons, modals, and navigation bars. No need to build from scratch—just plug, customize, and launch.
+
+✔ **Effortless Customization** – A utility-first framework that lets you style elements with ease, keeping your code clean and efficient. Define your own colors, spacing, and units—your design, your way.
+
+✔ **Accessibility-First** – Designed with inclusivity in mind, ensuring smooth navigation and interaction for all users, regardless of ability.
+
+✔ **Seamless Light & Dark Mode** – Instantly switch between bright and dark themes for a comfortable viewing experience, day or night.
+
+✔ **Comprehensive Documentation** – A well-structured, beginner-friendly guide to help you get started effortlessly and make the most out of StyleXui. 
 
 ---
 
@@ -51,7 +58,7 @@ import '@richaadgigi/stylexui';
 
 ### 3️⃣ Manual Download *(Offline or Custom Hosting)*
 
-1. Download the latest version from the [official website](https://stylexui.com).
+1. Download the latest version from the [official website](https://stylexui.com) or the [zip file](https://github.com/richaadgigi/stylexui/archive/refs/tags/v1.0.0-beta.zip).
 2. Extract the files and link the CSS in your HTML file:
 
 ```html
@@ -94,6 +101,10 @@ Copy and paste the following template to start using StyleXui:
 ✅ Initial release of **StyleXui**! 🚀
 
 ---
+## Contribution
+
+We welcome contributions! Feel free to submit issues or pull requests to help improve
+StyleXui.
 
 ## 📜 License
 
@@ -116,4 +127,3 @@ For full licensing details, refer to the [MIT License documentation](https://ope
 📌 **Support & Issues:** [GitHub Issues](https://github.com/richaadgigi/stylexui/issues)
 
 ✨ **Enjoy building with StyleXui!** 🎨🚀
-
