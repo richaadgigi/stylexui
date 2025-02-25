@@ -101,10 +101,9 @@ Copy and paste the following template to start using StyleXui:
 ✅ Initial release of **StyleXui**! 🚀
 
 ---
-## Contribution
+## 🌍 Contribution
 
-We welcome contributions! Feel free to submit issues or pull requests to help improve
-StyleXui.
+We welcome contributions! Feel free to submit issues or pull requests to help improve StyleXui.
 
 ## 📜 License
 
