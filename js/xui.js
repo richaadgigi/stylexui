@@ -1042,94 +1042,8 @@ if (typeof window !== "undefined") {
         }
     });
 }
-function xuiRun(){
-    xuiLazyLoadings();
-    xuiModal();
-    xuiAccordion();
-    xuiAlerts();
-    xuiScrollOnAnimation();
-}
-let xui = {
-    run: () => {
-        xuiRun();
-    },
-    control: {
-        navbar: () => {
-            // xuiNavbarMenu();
-        },
-        loader: () => {
-            xuiLoadingScreen();
-        }
-    },
-    animate: {
-        default: (custom) => {
-            xuiAnime(custom);
-        },
-        start: (custom) => {
-            xuiAnimeStart(custom);
-        },
-        end: (custom) => {
-            xuiAnimeEnd(custom);
-        }
-    },
-    effect: {
-        typewriter: (obj) => {
-            if ((obj === undefined) || (obj === null)) {
-                console.warn("Parse an object");
-            }
-            else {
-                xuiTypeWriter(obj);
-            }
-        }
-    },
-    reveal: {
-        images: () => {
-            xuiLazyLoadings();
-        },
-        skeletons: (ele) => {
-            xuiHideSkeleton(ele);
-        }
-    },
-    modal: {
-        show: () => {
-            let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
-            if (modalName !== null) {
-                modalName.removeAttribute("open");
-                void modalName.offsetWidth;
-                modalName.setAttribute("open", true);
-            }
-        },
-        hide: (name) => {
-            let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
-            if (modalName !== null) {
-                modalName.removeAttribute("open");
-                void modalName.offsetWidth;
-                modalName.setAttribute("open", false);
-            }
-        }
-    }
-};
-// For modules usage
-function autoRun(){
-    let body = document.querySelector("body");
-    if (body !== null) {
-        let xuiRun = body.getAttribute("xui-run");
-        if (xuiRun !== null) {
-            if (xuiRun !== "true") {
-                xui.run();
-                xui.control.navbar();
-            }
-        }
-        else {
-            xui.run();
-            xui.control.navbar();
-        }
-    }
-};
-// Always Run THIS
-autoRun();
-
-(function dynamicCSS() {
+// This function ensures you can add your own unit instead of a fixed unit
+const xuiDynamicCSS = () => {
     // Map dynamic class prefixes to CSS properties
     const propertyMap = {
       "xui-column-count": "column-count",
@@ -1242,4 +1156,91 @@ autoRun();
         }
       });
     });
-  })();
+};
+function xuiRun(){
+    xuiLazyLoadings();
+    xuiModal();
+    xuiAccordion();
+    xuiAlerts();
+    xuiScrollOnAnimation();
+    xuiDynamicCSS();
+}
+let xui = {
+    run: () => {
+        xuiRun();
+    },
+    control: {
+        navbar: () => {
+            // xuiNavbarMenu();
+        },
+        loader: () => {
+            xuiLoadingScreen();
+        }
+    },
+    animate: {
+        default: (custom) => {
+            xuiAnime(custom);
+        },
+        start: (custom) => {
+            xuiAnimeStart(custom);
+        },
+        end: (custom) => {
+            xuiAnimeEnd(custom);
+        }
+    },
+    effect: {
+        typewriter: (obj) => {
+            if ((obj === undefined) || (obj === null)) {
+                console.warn("Parse an object");
+            }
+            else {
+                xuiTypeWriter(obj);
+            }
+        }
+    },
+    reveal: {
+        images: () => {
+            xuiLazyLoadings();
+        },
+        skeletons: (ele) => {
+            xuiHideSkeleton(ele);
+        }
+    },
+    modal: {
+        show: () => {
+            let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
+            if (modalName !== null) {
+                modalName.removeAttribute("open");
+                void modalName.offsetWidth;
+                modalName.setAttribute("open", true);
+            }
+        },
+        hide: (name) => {
+            let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
+            if (modalName !== null) {
+                modalName.removeAttribute("open");
+                void modalName.offsetWidth;
+                modalName.setAttribute("open", false);
+            }
+        }
+    }
+};
+// For modules usage
+function autoRun(){
+    let body = document.querySelector("body");
+    if (body !== null) {
+        let xuiRun = body.getAttribute("xui-run");
+        if (xuiRun !== null) {
+            if (xuiRun !== "true") {
+                xui.run();
+                xui.control.navbar();
+            }
+        }
+        else {
+            xui.run();
+            xui.control.navbar();
+        }
+    }
+};
+// Always Run THIS
+autoRun();
