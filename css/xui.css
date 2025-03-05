@@ -7,8 +7,13 @@
 
 :root {
   --blue: #2852DC;
+  --blue-pressed: #2852DC;
   --red: #E60626;
   --green: #153b12;
+  --default-border: #D9D9D9;
+  --text-opacitated: rgba(0, 0, 0, .88);
+  --disabled-opacitated: rgba(0, 0, 0, .04);
+  --disabled-text-opacitated: rgba(0, 0, 0, .25);
   --navbarHeight: 90px;
   --default-sidebar-width: 240px;
   --default-sidebar-aside-width: 320px;
@@ -1862,7 +1867,7 @@ img {
 
 .xui-btn-small,
 .xui-btn,
- .xui-btn-large {
+.xui-btn-large {
   display: inline-block;
   background-color: inherit;
   color: inherit;
@@ -1889,8 +1894,22 @@ img {
   padding: 1.2em 1.5em;
 }
 
+/* Default Button */
 .xui-btn {
-  font-size: 90%;
+  font-size: 16px;
+  border: 1px solid var(--default-border);
+  color: var(--text-opacitated);
+  padding: 10.4px 32px;
+  transition: .2s;
+}
+.xui-btn:hover,
+.xui-btn:focus {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+.xui-btn:active {
+  border-color: var(--blue-pressed);
+  color: var(--blue-pressed);
 }
 
 .xui-btn-large {
@@ -2126,6 +2145,9 @@ button[disabled]:hover,
 .xui-btn-disabled,
 .xui-btn-disabled:hover {
   cursor: not-allowed !important;
+  background-color: var(--disabled-opacitated);
+  color: var(--disabled-text-opacitated);
+  border-color: var(--default-border);
 }
 
 
