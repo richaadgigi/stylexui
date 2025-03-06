@@ -1905,19 +1905,28 @@ img {
 }
 
 /* Default Button */
-.xui-btn {
+.xui-btn,
+.xui-btn-large,
+.xui-btn-small {
   font-size: 14px;
   border: 1px solid var(--default-border);
   color: var(--text-opacitated);
   padding: 10.4px 32px;
   transition: .2s;
 }
+
 .xui-btn:hover,
-.xui-btn:focus {
+.xui-btn:focus,
+.xui-btn-large:hover,
+.xui-btn-large:focus,
+.xui-btn-small:hover,
+.xui-btn-small:focus {
   border-color: var(--blue);
   color: var(--blue);
 }
-.xui-btn:active {
+.xui-btn:active,
+.xui-btn-large:active,
+.xui-btn-small:active {
   border-color: var(--blue-pressed);
   color: var(--blue-pressed);
 }
