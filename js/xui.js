@@ -36,7 +36,7 @@ document.addEventListener("click", (e) => {
         const xuiDashboard = document.querySelector(".xui-dashboard");
         const xuiDashboardAnimate = document.querySelector(".xui-dashboard.animate");
         const xuiNavbarLinksUrl = document.querySelectorAll(".xui-navbar .links a");
-        if(e.target === xuiNavbarMenu){
+        if(e.target.closest(".xui-navbar .menu")){
             if(e.target && e.target.classList.contains('animate')){
                 if(xuiDashboard){
                     xuiDashboard.classList.remove("animate");

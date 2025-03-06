@@ -6,6 +6,7 @@
 /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
 
 :root {
+  --black: #000000;
   --blue: #2852DC;
   --blue-pressed: #2852DC;
   --red: #E60626;
@@ -1437,7 +1438,7 @@ img {
   justify-content: center;
 }
 
-.xui-navbar .links ul li a {
+.xui-navbar .links .main ul li a {
   padding: 10px 10px;
   text-decoration: none;
 }
@@ -1557,12 +1558,16 @@ img {
 }
 
 .xui-navbar .links[placed="center"] .main ul li,
-.xui-navbar .links[placed="center"] .main ul li a {
+.xui-navbar .links[placed="center"] .main ul li a,
+.xui-navbar .links[xui-position="center"] .main ul li,
+.xui-navbar .links[xui-position="center"] .main ul li a {
   text-align: center;
 }
 
 .xui-navbar .links[placed="right"] .main ul li,
-.xui-navbar .links[placed="right"] .main ul li a {
+.xui-navbar .links[placed="right"] .main ul li a,
+.xui-navbar .links[xui-position="right"] .main ul li,
+.xui-navbar .links[xui-position="right"] .main ul li a {
   text-align: right;
 }
 
@@ -1590,7 +1595,8 @@ img {
 }
 
 /* Navbar Layout */
-.xui-navbar[layout="2"] .links {
+.xui-navbar[layout="2"] .links,
+.xui-navbar[xui-style="2"] .links {
   justify-content: space-between;
 }
 
@@ -1864,7 +1870,6 @@ img {
 
 
 /*Buttons*/
-
 .xui-btn-small,
 .xui-btn,
 .xui-btn-large {
@@ -1896,7 +1901,7 @@ img {
 
 /* Default Button */
 .xui-btn {
-  font-size: 16px;
+  font-size: 14px;
   border: 1px solid var(--default-border);
   color: var(--text-opacitated);
   padding: 10.4px 32px;
@@ -26508,8 +26513,9 @@ select:-webkit-autofill:focus {
     width: 100%;
     position: absolute;
     top: -1000%;
-    transition: .1s;
+    transition: .12s;
     left: 0;
+    background-color: rgba(0, 0, 0, .04);
   }
 
   .xui-navbar .links .main.animate {
@@ -26533,12 +26539,12 @@ select:-webkit-autofill:focus {
     height: initial;
   }
 
-  .xui-navbar .links ul li a {
+  .xui-navbar .links .main ul li a {
     padding: 15px 10px;
     text-decoration: none;
   }
 
-  .xui-navbar .links ul li .dropdown {
+  .xui-navbar .links .main ul li .dropdown {
     padding: 15px 15px;
     width: 100%;
     position: relative;
@@ -26566,46 +26572,58 @@ select:-webkit-autofill:focus {
   }
 
   .xui-navbar .menu {
-    width: 40px;
-    height: 28px;
+    width: 52px;
+    height: 52px;
+    background-color: rgba(0, 0, 0, .08);
+    border-radius: 12px;
+    cursor: pointer;
     position: relative;
-    z-index: 2;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    grid-gap: 5.2px;
   }
   
   .xui-navbar .menu span {
-    width: 100%;
-    height: 2px;
-    background-color: #000000;
-    transition: .1s;
+    width: 24px;
+    height: 1.6px;
+    background-color: var(--black);
+    transition: .12s;
+    position: relative;
   }
   
   /* Navbar Menu 2 */
-  .xui-navbar[menu="2"] .menu {
-    width: 35px;
-    height: 30px;
-    justify-content: flex-end;
+  .xui-navbar[menu="2"] .menu,
+  .xui-navbar[xui-menu="2"] .menu {
+    
   }
   
-  .xui-navbar[menu="2"] .menu span:nth-child(2) {
+  .xui-navbar[menu="2"] .menu span:nth-child(2),
+  .xui-navbar[xui-menu="2"] .menu span:nth-child(2) {
     display: none;
   }
   
-  .xui-navbar[menu="2"] .menu span:nth-child(3) {
-    width: 60%;
+  .xui-navbar[menu="2"] .menu span:nth-child(3),
+  .xui-navbar[xui-menu="2"] .menu span:nth-child(3) {
+    width: 16px;
+    left: -4px;
+  }
+
+  .xui-navbar[menu="2"] .menu span:nth-child(3),
+  .xui-navbar[xui-menu="2"] .menu.animate span:nth-child(3) {
+    width: 20px;
   }
   
   .xui-navbar .menu.animate span {
     transform: translate(-50%, -50%);
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 50% !important;
+    left: 50% !important;
+    width: 20px;
   }
   
   .xui-navbar .menu.animate span:nth-child(1) {
     transform: translate(-50%, -50%) rotate(45deg);
-    width: 100%;
   }
   
   .xui-navbar .menu.animate span:nth-child(2) {
@@ -26614,7 +26632,6 @@ select:-webkit-autofill:focus {
   
   .xui-navbar .menu.animate span:nth-child(3) {
     transform: translate(-50%, -50%) rotate(-45deg);
-    width: 100%;
   }
 
   /* Navbar Customizations */
@@ -26636,15 +26653,18 @@ select:-webkit-autofill:focus {
   }
 
   /* Navbar Layout */
-  .xui-navbar[layout="2"] .links {
+  .xui-navbar[layout="2"] .links,
+  .xui-navbar[xui-style="2"] .links {
     justify-content: flex-end !important;
   }
 
-  .xui-navbar[layout="2"] .links[placed="right"] {
+  .xui-navbar[layout="2"] .links[placed="right"],
+  .xui-navbar[xui-style="2"] .links[placed="right"] {
     flex-direction: row;
   }
 
-  .xui-navbar[menu="2"] .links .main {
+  .xui-navbar[layout="2"] .links .main,
+  .xui-navbar[xui-style="2"] .links .main {
     padding-top: 75px;
     padding-left: 20px;
     padding-right: 20px;
@@ -26657,19 +26677,30 @@ select:-webkit-autofill:focus {
     left: 100%;
   }
 
-  .xui-navbar[menu="2"] .links .main.animate {
+  .xui-navbar[layout="2"] .links .main.animate,
+  .xui-navbar[xui-style="2"] .links .main.animate {
     left: 0;
   }
 
-  .xui-navbar[menu="2"] .menu.animate {
-    top: 30px;
+  .xui-navbar[layout="2"] .menu.animate,
+  .xui-navbar[xui-style="2"] .menu.animate {
+    top: 20px;
     right: 20px;
   }
 
-  .xui-navbar[menu="2"] .links .main,
-  .xui-navbar[menu="2"] .menu.animate {
+  .xui-navbar[layout="2"] .links .main,
+  .xui-navbar[layout="2"] .menu.animate,
+  .xui-navbar[xui-style="2"] .links .main,
+  .xui-navbar[xui-style="2"] .menu.animate {
     z-index: 10;
     position: fixed;
+  }
+
+  .xui-navbar[layout="2"] .links .fixed ,
+  .xui-navbar[xui-style="2"] .links .fixed {
+    z-index: 10;
+    position: fixed;
+    margin-right: 60px;
   }
 
 }
@@ -26748,12 +26779,14 @@ select:-webkit-autofill:focus {
 }
 
 @media screen and (min-width: 820px) and (max-width: 1024px){
-  .xui-navbar[menu="2"] .links .main {
+  .xui-navbar[menu="2"] .links .main,
+  .xui-navbar[xui-menu="2"] .links .main {
     padding-left: 40px;
     padding-right: 40px;
   }
 
-  .xui-navbar[menu="2"] .menu.animate {
+  .xui-navbar[menu="2"] .menu.animate,
+  .xui-navbar[xui-menu="2"] .menu.animate {
     top: 40px;
     right: 40px;
   }
@@ -26761,7 +26794,9 @@ select:-webkit-autofill:focus {
 
 @media screen and (min-width: 1025px){
   .xui-navbar[layout="1"] .links .main,
-  .xui-navbar[layout="2"] .links .main {
+  .xui-navbar[layout="2"] .links .main,
+  .xui-navbar[xui-layout="1"] .links .main,
+  .xui-navbar[xui-style="2"] .links .main {
     background-color: transparent;
   }
 }
