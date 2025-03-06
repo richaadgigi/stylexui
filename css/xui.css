@@ -26593,11 +26593,6 @@ select:-webkit-autofill:focus {
   }
   
   /* Navbar Menu 2 */
-  .xui-navbar[menu="2"] .menu,
-  .xui-navbar[xui-menu="2"] .menu {
-    
-  }
-  
   .xui-navbar[menu="2"] .menu span:nth-child(2),
   .xui-navbar[xui-menu="2"] .menu span:nth-child(2) {
     display: none;
