@@ -3726,12 +3726,12 @@ select:-webkit-autofill:focus {
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
   z-index: 10;
-  text-align: left; /* Align text to the left */
-  line-height: 1.5; /* Improve readability for multi-line text */
+  text-align: left;
+  line-height: 1.5;
   box-shadow: 
-    0px 9px 20px 8px #0000000D, /* First shadow */
-    0px 3px 6px -4px #0000001F, /* Second shadow */
-    0px 6px 16px 0px #00000014; /* Third shadow */
+    0px 9px 20px 8px #0000000D,
+    0px 3px 6px -4px #0000001F,
+    0px 6px 16px 0px #00000014;
 }
 
 
