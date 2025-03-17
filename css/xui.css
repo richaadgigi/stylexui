@@ -3739,7 +3739,228 @@ select:-webkit-autofill:focus {
 }
 
 
+/*Pop Over Tooltips*/
+.xui-pop-over {
+  position: relative;
+  display: inline-block;
+}
 
+.xui-pop-over::before {
+  content: attr(pop-over-content);
+  position: absolute;
+  background-color: white;
+  color: #000;
+  padding: 12px;
+  border-radius: .5rem;
+  max-width: 265px;
+  width: max-content;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 10;
+  text-align: left;
+  line-height: 1.5;
+  box-shadow: 
+    0px 9px 20px 8px #0000000D,
+    0px 3px 6px -4px #0000001F,
+    0px 6px 16px 0px #00000014;
+}
+
+
+/* Tooltip Arrow */
+.xui-pop-over::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 12px solid transparent;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 10;
+}
+
+/* Tooltip Position: Top */
+.xui-pop-over[pop-over-position="top"]::before {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 6px; 
+}
+
+.xui-pop-over[pop-over-position="top"]::after {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top-color: white; 
+  border-bottom: none;
+}
+
+/* Tooltip Position: Bottom */
+.xui-pop-over[pop-over-position="bottom"]::before {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 6px; 
+}
+
+.xui-pop-over[pop-over-position="bottom"]::after {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-bottom-color: white; 
+  border-top: none;
+}
+
+/* Tooltip Position: Left */
+.xui-pop-over[pop-over-position="left"]::before {
+  top: 50%;
+  right: 100%;
+  transform: translateY(-50%);
+  margin-right: 6px; 
+}
+
+.xui-pop-over[pop-over-position="left"]::after {
+  top: 50%;
+  right: 100%;
+  transform: translateY(-50%);
+  border-left-color: white; 
+  border-right: none;
+}
+
+/* Tooltip Position: Right */
+.xui-pop-over[pop-over-position="right"]::before {
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  margin-left: 6px; 
+}
+
+.xui-pop-over[pop-over-position="right"]::after {
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  border-right-color: white; 
+  border-left: none;
+}
+
+/* Tooltip Position: Top Left */
+.xui-pop-over[pop-over-position="top-left"]::before {
+  bottom: 100%;
+  left: 0;
+  margin-bottom: 6px; 
+}
+
+.xui-pop-over[pop-over-position="top-left"]::after {
+  bottom: 100%;
+  left: 250px; 
+  border-top-color: white; 
+  border-bottom: none;
+}
+
+/* Tooltip Position: Top Right */
+.xui-pop-over[pop-over-position="top-right"]::before {
+  bottom: 100%;
+  right: 0;
+  margin-bottom: 6px; 
+}
+
+.xui-pop-over[pop-over-position="top-right"]::after {
+  bottom: 100%;
+  right: 250px; 
+  border-top-color: white; 
+  border-bottom: none;
+}
+
+/* Tooltip Position: Bottom Left */
+.xui-pop-over[pop-over-position="bottom-left"]::before {
+  top: 100%;
+  left: 0;
+  margin-top: 6px; 
+}
+
+.xui-pop-over[pop-over-position="bottom-left"]::after {
+  top: 100%;
+  left: 250px; 
+  border-bottom-color: white; 
+  border-top: none;
+}
+
+/* Tooltip Position: Bottom Right */
+.xui-pop-over[pop-over-position="bottom-right"]::before {
+  top: 100%;
+  right: 0;
+  margin-top: 6px; 
+}
+
+.xui-pop-over[pop-over-position="bottom-right"]::after {
+  top: 100%;
+  right: 250px; 
+  border-bottom-color: white; 
+  border-top: none;
+}
+
+/* Tooltip Position: Right Top */
+.xui-pop-over[pop-over-position="right-top"]::before {
+  top: 0;
+  left: 100%;
+  margin-left: 6px; 
+}
+
+.xui-pop-over[pop-over-position="right-top"]::after {
+  top: 10px; 
+  left: 100%;
+  border-right-color: white; 
+  border-left: none;
+}
+
+/* Tooltip Position: Left Top */
+.xui-pop-over[pop-over-position="left-top"]::before {
+  top: 0;
+  right: 100%;
+  margin-right: 6px; 
+}
+
+.xui-pop-over[pop-over-position="left-top"]::after {
+  top: 40px; 
+  right: 100%;
+  border-left-color: white; 
+  border-right: none;
+}
+
+/* Tooltip Position: Right Bottom */
+.xui-pop-over[pop-over-position="right-bottom"]::before {
+  bottom: 0;
+  left: 100%;
+  margin-left: 6px; 
+}
+
+.xui-pop-over[pop-over-position="right-bottom"]::after {
+  bottom: 10px; 
+  left: 100%;
+  border-right-color: white; 
+  border-left: none;
+}
+
+/* Tooltip Position: Left Bottom */
+.xui-pop-over[pop-over-position="left-bottom"]::before {
+  bottom: 0;
+  right: 100%;
+  margin-right: 6px; 
+}
+
+.xui-pop-over[pop-over-position="left-bottom"]::after {
+  bottom: 40px; 
+  right: 100%;
+  border-left-color: white; 
+  border-right: none;
+}
+
+.xui-pop-over:hover::before,
+.xui-pop-over:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
 
 
 /*Tables*/
