@@ -1532,7 +1532,7 @@ img {
   display: block;
 }
 
-.xui-navbar .links ul li.dropdown-menu[xui-pop-over="false"]::before {
+.xui-navbar .links ul li.dropdown-menu[tooltip="false"]::before {
   display: none;
 }
 
@@ -3707,13 +3707,12 @@ select:-webkit-autofill:focus {
 }
 
 
-/*xui-pop-overs*/
+/*Pop Over Tooltips*/
 .xui-pop-over {
   position: relative;
   display: inline-block;
 }
 
-/* xui-pop-over Text */
 .xui-pop-over::before {
   content: attr(pop-over-content);
   position: absolute;
@@ -3727,29 +3726,29 @@ select:-webkit-autofill:focus {
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
   z-index: 10;
-  text-align: left;
-  line-height: 1.5;
+  text-align: left; /* Align text to the left */
+  line-height: 1.5; /* Improve readability for multi-line text */
   box-shadow: 
-    0px 9px 20px 8px #0000000D,
-    0px 3px 6px -4px #0000001F,
-    0px 6px 16px 0px #00000014;
+    0px 9px 20px 8px #0000000D, /* First shadow */
+    0px 3px 6px -4px #0000001F, /* Second shadow */
+    0px 6px 16px 0px #00000014; /* Third shadow */
 }
 
 
-/* xui-pop-over Arrow */
+/* Tooltip Arrow */
 .xui-pop-over::after {
   content: '';
   position: absolute;
   width: 0;
   height: 0;
-  border: 12px solid transparent; /* Increased from 6px to 10px */
+  border: 12px solid transparent;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
   z-index: 10;
 }
 
-/* xui-pop-over Position: Top */
+/* Tooltip Position: Top */
 .xui-pop-over[pop-over-position="top"]::before {
   bottom: 100%;
   left: 50%;
@@ -3765,7 +3764,7 @@ select:-webkit-autofill:focus {
   border-bottom: none;
 }
 
-/* xui-pop-over Position: Bottom */
+/* Tooltip Position: Bottom */
 .xui-pop-over[pop-over-position="bottom"]::before {
   top: 100%;
   left: 50%;
@@ -3781,7 +3780,7 @@ select:-webkit-autofill:focus {
   border-top: none;
 }
 
-/* xui-pop-over Position: Left */
+/* Tooltip Position: Left */
 .xui-pop-over[pop-over-position="left"]::before {
   top: 50%;
   right: 100%;
@@ -3797,7 +3796,7 @@ select:-webkit-autofill:focus {
   border-right: none;
 }
 
-/* xui-pop-over Position: Right */
+/* Tooltip Position: Right */
 .xui-pop-over[pop-over-position="right"]::before {
   top: 50%;
   left: 100%;
@@ -3813,7 +3812,7 @@ select:-webkit-autofill:focus {
   border-left: none;
 }
 
-/* xui-pop-over Position: Top Left */
+/* Tooltip Position: Top Left */
 .xui-pop-over[pop-over-position="top-left"]::before {
   bottom: 100%;
   left: 0;
@@ -3827,7 +3826,7 @@ select:-webkit-autofill:focus {
   border-bottom: none;
 }
 
-/* xui-pop-over Position: Top Right */
+/* Tooltip Position: Top Right */
 .xui-pop-over[pop-over-position="top-right"]::before {
   bottom: 100%;
   right: 0;
@@ -3841,7 +3840,7 @@ select:-webkit-autofill:focus {
   border-bottom: none;
 }
 
-/* xui-pop-over Position: Bottom Left */
+/* Tooltip Position: Bottom Left */
 .xui-pop-over[pop-over-position="bottom-left"]::before {
   top: 100%;
   left: 0;
@@ -3855,7 +3854,7 @@ select:-webkit-autofill:focus {
   border-top: none;
 }
 
-/* xui-pop-over Position: Bottom Right */
+/* Tooltip Position: Bottom Right */
 .xui-pop-over[pop-over-position="bottom-right"]::before {
   top: 100%;
   right: 0;
@@ -3869,7 +3868,7 @@ select:-webkit-autofill:focus {
   border-top: none;
 }
 
-/* xui-pop-over Position: Right Top */
+/* Tooltip Position: Right Top */
 .xui-pop-over[pop-over-position="right-top"]::before {
   top: 0;
   left: 100%;
@@ -3883,7 +3882,7 @@ select:-webkit-autofill:focus {
   border-left: none;
 }
 
-/* xui-pop-over Position: Left Top */
+/* Tooltip Position: Left Top */
 .xui-pop-over[pop-over-position="left-top"]::before {
   top: 0;
   right: 100%;
@@ -3897,7 +3896,7 @@ select:-webkit-autofill:focus {
   border-right: none;
 }
 
-/* xui-pop-over Position: Right Bottom */
+/* Tooltip Position: Right Bottom */
 .xui-pop-over[pop-over-position="right-bottom"]::before {
   bottom: 0;
   left: 100%;
@@ -3911,7 +3910,7 @@ select:-webkit-autofill:focus {
   border-left: none;
 }
 
-/* xui-pop-over Position: Left Bottom */
+/* Tooltip Position: Left Bottom */
 .xui-pop-over[pop-over-position="left-bottom"]::before {
   bottom: 0;
   right: 100%;
@@ -3925,6 +3924,7 @@ select:-webkit-autofill:focus {
   border-right: none;
 }
 
+/* Show Tooltip on Hover */
 .xui-pop-over:hover::before,
 .xui-pop-over:hover::after {
   opacity: 1;
