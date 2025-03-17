@@ -3718,7 +3718,7 @@ select:-webkit-autofill:focus {
   content: attr(pop-over-content);
   position: absolute;
   background-color: white;
-  color: #333;
+  color: #000;
   padding: 12px;
   border-radius: .5rem;
   max-width: 265px;
