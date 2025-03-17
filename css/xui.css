@@ -3924,7 +3924,6 @@ select:-webkit-autofill:focus {
   border-right: none;
 }
 
-/* Show Tooltip on Hover */
 .xui-pop-over:hover::before,
 .xui-pop-over:hover::after {
   opacity: 1;
