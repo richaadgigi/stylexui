@@ -86,61 +86,81 @@ document.addEventListener("click", (e) => {
     // Functionalities for modal goes here
     const modals = document.querySelectorAll('[xui-modal]');
     const currentModal = e.target.getAttribute('xui-modal');
-    if(e.target.hasAttribute("xui-modal")){
-        for(let i = 0; i < modals.length; i++){
+
+    if (e.target.hasAttribute("xui-modal")) {
+        for (let i = 0; i < modals.length; i++) {
             let modalName = modals[i];
-            if(!modalName.hasAttribute('disable-click-on-outside')){
-                if(currentModal == modalName.getAttribute('xui-modal')){
-                    if (modalName.hasAttribute('display')) {
+            if (!modalName.hasAttribute('disable-click-on-outside')) {
+                if (currentModal === modalName.getAttribute('xui-modal')) {
+                    if (modalName.hasAttribute('xui-set')) {
+                        modalName.removeAttribute("xui-set");
+                        void modalName.offsetWidth;
+                        modalName.setAttribute("xui-set", false);
+                    } else if (modalName.hasAttribute('display')) {
                         modalName.removeAttribute("display");
                         void modalName.offsetWidth;
                         modalName.setAttribute("display", false);
                     }
                 }
             }
-            let xuiBody = document.querySelector('body');
-            if (xuiBody !== null) {
-                xuiBody.style.overflow = "auto";
-            }
+        }
+        let xuiBody = document.querySelector('body');
+        if (xuiBody !== null) {
+            xuiBody.style.overflow = "auto";
         }
     }
+
     const target = e.target;
     let modalOpen = target.getAttribute("xui-modal-open");
     let modalClose = target.getAttribute("xui-modal-close");
-    if(!modalOpen){
+
+    // Find modalOpen if not directly on target
+    if (!modalOpen) {
         const parentNode = findElementWithAttribute(target, "xui-modal-open");
-        if(parentNode){
-            if(parentNode.getAttribute){
-                modalOpen = parentNode.getAttribute("xui-modal-open");
-            }
+        if (parentNode) {
+            modalOpen = parentNode.getAttribute("xui-modal-open");
         }
     }
-    if(!modalClose){
+
+    // Find modalClose if not directly on target
+    if (!modalClose) {
         const parentNode = findElementWithAttribute(target, "xui-modal-close");
-        if(parentNode){
-            if(parentNode.getAttribute){
-                modalClose = parentNode.getAttribute("xui-modal-close");
-            }
+        if (parentNode) {
+            modalClose = parentNode.getAttribute("xui-modal-close");
         }
     }
+
     if (modalOpen !== null) {
         let xuiModalOpen = document.querySelector('[xui-modal="' + modalOpen + '"]');
         if (xuiModalOpen !== null) {
-            xuiModalOpen.removeAttribute("display");
-            void xuiModalOpen.offsetWidth;
-            xuiModalOpen.setAttribute("display", true);
+            if (xuiModalOpen.hasAttribute("xui-set")) {
+                xuiModalOpen.removeAttribute("xui-set");
+                void xuiModalOpen.offsetWidth;
+                xuiModalOpen.setAttribute("xui-set", true);
+            } else {
+                xuiModalOpen.removeAttribute("display");
+                void xuiModalOpen.offsetWidth;
+                xuiModalOpen.setAttribute("display", true);
+            }
         }
         let xuiBody = document.querySelector('body');
         if (xuiBody !== null) {
             xuiBody.style.overflow = "hidden";
         }
     }
+
     if (modalClose !== null) {
         let xuiModalClose = document.querySelector('[xui-modal="' + modalClose + '"]');
         if (xuiModalClose !== null) {
-            xuiModalClose.removeAttribute("display");
-            void xuiModalClose.offsetWidth;
-            xuiModalClose.setAttribute("display", false);
+            if (xuiModalClose.hasAttribute("xui-set")) {
+                xuiModalClose.removeAttribute("xui-set");
+                void xuiModalClose.offsetWidth;
+                xuiModalClose.setAttribute("xui-set", false);
+            } else {
+                xuiModalClose.removeAttribute("display");
+                void xuiModalClose.offsetWidth;
+                xuiModalClose.setAttribute("display", false);
+            }
         }
         let xuiBody = document.querySelector('body');
         if (xuiBody !== null) {
@@ -262,114 +282,80 @@ function xuiHideSkeleton(ele){
         }
     }, 2500);
 };
-function xuiModal(){
+function xuiModal() {
     let modals = document.querySelectorAll('[xui-modal]');
-    setInterval(() => {
-        for (var i = 0; i < modals.length; i++) {
-            let display = modals[i].style.transform;
-            if (display === "scale(1)") {
-                let xuiBody = document.querySelector('body');
-                if (xuiBody !== null) {
-                    xuiBody.style.overflow = "hidden";
-                }
-            }
-            else {
-                let xuiBody = document.querySelector('body');
-                if (xuiBody !== null) {
-                    xuiBody.style.overflow = "auto";
-                }
-            }
-        }
-    }, 2000);
-    function getParents(el, parentSelector /* optional */) {
 
-        // If no parentSelector defined will bubble up all the way to *document*
-        if (parentSelector === undefined) {
-            parentSelector = document;
-        }
-    
-        var parents = [];
-        var p = el.parentNode;
-        
-        while (p !== parentSelector) {
-            var o = p;
-            parents.push(o);
-            p = o.parentNode;
-        }
-        parents.push(parentSelector); // Push that parentSelector you wanted to stop at
-        
-        return parents;
-    }
     setInterval(() => {
-        for (var i = 0; i < modals.length; i++) {
-            let display = modals[i].style.transform;
-            if (display === "scale(1)") {
-                let xuiBody = document.querySelector('body');
-                if (xuiBody !== null) {
-                    xuiBody.style.overflow = "hidden";
-                }
-            }
-            else {
-                let xuiBody = document.querySelector('body');
-                if (xuiBody !== null) {
-                    xuiBody.style.overflow = "auto";
-                }
+        for (let i = 0; i < modals.length; i++) {
+            let modal = modals[i];
+            let isPresent = modal.hasAttribute("xui-present") || modal.hasAttribute("display");
+
+            let xuiBody = document.querySelector('body');
+            if (xuiBody !== null) {
+                // xuiBody.style.overflow = isPresent ? "hidden" : "auto";
             }
         }
     }, 2000);
+
     document.onclick = function (e) {
         const currentModal = e.target.getAttribute('xui-modal');
-        if(e.target.hasAttribute("xui-modal")){
-            for(let i = 0; i < modals.length; i++){
-                let modalName = modals[i];
-                if(!modalName.hasAttribute('disable-click-on-outside')){
-                    if(currentModal == modalName.getAttribute('xui-modal')){
-                        if (modalName.hasAttribute('open')) {
-                            modalName.removeAttribute("open");
-                            void modalName.offsetWidth;
-                            modalName.setAttribute("open", false);
+        if (e.target.hasAttribute("xui-modal")) {
+            for (let i = 0; i < modals.length; i++) {
+                let modal = modals[i];
+                if (!modal.hasAttribute('disable-click-on-outside')) {
+                    if (currentModal == modal.getAttribute('xui-modal')) {
+                        if (modal.hasAttribute('display') || modal.hasAttribute('xui-present')) {
+                            modal.removeAttribute("display");
+                            modal.removeAttribute("xui-present");
+                            void modal.offsetWidth;
+                            modal.setAttribute("display", false);
+                            modal.setAttribute("xui-present", false);
                         }
                     }
                 }
             }
         }
+
         const target = e.target;
         let modalOpen = target.getAttribute("xui-modal-open");
         let modalClose = target.getAttribute("xui-modal-close");
-        if(!modalOpen){
+
+        if (!modalOpen) {
             const parentNode = target.parentNode;
-            if(parentNode){
-                if(parentNode.getAttribute){
-                    modalOpen = parentNode.getAttribute("xui-modal-open");
-                }
+            if (parentNode && parentNode.getAttribute) {
+                modalOpen = parentNode.getAttribute("xui-modal-open");
             }
         }
-        if(!modalClose){
+        if (!modalClose) {
             const parentNode = target.parentNode;
-            if(parentNode){
-                if(parentNode.getAttribute){
-                    modalClose = parentNode.getAttribute("xui-modal-close");
-                }
+            if (parentNode && parentNode.getAttribute) {
+                modalClose = parentNode.getAttribute("xui-modal-close");
             }
         }
+
         if (modalOpen !== null) {
             let xuiModalOpen = document.querySelector('[xui-modal="' + modalOpen + '"]');
             if (xuiModalOpen !== null) {
-                xuiModalOpen.removeAttribute("open");
+                xuiModalOpen.removeAttribute("display");
+                xuiModalOpen.removeAttribute("xui-present");
                 void xuiModalOpen.offsetWidth;
-                xuiModalOpen.setAttribute("open", true);
+                xuiModalOpen.setAttribute("display", true);
+                xuiModalOpen.setAttribute("xui-present", true);
             }
             let xuiBody = document.querySelector('body');
             if (xuiBody !== null) {
                 xuiBody.style.overflow = "hidden";
             }
         }
+
         if (modalClose !== null) {
             let xuiModalClose = document.querySelector('[xui-modal="' + modalClose + '"]');
             if (xuiModalClose !== null) {
-                xuiModalClose.removeAttribute("open");
+                xuiModalClose.removeAttribute("display");
+                xuiModalClose.removeAttribute("xui-present");
                 void xuiModalClose.offsetWidth;
-                xuiModalClose.setAttribute("open", false);
+                xuiModalClose.setAttribute("display", false);
+                xuiModalClose.setAttribute("xui-present", false);
             }
             let xuiBody = document.querySelector('body');
             if (xuiBody !== null) {
@@ -377,13 +363,9 @@ function xuiModal(){
             }
         }
     };
-};
+}
 function isHidden(el){
-    if (typeof window !== "undefined") {
-        // Client-side-only code
-        var style = window.getComputedStyle(el);
-        return (style.display === 'none');
-    }
+    return !el || el.style.display === "none" || el.offsetParent === null;
 };
 function xuiAccordion(){
     let accordionHeaders = document.querySelectorAll('.xui-accordion-box .xui-accordion-header');
@@ -1001,20 +983,60 @@ function xuiScrollOnAnimation(){
         }
     }
 };
-function xuiModalShow(name){
+function xuiModalShow(name) {
     let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
     if (modalName !== null) {
-        modalName.removeAttribute("display");
-        void modalName.offsetWidth;
-        modalName.setAttribute("display", true);
+        if (modalName.hasAttribute("xui-present")) {
+            modalName.removeAttribute("xui-present");
+            void modalName.offsetWidth;
+            modalName.setAttribute("xui-present", true);
+        } else {
+            modalName.removeAttribute("display");
+            void modalName.offsetWidth;
+            modalName.setAttribute("display", true);
+        }
     }
 }
-function xuiModalHide(name){
+function xuiModalHide(name) {
     let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
     if (modalName !== null) {
-        modalName.removeAttribute("display");
-        void modalName.offsetWidth;
-        modalName.setAttribute("display", false);
+        if (modalName.hasAttribute("xui-present")) {
+            modalName.removeAttribute("xui-present");
+            void modalName.offsetWidth;
+            modalName.setAttribute("xui-present", false);
+        } else {
+            modalName.removeAttribute("display");
+            void modalName.offsetWidth;
+            modalName.setAttribute("display", false);
+        }
+    }
+}
+function xuiModalOpen(name) {
+    let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
+    if (modalName !== null) {
+        if (modalName.hasAttribute("xui-present")) {
+            modalName.removeAttribute("xui-present");
+            void modalName.offsetWidth;
+            modalName.setAttribute("xui-present", true);
+        } else {
+            modalName.removeAttribute("display");
+            void modalName.offsetWidth;
+            modalName.setAttribute("display", true);
+        }
+    }
+}
+function xuiModalClose(name) {
+    let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
+    if (modalName !== null) {
+        if (modalName.hasAttribute("xui-present")) {
+            modalName.removeAttribute("xui-present");
+            void modalName.offsetWidth;
+            modalName.setAttribute("xui-present", false);
+        } else {
+            modalName.removeAttribute("display");
+            void modalName.offsetWidth;
+            modalName.setAttribute("display", false);
+        }
     }
 }
 if (typeof window !== "undefined") {
@@ -1077,6 +1099,7 @@ const xuiDynamicCSS = () => {
       "xui-h": "height",
       "xui-line-height": "line-height",
       "xui-letter-spacing": "letter-spacing",
+      "xui-grid-gap": "grid-gap"
     };
   
     // Map responsive prefixes to media queries
@@ -1242,5 +1265,3 @@ function autoRun(){
         }
     }
 };
-// Always Run THIS
-autoRun();
