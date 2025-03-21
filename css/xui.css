@@ -11,7 +11,8 @@
   --blue: #2852DC;
   --blue-pressed: #2852DC;
   --primary-pressed: #0958D9;
-  --opacitated-pressed: rgba(0, 0, 0, .15);;
+  --opacitated-pressed: rgba(0, 0, 0, .15);
+  --th-opacitated: #535862;
   --blue-link: #1677FF;
   --red: #E60626;
   --green: #153b12;
@@ -3970,6 +3971,7 @@ select:-webkit-autofill:focus {
 /*Tables*/
 .xui-table-responsive {
   overflow-x: auto;
+
 }
 
 .xui-table {
@@ -3981,8 +3983,11 @@ select:-webkit-autofill:focus {
 .xui-table tr {
   padding: .5rem 0;
 }
-.xui-table tr:nth-child(even) {
-  background-color: rgba(0, 0, 0, .02);
+.xui-table tbody tr:nth-child(odd) {
+  background-color: #FAFAFA;
+}
+.xui-table tr {
+  border-bottom: 1px solid var(--default-border);
 }
 
 .xui-table tr th,
@@ -3992,15 +3997,17 @@ select:-webkit-autofill:focus {
 }
 
 .xui-table tr th {
-  background-color: #F2F2F2;
-  font-size: 14px;
-  padding-top: 16px;
-  padding-bottom: 16px;
+  background-color: transparent;
+  font-size: 12px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: var(--th-opacitated);
+  font-weight: 500;
 }
 
 .xui-table tr td {
   font-size: 13.2px;
-  color: rgba(0, 0, 0, .72);
+  color: var(--th-opacitated);
 }
 
 .xui-table tr th,
@@ -4017,7 +4024,9 @@ select:-webkit-autofill:focus {
   background-color: transparent;
 }
 
-
+.xui-table[xui-style="2"] tr th {
+  background-color: #FAFAFA;
+}
 
 
 /* Badges */
