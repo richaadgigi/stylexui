@@ -93,9 +93,9 @@ document.addEventListener("click", (e) => {
             if (!modalName.hasAttribute('disable-click-on-outside')) {
                 if (currentModal === modalName.getAttribute('xui-modal')) {
                     if (modalName.hasAttribute('xui-set')) {
-                        modalName.removeAttribute("xui-set");
+                        modalName.removeAttribute("xui-present");
                         void modalName.offsetWidth;
-                        modalName.setAttribute("xui-set", false);
+                        modalName.setAttribute("xui-present", false);
                     } else if (modalName.hasAttribute('display')) {
                         modalName.removeAttribute("display");
                         void modalName.offsetWidth;
@@ -133,10 +133,10 @@ document.addEventListener("click", (e) => {
     if (modalOpen !== null) {
         let xuiModalOpen = document.querySelector('[xui-modal="' + modalOpen + '"]');
         if (xuiModalOpen !== null) {
-            if (xuiModalOpen.hasAttribute("xui-set")) {
-                xuiModalOpen.removeAttribute("xui-set");
+            if (xuiModalOpen.hasAttribute("xui-present")) {
+                xuiModalOpen.removeAttribute("xui-present");
                 void xuiModalOpen.offsetWidth;
-                xuiModalOpen.setAttribute("xui-set", true);
+                xuiModalOpen.setAttribute("xui-present", true);
             } else {
                 xuiModalOpen.removeAttribute("display");
                 void xuiModalOpen.offsetWidth;
@@ -152,10 +152,10 @@ document.addEventListener("click", (e) => {
     if (modalClose !== null) {
         let xuiModalClose = document.querySelector('[xui-modal="' + modalClose + '"]');
         if (xuiModalClose !== null) {
-            if (xuiModalClose.hasAttribute("xui-set")) {
-                xuiModalClose.removeAttribute("xui-set");
+            if (xuiModalClose.hasAttribute("xui-present")) {
+                xuiModalClose.removeAttribute("xui-present");
                 void xuiModalClose.offsetWidth;
-                xuiModalClose.setAttribute("xui-set", false);
+                xuiModalClose.setAttribute("xui-present", false);
             } else {
                 xuiModalClose.removeAttribute("display");
                 void xuiModalClose.offsetWidth;
@@ -1066,124 +1066,123 @@ if (typeof window !== "undefined") {
 }
 // This function ensures you can add your own unit instead of a fixed unit
 const xuiDynamicCSS = () => {
-    // Map dynamic class prefixes to CSS properties
     const propertyMap = {
-      "xui-column-count": "column-count",
-      "xui-column-count-gap": "column-gap",
-      "xui-m": "margin",
-      "xui-mt": "margin-top",
-      "xui-mr": "margin-right",
-      "xui-mb": "margin-bottom",
-      "xui-ml": "margin-left",
-      "xui-mx": ["margin-left", "margin-right"],
-      "xui-my": ["margin-top", "margin-bottom"],
-      "xui-p": "padding",
-      "xui-pt": "padding-top",
-      "xui-pr": "padding-right",
-      "xui-pb": "padding-bottom",
-      "xui-pl": "padding-left",
-      "xui-px": ["padding-left", "padding-right"],
-      "xui-py": ["padding-top", "padding-bottom"],
-      "xui-space": "letter-spacing",
-      "xui-bdr-rad": "border-radius",
-      "xui-bdr-w": "border-width",
-      "xui-z-index": "z-index",
-      "xui-min-w": "min-width",
-      "xui-min-h": "min-height",
-      "xui-max-w": "max-width",
-      "xui-max-h": "max-height",
-      "xui-font-w": "font-weight",
-      "xui-font-sz": "font-size",
-      "xui-opacity": "opacity",
-      "xui-w": "width",
-      "xui-h": "height",
-      "xui-line-height": "line-height",
-      "xui-letter-spacing": "letter-spacing",
-      "xui-grid-gap": "grid-gap"
+        "xui-bg": "background-image",
+        "xui-column-count": "column-count",
+        "xui-column-count-gap": "column-gap",
+        "xui-m": "margin",
+        "xui-mt": "margin-top",
+        "xui-mr": "margin-right",
+        "xui-mb": "margin-bottom",
+        "xui-ml": "margin-left",
+        "xui-mx": ["margin-left", "margin-right"],
+        "xui-my": ["margin-top", "margin-bottom"],
+        "xui-p": "padding",
+        "xui-pt": "padding-top",
+        "xui-pr": "padding-right",
+        "xui-pb": "padding-bottom",
+        "xui-pl": "padding-left",
+        "xui-px": ["padding-left", "padding-right"],
+        "xui-py": ["padding-top", "padding-bottom"],
+        "xui-space": "letter-spacing",
+        "xui-bdr-rad": "border-radius",
+        "xui-bdr-w": "border-width",
+        "xui-z-index": "z-index",
+        "xui-min-w": "min-width",
+        "xui-min-h": "min-height",
+        "xui-max-w": "max-width",
+        "xui-max-h": "max-height",
+        "xui-font-w": "font-weight",
+        "xui-font-sz": "font-size",
+        "xui-opacity": "opacity",
+        "xui-w": "width",
+        "xui-h": "height",
+        "xui-line-height": "line-height",
+        "xui-letter-spacing": "letter-spacing",
+        "xui-grid-gap": "grid-gap"
     };
-  
-    // Map responsive prefixes to media queries
+
     const responsiveMap = {
-      sm: "(min-width: 640px)",
-      md: "(min-width: 768px)",
-      lg: "(min-width: 1024px)",
-      xl: "(min-width: 1280px)",
+        "xui-sm": "(min-width: 640px)",
+        "xui-md": "(min-width: 768px)",
+        "xui-lg": "(min-width: 1024px)",
+        "xui-xl": "(min-width: 1280px)",
     };
-  
-    // Create a single <style> tag for all dynamic styles
+
     const styleSheet = document.createElement("style");
     document.head.appendChild(styleSheet);
-  
-    // Track already processed classes to avoid duplicates
+
     const processedClasses = new Set();
-  
-    // Select all elements with classes containing `[]`
     const elements = document.querySelectorAll("[class*='[']");
-  
-    elements.forEach((el) => {
-      const classes = el.className.split(" "); // Get all classes on the element
-  
-      classes.forEach((cls) => {
-        // Check if the class contains `[]` syntax and hasn't been processed yet
-        if (cls.includes("[") && cls.includes("]") && !processedClasses.has(cls)) {
-          // Match the class and extract its prefix, property, and value
-          const match = cls.match(/(xui-)?(sm|md|lg|xl)?-?([a-z-]+)-\[(.+)\]/);
-          if (match) {
-            const isXui = match[1]; // Check if the class starts with "xui-"
-            const prefix = match[2]; // Extract the responsive prefix, e.g., "md"
-            const propertyKey = match[3]; // Extract the property, e.g., "font-sz"
-            const value = match[4]; // Extract the value, e.g., "100px"
-  
-            // Map the property key to the corresponding CSS property
-            const properties = propertyMap[`xui-${propertyKey}`];
-            if (properties) {
-              // Sanitize the class name for use in CSS (escape brackets)
-              const sanitizedClass = cls.replace(/\[/g, "\\[").replace(/\]/g, "\\]");
-  
-              // Generate the CSS rule(s)
-              if (Array.isArray(properties)) {
-                // Handle multiple properties (e.g., xui-px, xui-py)
-                const rules = properties.map((prop) => `${prop}: ${value};`).join(" ");
-                const rule = `.${sanitizedClass} { ${rules} }`;
-                if (prefix) {
-                  // Wrap the rule in a media query for responsive classes
-                  const mediaQuery = responsiveMap[prefix];
-                  styleSheet.sheet.insertRule(
-                    `@media ${mediaQuery} { ${rule} }`,
-                    styleSheet.sheet.cssRules.length
-                  );
-                } else {
-                  // Add the rule globally for non-responsive classes
-                  styleSheet.sheet.insertRule(rule, styleSheet.sheet.cssRules.length);
-                }
-              } else {
-                // Handle single property
-                const rule = `.${sanitizedClass} { ${properties}: ${value}; }`;
-                if (prefix) {
-                  // Wrap the rule in a media query for responsive classes
-                  const mediaQuery = responsiveMap[prefix];
-                  styleSheet.sheet.insertRule(
-                    `@media ${mediaQuery} { ${rule} }`,
-                    styleSheet.sheet.cssRules.length
-                  );
-                } else {
-                  // Add the rule globally for non-responsive classes
-                  styleSheet.sheet.insertRule(rule, styleSheet.sheet.cssRules.length);
-                }
-              }
-  
-              // Mark the class as processed
-              processedClasses.add(cls);
-            }
-          }
+
+    const generateHash = (str) => {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+            hash = (hash << 5) - hash + str.charCodeAt(i);
+            hash |= 0;
         }
-      });
+        return `x${Math.abs(hash).toString(36)}`;
+    };
+
+    elements.forEach((el) => {
+        const classes = el.className.split(" ");
+
+        classes.forEach((cls) => {
+            if (cls.includes("[") && cls.includes("]") && !processedClasses.has(cls)) {
+                const match = cls.match(/(xui-(sm|md|lg|xl)-)?(xui-[a-z-]+)-\[(.+)\]/);
+                if (match) {
+                    const responsivePrefix = match[1]?.slice(0, -1); // e.g., "xui-md"
+                    const propertyKey = match[3]; // e.g., "xui-bg"
+                    let value = match[4]; // e.g., "url('https://example.com')"
+
+                    const properties = propertyMap[propertyKey];
+                    if (properties) {
+                        // Handle URL values properly
+                        let classNameSuffix = value;
+                        if (propertyKey === "xui-bg" && value.startsWith("url")) {
+                            const urlMatch = value.match(/url\((.*)\)/);
+                            if (urlMatch) {
+                                value = `url(${urlMatch[1]})`;
+                                classNameSuffix = generateHash(urlMatch[1]); // Replace full URL with a short hash
+                            }
+                        }
+
+                        // Construct new valid class name
+                        const newClassName = `${propertyKey}-${classNameSuffix}`;
+                        el.classList.add(newClassName);
+
+                        // Generate CSS
+                        let rule = "";
+                        if (Array.isArray(properties)) {
+                            rule = properties.map((prop) => `${prop}: ${value};`).join(" ");
+                        } else {
+                            rule = `${properties}: ${value};`;
+                        }
+
+                        // Apply responsive logic if needed
+                        if (responsivePrefix && responsiveMap[responsivePrefix]) {
+                            const mediaQuery = responsiveMap[responsivePrefix];
+                            styleSheet.sheet.insertRule(
+                                `@media ${mediaQuery} { .${newClassName} { ${rule} } }`,
+                                styleSheet.sheet.cssRules.length
+                            );
+                        } else {
+                            styleSheet.sheet.insertRule(
+                                `.${newClassName} { ${rule} }`,
+                                styleSheet.sheet.cssRules.length
+                            );
+                        }
+
+                        processedClasses.add(cls);
+                    }
+                }
+            }
+        });
     });
 };
+
 function xuiRun(){
     xuiLazyLoadings();
-    xuiModal();
-    xuiAccordion();
     xuiAlerts();
     xuiScrollOnAnimation();
     xuiDynamicCSS();
@@ -1265,3 +1264,5 @@ function autoRun(){
         }
     }
 };
+// Always Run THIS
+autoRun();
