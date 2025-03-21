@@ -17,6 +17,7 @@
   --red: #E60626;
   --green: #153b12;
   --default-border: #D9D9D9;
+  --default-table-background: #FAFAFA;
   --text-opacitated: rgba(0, 0, 0, .88);
   --disabled-opacitated: rgba(0, 0, 0, .04);
   --hovered-opacitated: rgba(0, 0, 0, .06);
@@ -3972,7 +3973,6 @@ select:-webkit-autofill:focus {
 /*Tables*/
 .xui-table-responsive {
   overflow-x: auto;
-
 }
 
 .xui-table {
@@ -3985,7 +3985,7 @@ select:-webkit-autofill:focus {
   padding: .5rem 0;
 }
 .xui-table tbody tr:nth-child(odd) {
-  background-color: #FAFAFA;
+  background-color: var(--default-table-background);
 }
 .xui-table tr {
   border-bottom: 1px solid var(--default-border);
@@ -4026,7 +4026,7 @@ select:-webkit-autofill:focus {
 }
 
 .xui-table[xui-style="2"] tr th {
-  background-color: #FAFAFA;
+  background-color: var(--default-table-background);
 }
 
 
