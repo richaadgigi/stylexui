@@ -1128,7 +1128,8 @@ const xuiDynamicCSS = () => {
         const classes = el.className.split(" ");
 
         classes.forEach((cls) => {
-            if (cls.includes("[") && cls.includes("]") && !processedClasses.has(cls)) {
+            console.log("Processing class:", cls);
+            if (cls.includes("[") && cls.includes("]"))  {
                 const match = cls.match(/(xui-(sm|md|lg|xl)-)?(xui-[a-z-]+)-\[(.+)\]/);
                 if (match) {
                     const responsivePrefix = match[1]?.slice(0, -1); // e.g., "xui-md"

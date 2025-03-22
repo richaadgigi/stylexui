@@ -8090,22 +8090,27 @@ select:-webkit-autofill:focus {
   font-size: larger;
 }
 
+.xui-font-normal,
 .xui-font-style-normal {
   font-style: normal;
 }
 
+.xui-font-oblique,
 .xui-font-style-oblique {
   font-style: oblique;
 }
 
+.xui-font-italic,
 .xui-font-style-italic {
   font-style: italic;
 }
 
+.xui-font-initial,
 .xui-font-style-initial {
   font-style: initial;
 }
 
+.xui-font-inherit,
 .xui-font-style-inherit {
   font-style: inherit;
 }
