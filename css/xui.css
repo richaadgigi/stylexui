@@ -4075,6 +4075,80 @@ select:-webkit-autofill:focus {
 
 
 
+/* Ribbons */
+.xui-ribbon{
+  display:inline-block;
+  padding:0.4em 1em;
+  position:relative;
+  border-radius: .4rem .4rem 0 .4rem;
+  font-size: 14px;
+  color: #FFF;
+}
+.xui-ribbon:after{
+  content:'';
+  position:absolute;
+  border-style:solid;
+  top:100%; 
+  right:0;
+  border-width: .7em 1em 0 0;
+}
+
+.xui-ribbon-daybreak{
+  background-color: #1677FF;
+}
+
+.xui-ribbon-daybreak::after{
+  border-color: #1677FF transparent transparent transparent;
+}
+
+.xui-ribbon-volcano{
+  background-color: #FA541C;
+}
+
+.xui-ribbon-volcano::after{
+  border-color: #D4380D transparent transparent transparent;
+}
+
+.xui-ribbon-magenta{
+  background-color: #EB2F96;
+}
+
+.xui-ribbon-magenta::after{
+  border-color: #C41D7F transparent transparent transparent;
+}
+
+.xui-ribbon-dustred{
+  background-color: #F5222D;
+}
+
+.xui-ribbon-dustred::after{
+  border-color: #CF1322 transparent transparent transparent;
+}
+
+.xui-ribbon-cyan{
+  background-color: #13C2C2;
+}
+
+.xui-ribbon-cyan::after{
+  border-color: #08979C transparent transparent transparent;
+}
+
+.xui-ribbon-green{
+  background-color: #52C41A;
+}
+
+.xui-ribbon-green::after{
+  border-color: #389E0D transparent transparent transparent;
+}
+
+.xui-ribbon-purple{
+  background-color: #722ED1;
+}
+
+.xui-ribbon-purple::after{
+  border-color: #531DAB transparent transparent transparent;
+}
+
 /*Margins*/
 .xui-m-none {
   margin: 0;
