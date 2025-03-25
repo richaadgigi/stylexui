@@ -170,55 +170,41 @@ document.addEventListener("click", (e) => {
     // Functionalities for modal goes here
 
     // Functionalities for accordion goes here
-    const xuiAccordionHeaders = Array.from(document.querySelectorAll('.xui-accordion-box .xui-accordion-header'));
-    if(e.target.closest('.xui-accordion-box .xui-accordion-header')){
-        let index = xuiAccordionHeaders.indexOf(e.target.closest('.xui-accordion-box .xui-accordion-header'));
-        let accordionHeader = document.querySelectorAll('.xui-accordion-box .xui-accordion-header')[index];
-        let accordionIconOpen = accordionHeader.querySelector(".xui-accordion-box .xui-accordion-header .xui-accordion-header-icon-open");
-        let accordionIconClose = accordionHeader.querySelector(".xui-accordion-box .xui-accordion-header .xui-accordion-header-icon-close");
-        let accordionContent = document.querySelectorAll('.xui-accordion-box .xui-accordion-content')[index];
-        if (isHidden(accordionContent)) {
-            let accordionBoxes = document.querySelectorAll('.xui-accordion-box');
-            for (var k = 0; k < accordionBoxes.length; k++) {
-                let accordionIconOpen = accordionBoxes[k].querySelector(".xui-accordion-header .xui-accordion-header-icon-open");
-                let accordionIconClose = accordionBoxes[k].querySelector(".xui-accordion-header .xui-accordion-header-icon-close");
-                let accordionContent = accordionBoxes[k].querySelector('.xui-accordion-content');
-                if (accordionIconOpen !== null) {
-                    accordionIconOpen.style.display = "inline-block";
-                }
-                if (accordionIconClose !== null) {
-                    accordionIconClose.style.display = "none";
-                }
-                if (accordionContent !== null) {
-                    accordionContent.style.display = "none";
-                }
-            }
-            if (accordionIconOpen !== null) {
-                accordionIconOpen.style.display = "none";
-            }
-            if (accordionIconClose !== null) {
-                accordionIconClose.style.display = "inline-block";
-            }
-            if (accordionContent !== null) {
-                accordionContent.style.display = "block";
-            }
-        }
-        else {
-            let accordionBoxes = document.querySelectorAll('.xui-accordion-box');
-            for (var k = 0; k < accordionBoxes.length; k++) {
-                let accordionIconOpen = accordionBoxes[k].querySelector(".xui-accordion-header .xui-accordion-header-icon-open");
-                let accordionIconClose = accordionBoxes[k].querySelector(".xui-accordion-header .xui-accordion-header-icon-close");
-                let accordionContent = accordionBoxes[k].querySelector('.xui-accordion-content');
-                if (accordionIconOpen !== null) {
-                    accordionIconOpen.style.display = "inline-block";
-                }
-                if (accordionIconClose !== null) {
-                    accordionIconClose.style.display = "none";
-                }
-                if (accordionContent !== null) {
-                    accordionContent.style.display = "none";
-                }
-            }
+    const accordionHeaders = Array.from(document.querySelectorAll('.xui-accordion-box .xui-accordion-header, .xui-accordion .box .header'));
+
+    if (e.target.closest('.xui-accordion-box .xui-accordion-header, .xui-accordion .box .header')) {
+        const header = e.target.closest('.xui-accordion-box .xui-accordion-header, .xui-accordion .box .header');
+        const index = accordionHeaders.indexOf(header);
+        
+        // Find elements using all possible selector variations
+        const iconOpen = header.querySelector(".xui-accordion-header-icon-open, .xui-accordion .header .icon .open");
+        const iconClose = header.querySelector(".xui-accordion-header-icon-close, .xui-accordion .header .icon .close");
+        const allContents = document.querySelectorAll('.xui-accordion-box .xui-accordion-content, .xui-accordion .box .content');
+        const content = allContents[index];
+
+        // Check if the clicked accordion is currently open
+        const isCurrentlyOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+
+        // Close all accordions
+        allContents.forEach(content => {
+            content.style.maxHeight = "0";
+            content.style.marginBottom = "0";
+        });
+
+        // Reset all icons
+        document.querySelectorAll('.xui-accordion-header-icon-open, .xui-accordion .header .icon .open').forEach(icon => {
+            icon.style.display = "inline-block";
+        });
+        document.querySelectorAll('.xui-accordion-header-icon-close, .xui-accordion .header .icon .close').forEach(icon => {
+            icon.style.display = "none";
+        });
+
+        // Toggle the clicked accordion if it wasn't open
+        if (!isCurrentlyOpen) {
+            content.style.maxHeight = content.scrollHeight + "px";
+            content.style.marginBottom = "20px";
+            if (iconOpen) iconOpen.style.display = "none";
+            if (iconClose) iconClose.style.display = "inline-block";
         }
     }
     // Functionalities for accordion goes here
@@ -364,65 +350,21 @@ function xuiModal() {
         }
     };
 }
-function isHidden(el){
-    return !el || el.style.display === "none" || el.offsetParent === null;
-};
-function xuiAccordion(){
-    let accordionHeaders = document.querySelectorAll('.xui-accordion-box .xui-accordion-header');
-    for (var i = 0; i < accordionHeaders.length; i++) {
-        accordionHeaders[i].addEventListener('click', ((j) => {
-            return function () {
-                let accordionHeader = document.querySelectorAll('.xui-accordion-box .xui-accordion-header')[j];
-                let accordionIconOpen = accordionHeader.querySelector(".xui-accordion-box .xui-accordion-header .xui-accordion-header-icon-open");
-                let accordionIconClose = accordionHeader.querySelector(".xui-accordion-box .xui-accordion-header .xui-accordion-header-icon-close");
-                let accordionContent = document.querySelectorAll('.xui-accordion-box .xui-accordion-content')[j];
-                if (isHidden(accordionContent)) {
-                    let accordionBoxes = document.querySelectorAll('.xui-accordion-box');
-                    for (var k = 0; k < accordionBoxes.length; k++) {
-                        let accordionIconOpen = accordionBoxes[k].querySelector(".xui-accordion-header .xui-accordion-header-icon-open");
-                        let accordionIconClose = accordionBoxes[k].querySelector(".xui-accordion-header .xui-accordion-header-icon-close");
-                        let accordionContent = accordionBoxes[k].querySelector('.xui-accordion-content');
-                        if (accordionIconOpen !== null) {
-                            accordionIconOpen.style.display = "inline-block";
-                        }
-                        if (accordionIconClose !== null) {
-                            accordionIconClose.style.display = "none";
-                        }
-                        if (accordionContent !== null) {
-                            accordionContent.style.display = "none";
-                        }
-                    }
-                    if (accordionIconOpen !== null) {
-                        accordionIconOpen.style.display = "none";
-                    }
-                    if (accordionIconClose !== null) {
-                        accordionIconClose.style.display = "inline-block";
-                    }
-                    if (accordionContent !== null) {
-                        accordionContent.style.display = "block";
-                    }
-                }
-                else {
-                    let accordionBoxes = document.querySelectorAll('.xui-accordion-box');
-                    for (var k = 0; k < accordionBoxes.length; k++) {
-                        let accordionIconOpen = accordionBoxes[k].querySelector(".xui-accordion-header .xui-accordion-header-icon-open");
-                        let accordionIconClose = accordionBoxes[k].querySelector(".xui-accordion-header .xui-accordion-header-icon-close");
-                        let accordionContent = accordionBoxes[k].querySelector('.xui-accordion-content');
-                        if (accordionIconOpen !== null) {
-                            accordionIconOpen.style.display = "inline-block";
-                        }
-                        if (accordionIconClose !== null) {
-                            accordionIconClose.style.display = "none";
-                        }
-                        if (accordionContent !== null) {
-                            accordionContent.style.display = "none";
-                        }
-                    }
-                }
-            };
-        })(i));
-    }
-};
+function isHidden(el) {
+    if (!el) return true;
+
+    const style = window.getComputedStyle(el);
+
+    return (
+        el.style.display === "none" ||
+        el.offsetParent === null || // Checks if it's not in the layout
+        style.visibility === "hidden" ||
+        style.opacity === "0" ||
+        style.clipPath === "inset(0 0 100% 0)" ||
+        style.transform === "scale(0)" ||
+        parseInt(style.maxHeight) === 0
+    );
+}
 function xuiAlerts() {
     // Select both close button classes
     let alertBoxesClose = document.querySelectorAll('.xui-alert .xui-alert-close, .xui-alert .cancel');
