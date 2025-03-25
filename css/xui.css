@@ -4206,7 +4206,7 @@ select:-webkit-autofill:focus {
   top: 50%;
   right: 100%;
   transform: translateY(-50%);
-  margin-left: 19px;;
+  margin-right: 6px;;
 }
 
 .xui-tooltip[xui-set="left"] .xui-tooltip-content::after {
@@ -4220,7 +4220,7 @@ select:-webkit-autofill:focus {
 /* Tooltip Position: Right */
 .xui-tooltip[xui-set="right"] .xui-tooltip-content {
   top: 50%;
-  left: 10%;
+  left: 100%;
   transform: translateY(-50%);
   margin-left: 6px; 
 }
