@@ -3789,18 +3789,18 @@ select:-webkit-autofill:focus {
 
 /* Tooltip Position: Top */
 .xui-tooltip[xui-set="top"] .xui-tooltip-content {
-  top: 100%;
+  bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
   margin-top: 19px;
 }
 
 .xui-tooltip[xui-set="top"] .xui-tooltip-content::after {
-  bottom: 100%;
+  top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  border-bottom-color: white; 
-  border-top: none;
+  border-top-color: white; 
+  border-bottom: none;
 }
 
 /* Tooltip Position: Bottom */
@@ -3812,27 +3812,27 @@ select:-webkit-autofill:focus {
 }
 
 .xui-tooltip[xui-set="bottom"] .xui-tooltip-content::after {
-  top: 100%;
+  bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
-  border-top-color: white;
-  border-bottom: none;
+  border-bottom-color: white;
+  border-top: none;
 }
 
 /* Tooltip Position: Left */
 .xui-tooltip[xui-set="left"] .xui-tooltip-content {
   top: 50%;
-  left: 100%;
+  right: 100%;
   transform: translateY(-50%);
   margin-left: 19px;;
 }
 
 .xui-tooltip[xui-set="left"] .xui-tooltip-content::after {
   top: 50%;
-  right: 100%;
+  left: 100%;
   transform: translateY(-50%);
-  border-right-color: white; 
-  border-left: none;
+  border-left-color: white; 
+  border-color: none;
 }
 
 /* Tooltip Position: Right */
@@ -3845,122 +3845,66 @@ select:-webkit-autofill:focus {
 
 .xui-tooltip[xui-set="right"] .xui-tooltip-content::after {
   top: 50%;
-  left: 100%;
+  right: 100%;
   transform: translateY(-50%);
-  border-left-color: white;
-  border-right: none;
+  border-right-color: white;
+  border-left: none;
 }
 
 /* Tooltip Position: Top Left */
 .xui-tooltip[xui-set="top-left"] .xui-tooltip-content {
   bottom: 100%;
-  left: 0;
+  right: 0;
   margin-bottom: 6px; 
 }
 
 .xui-tooltip[xui-set="top-left"] .xui-tooltip-content::after {
-  bottom: 100%;
-  right: 220px; 
-  border-bottom-color: white; 
-  border-top: none;
+  top: 100%;
+  left: 200px; 
+  border-top-color: white; 
+  border-bottom: none;
 }
 
 /* Tooltip Position: Top Right */
 .xui-tooltip[xui-set="top-right"] .xui-tooltip-content {
   bottom: 100%;
-  right: 0;
+  left: 0;
   margin-bottom: 6px; 
 }
 
 .xui-tooltip[xui-set="top-right"] .xui-tooltip-content::after {
-  bottom: 100%;
-  right: 25px; 
-  border-bottom-color: white; 
-  border-top: none;
+  top: 100%;
+  left: 25px; 
+  border-top-color: white; 
+  border-bottom: none;
 }
 
 /* Tooltip Position: Bottom Left */
 .xui-tooltip[xui-set="bottom-left"] .xui-tooltip-content {
   top: 100%;
-  left: 0;
+  right: 0;
   margin-top: 6px; 
 }
 
 .xui-tooltip[xui-set="bottom-left"] .xui-tooltip-content::after {
-  top: 100%;
-  left: 20px; 
-  border-top-color: white; 
-  border-bottom: none;
+  bottom: 100%;
+  right: 20px; 
+  border-bottom-color: white; 
+  border-top: none;
 }
 
 /* Tooltip Position: Bottom Right */
 .xui-tooltip[xui-set="bottom-right"] .xui-tooltip-content {
   top: 100%;
-  right: 0;
+  left: 0;
   margin-top: 6px; 
 }
 
 .xui-tooltip[xui-set="bottom-right"] .xui-tooltip-content::after {
-  top: 100%;
-  right: 20px; 
-  border-top-color: white; 
-  border-bottom: none;
-}
-
-/* Tooltip Position: Right Top */
-.xui-tooltip[xui-set="right-top"] .xui-tooltip-content {
-  top: 0;
-  left: 100%;
-  margin-left: 6px; 
-}
-
-.xui-tooltip[xui-set="right-top"] .xui-tooltip-content::after {
-  top: 15px; 
-  left: 100%;
-  border-left-color: white; 
-  border-right: none;
-}
-
-/* Tooltip Position: Left Top */
-.xui-tooltip[xui-set="left-top"] .xui-tooltip-content {
-  top: 0;
-  right: 100%;
-  margin-right: 6px; 
-}
-
-.xui-tooltip[xui-set="left-top"] .xui-tooltip-content::after {
-  top: 40px; 
-  right: 100%;
-  border-right-color: white; 
-  border-left: none;
-}
-
-/* Tooltip Position: Right Bottom */
-.xui-tooltip[xui-set="right-bottom"] .xui-tooltip-content {
-  bottom: 0;
-  left: 100%;
-  margin-left: 6px; 
-}
-
-.xui-tooltip[xui-set="right-bottom"] .xui-tooltip-content::after {
-  bottom: 10px; 
-  left: 100%;
-  border-left-color: white; 
-  border-right: none;
-}
-
-/* Tooltip Position: Left Bottom */
-.xui-tooltip[xui-set="left-bottom"] .xui-tooltip-content {
-  bottom: 0;
-  right: 100%;
-  margin-right: 6px; 
-}
-
-.xui-tooltip[xui-set="left-bottom"] .xui-tooltip-content::after {
-  bottom: 40px; 
-  right: 100%;
-  border-right-color: white; 
-  border-left: none;
+  bottom: 100%;
+  left: 20px; 
+  border-bottom-color: white; 
+  border-top: none;
 }
 
 .xui-tooltip:hover .xui-tooltip-content,
