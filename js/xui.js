@@ -423,12 +423,16 @@ function xuiAccordion(){
         })(i));
     }
 };
-function xuiAlerts(){
-    let alertBoxesClose = document.querySelectorAll('.xui-alert .xui-alert-close');
+function xuiAlerts() {
+    // Select both close button classes
+    let alertBoxesClose = document.querySelectorAll('.xui-alert .xui-alert-close, .xui-alert .cancel');
+    
     for (var i = 0; i < alertBoxesClose.length; i++) {
         alertBoxesClose[i].addEventListener('click', ((j) => {
             return function () {
-                let alertBox = document.querySelectorAll('.xui-alert')[j];
+                // Find the parent alert box for this close button
+                let alertBox = alertBoxesClose[j].closest('.xui-alert');
+                
                 let alertBoxAnimation = alertBox.classList.contains('xui-anime');
                 if (alertBoxAnimation) {
                     let animationDuration = alertBox.getAttribute("xui-anime-duration");
@@ -448,7 +452,7 @@ function xuiAlerts(){
                     }
                 }
                 else {
-                    alertBox.style.cssText = "overflow: hidden; padding: 0; margin: 0; height: 0; transition: .2s;";
+                    alertBox.removeAttribute('xui-present');
                 }
             };
         })(i));
@@ -551,60 +555,62 @@ function xuiLazyLoadings(){
         return init();
     })();
 };
-function xuiAnime(customDefinition){
+function xuiAnime(customDefinition) {
     let xuiCustom = customDefinition;
+    
     if (xuiCustom !== undefined) {
-        let el = document.querySelector('[xui-custom="' + xuiCustom + '"]');
+        let el = document.querySelector(`[xui-custom="${xuiCustom}"], [xui-anime="${xuiCustom}"]`);
+        
         if (el !== null) {
-            let elPlaced = el.getAttribute("xui-placed");
+            let elPlaced = el.getAttribute("xui-placed") || el.getAttribute("xui-set");
             let elAnimateReverse = el.getAttribute("xui-anime-reverse");
             let elAnimateDuration = el.getAttribute("xui-anime-duration");
-            if ((elAnimateDuration !== null) && (elAnimateDuration !== "")) {
-                el.style.transition = elAnimateDuration + "s";
+
+            if (elAnimateDuration !== null && elAnimateDuration !== "") {
+                // el.style.transition = elAnimateDuration + "s";
+            } else {
+                // el.style.transition = "1s";
             }
-            else {
-                el.style.transition = "1s";
-            }
+
             setTimeout(() => {
                 if (el !== null) {
                     el.classList.add("xui-anime");
                 }
             });
+
             setTimeout(() => {
-                if ((elAnimateReverse !== undefined) && (elAnimateReverse !== null)) {
-                    // Convert to milliseconds
-                    let duration = Number(elAnimateReverse * 1000);
+                if (elAnimateReverse !== undefined && elAnimateReverse !== null) {
+                    let duration = Number(elAnimateReverse) * 1000;
                     setTimeout(() => {
                         if (el !== null) {
                             el.classList.remove("xui-anime");
                         }
                     }, duration);
-                }
-                else {
+                } else {
                     setTimeout(() => {
                         if (el !== null) {
                             el.classList.remove("xui-anime");
                         }
                     }, 3000);
                 }
-            }, Number(elAnimateDuration * 1000));
+            }, Number(elAnimateDuration ? elAnimateDuration + 240 : 3000));
         }
+    } else {
+        console.warn("xuiAnime() is missing a parameter");
     }
-    else {
-        console.warn("xui.animate() is missing a parameter");
-    }
-};
+}
+
 function xuiAnimeStart(customDefinition){
     let xuiCustom = customDefinition;
     if (xuiCustom !== undefined) {
-        let el = document.querySelector('[xui-custom="' + xuiCustom + '"]');
+        let el = document.querySelector(`[xui-custom="${xuiCustom}"], [xui-anime="${xuiCustom}"]`);
         if (el !== null) {
             let elAnimateDuration = el.getAttribute("xui-anime-duration");
             if ((elAnimateDuration !== null) && (elAnimateDuration !== "")) {
-                el.style.transition = elAnimateDuration + "s";
+                // el.style.transition = elAnimateDuration + "s";
             }
             else {
-                el.style.transition = "1s";
+                // el.style.transition = "1s";
             }
             setTimeout(() => {
                 if (el !== null) {
@@ -617,27 +623,30 @@ function xuiAnimeStart(customDefinition){
         console.warn("xui.animate() is missing a parameter");
     }
 };
-function xuiAnimeEnd(customDefinition){
+function xuiAnimeEnd(customDefinition) {
     let xuiCustom = customDefinition;
     if (xuiCustom !== undefined) {
-        let el = document.querySelector('[xui-custom="' + xuiCustom + '"]');
+        let el = document.querySelector(`[xui-custom="${xuiCustom}"], [xui-anime="${xuiCustom}"]`);
         if (el !== null) {
             let elAnimateDuration = el.getAttribute("xui-anime-duration");
-            if ((elAnimateDuration !== null) && (elAnimateDuration !== "")) {
-                el.style.transition = elAnimateDuration + "s";
+            let duration = 1000; // Default duration in ms
+            
+            if (elAnimateDuration !== null && elAnimateDuration !== "") {
+                duration = Number(elAnimateDuration) * 1000;
             }
-            else {
-                el.style.transition = "1s";
-            }
+
+            // Start the hide animation
+            el.classList.remove("xui-anime");
+            
+            // Remove the element after animation completes
             setTimeout(() => {
                 if (el !== null) {
-                    el.classList.remove("xui-anime");
+                    el.removeAttribute('xui-present'); // Or el.remove() if you want to remove completely
                 }
             });
         }
-    }
-    else {
-        console.warn("xui.animate() is missing a parameter");
+    } else {
+        console.warn("xui.animateEnd() is missing a parameter");
     }
 };
 function xuiTypeWriter(obj){
