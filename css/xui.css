@@ -4287,12 +4287,12 @@ select:-webkit-autofill:focus {
 /* Tooltip Position: Bottom Right */
 .xui-tooltip[xui-set="bottom-right"] .xui-tooltip-content {
   top: calc(100% + 8px);
-  right: 0;
+  left: 0;
 }
 
 .xui-tooltip[xui-set="bottom-right"] .xui-tooltip-content::after {
   bottom: 100%;
-  right: 16px;
+  left: 16px;
   border-bottom-color: white; 
   border-top: none;
 }
@@ -4300,12 +4300,12 @@ select:-webkit-autofill:focus {
 /* Tooltip Position: Bottom Left */
 .xui-tooltip[xui-set="bottom-left"] .xui-tooltip-content {
   top: calc(100% + 8px);;
-  left: 0;
+  right: 0;
 }
 
 .xui-tooltip[xui-set="bottom-left"] .xui-tooltip-content::after {
   bottom: 100%;
-  left: 16px; 
+  right: 16px; 
   border-bottom-color: white; 
   border-top: none;
 }
