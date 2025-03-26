@@ -36,7 +36,7 @@ document.addEventListener("click", (e) => {
         const xuiDashboard = document.querySelector(".xui-dashboard");
         const xuiDashboardAnimate = document.querySelector(".xui-dashboard.animate");
         const xuiNavbarLinksUrl = document.querySelectorAll(".xui-navbar .links a");
-        if(e.target === xuiNavbarMenu){
+        if(e.target.closest(".xui-navbar .menu")){
             if(e.target && e.target.classList.contains('animate')){
                 if(xuiDashboard){
                     xuiDashboard.classList.remove("animate");
@@ -86,61 +86,81 @@ document.addEventListener("click", (e) => {
     // Functionalities for modal goes here
     const modals = document.querySelectorAll('[xui-modal]');
     const currentModal = e.target.getAttribute('xui-modal');
-    if(e.target.hasAttribute("xui-modal")){
-        for(let i = 0; i < modals.length; i++){
+
+    if (e.target.hasAttribute("xui-modal")) {
+        for (let i = 0; i < modals.length; i++) {
             let modalName = modals[i];
-            if(!modalName.hasAttribute('disable-click-on-outside')){
-                if(currentModal == modalName.getAttribute('xui-modal')){
-                    if (modalName.hasAttribute('display')) {
+            if (!modalName.hasAttribute('disable-click-on-outside')) {
+                if (currentModal === modalName.getAttribute('xui-modal')) {
+                    if (modalName.hasAttribute('xui-set')) {
+                        modalName.removeAttribute("xui-present");
+                        void modalName.offsetWidth;
+                        modalName.setAttribute("xui-present", false);
+                    } else if (modalName.hasAttribute('display')) {
                         modalName.removeAttribute("display");
                         void modalName.offsetWidth;
                         modalName.setAttribute("display", false);
                     }
                 }
             }
-            let xuiBody = document.querySelector('body');
-            if (xuiBody !== null) {
-                xuiBody.style.overflow = "auto";
-            }
+        }
+        let xuiBody = document.querySelector('body');
+        if (xuiBody !== null) {
+            xuiBody.style.overflow = "auto";
         }
     }
+
     const target = e.target;
     let modalOpen = target.getAttribute("xui-modal-open");
     let modalClose = target.getAttribute("xui-modal-close");
-    if(!modalOpen){
+
+    // Find modalOpen if not directly on target
+    if (!modalOpen) {
         const parentNode = findElementWithAttribute(target, "xui-modal-open");
-        if(parentNode){
-            if(parentNode.getAttribute){
-                modalOpen = parentNode.getAttribute("xui-modal-open");
-            }
+        if (parentNode) {
+            modalOpen = parentNode.getAttribute("xui-modal-open");
         }
     }
-    if(!modalClose){
+
+    // Find modalClose if not directly on target
+    if (!modalClose) {
         const parentNode = findElementWithAttribute(target, "xui-modal-close");
-        if(parentNode){
-            if(parentNode.getAttribute){
-                modalClose = parentNode.getAttribute("xui-modal-close");
-            }
+        if (parentNode) {
+            modalClose = parentNode.getAttribute("xui-modal-close");
         }
     }
+
     if (modalOpen !== null) {
         let xuiModalOpen = document.querySelector('[xui-modal="' + modalOpen + '"]');
         if (xuiModalOpen !== null) {
-            xuiModalOpen.removeAttribute("display");
-            void xuiModalOpen.offsetWidth;
-            xuiModalOpen.setAttribute("display", true);
+            if (xuiModalOpen.hasAttribute("xui-present")) {
+                xuiModalOpen.removeAttribute("xui-present");
+                void xuiModalOpen.offsetWidth;
+                xuiModalOpen.setAttribute("xui-present", true);
+            } else {
+                xuiModalOpen.removeAttribute("display");
+                void xuiModalOpen.offsetWidth;
+                xuiModalOpen.setAttribute("display", true);
+            }
         }
         let xuiBody = document.querySelector('body');
         if (xuiBody !== null) {
             xuiBody.style.overflow = "hidden";
         }
     }
+
     if (modalClose !== null) {
         let xuiModalClose = document.querySelector('[xui-modal="' + modalClose + '"]');
         if (xuiModalClose !== null) {
-            xuiModalClose.removeAttribute("display");
-            void xuiModalClose.offsetWidth;
-            xuiModalClose.setAttribute("display", false);
+            if (xuiModalClose.hasAttribute("xui-present")) {
+                xuiModalClose.removeAttribute("xui-present");
+                void xuiModalClose.offsetWidth;
+                xuiModalClose.setAttribute("xui-present", false);
+            } else {
+                xuiModalClose.removeAttribute("display");
+                void xuiModalClose.offsetWidth;
+                xuiModalClose.setAttribute("display", false);
+            }
         }
         let xuiBody = document.querySelector('body');
         if (xuiBody !== null) {
@@ -150,55 +170,41 @@ document.addEventListener("click", (e) => {
     // Functionalities for modal goes here
 
     // Functionalities for accordion goes here
-    const xuiAccordionHeaders = Array.from(document.querySelectorAll('.xui-accordion-box .xui-accordion-header'));
-    if(e.target.closest('.xui-accordion-box .xui-accordion-header')){
-        let index = xuiAccordionHeaders.indexOf(e.target.closest('.xui-accordion-box .xui-accordion-header'));
-        let accordionHeader = document.querySelectorAll('.xui-accordion-box .xui-accordion-header')[index];
-        let accordionIconOpen = accordionHeader.querySelector(".xui-accordion-box .xui-accordion-header .xui-accordion-header-icon-open");
-        let accordionIconClose = accordionHeader.querySelector(".xui-accordion-box .xui-accordion-header .xui-accordion-header-icon-close");
-        let accordionContent = document.querySelectorAll('.xui-accordion-box .xui-accordion-content')[index];
-        if (isHidden(accordionContent)) {
-            let accordionBoxes = document.querySelectorAll('.xui-accordion-box');
-            for (var k = 0; k < accordionBoxes.length; k++) {
-                let accordionIconOpen = accordionBoxes[k].querySelector(".xui-accordion-header .xui-accordion-header-icon-open");
-                let accordionIconClose = accordionBoxes[k].querySelector(".xui-accordion-header .xui-accordion-header-icon-close");
-                let accordionContent = accordionBoxes[k].querySelector('.xui-accordion-content');
-                if (accordionIconOpen !== null) {
-                    accordionIconOpen.style.display = "inline-block";
-                }
-                if (accordionIconClose !== null) {
-                    accordionIconClose.style.display = "none";
-                }
-                if (accordionContent !== null) {
-                    accordionContent.style.display = "none";
-                }
-            }
-            if (accordionIconOpen !== null) {
-                accordionIconOpen.style.display = "none";
-            }
-            if (accordionIconClose !== null) {
-                accordionIconClose.style.display = "inline-block";
-            }
-            if (accordionContent !== null) {
-                accordionContent.style.display = "block";
-            }
-        }
-        else {
-            let accordionBoxes = document.querySelectorAll('.xui-accordion-box');
-            for (var k = 0; k < accordionBoxes.length; k++) {
-                let accordionIconOpen = accordionBoxes[k].querySelector(".xui-accordion-header .xui-accordion-header-icon-open");
-                let accordionIconClose = accordionBoxes[k].querySelector(".xui-accordion-header .xui-accordion-header-icon-close");
-                let accordionContent = accordionBoxes[k].querySelector('.xui-accordion-content');
-                if (accordionIconOpen !== null) {
-                    accordionIconOpen.style.display = "inline-block";
-                }
-                if (accordionIconClose !== null) {
-                    accordionIconClose.style.display = "none";
-                }
-                if (accordionContent !== null) {
-                    accordionContent.style.display = "none";
-                }
-            }
+    const accordionHeaders = Array.from(document.querySelectorAll('.xui-accordion-box .xui-accordion-header, .xui-accordion .box .header'));
+
+    if (e.target.closest('.xui-accordion-box .xui-accordion-header, .xui-accordion .box .header')) {
+        const header = e.target.closest('.xui-accordion-box .xui-accordion-header, .xui-accordion .box .header');
+        const index = accordionHeaders.indexOf(header);
+        
+        // Find elements using all possible selector variations
+        const iconOpen = header.querySelector(".xui-accordion-header-icon-open, .xui-accordion .header .icon .open");
+        const iconClose = header.querySelector(".xui-accordion-header-icon-close, .xui-accordion .header .icon .close");
+        const allContents = document.querySelectorAll('.xui-accordion-box .xui-accordion-content, .xui-accordion .box .content');
+        const content = allContents[index];
+
+        // Check if the clicked accordion is currently open
+        const isCurrentlyOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+
+        // Close all accordions
+        allContents.forEach(content => {
+            content.style.maxHeight = "0";
+            content.style.marginBottom = "0";
+        });
+
+        // Reset all icons
+        document.querySelectorAll('.xui-accordion-header-icon-open, .xui-accordion .header .icon .open').forEach(icon => {
+            icon.style.display = "inline-block";
+        });
+        document.querySelectorAll('.xui-accordion-header-icon-close, .xui-accordion .header .icon .close').forEach(icon => {
+            icon.style.display = "none";
+        });
+
+        // Toggle the clicked accordion if it wasn't open
+        if (!isCurrentlyOpen) {
+            content.style.maxHeight = content.scrollHeight + "px";
+            content.style.marginBottom = "20px";
+            if (iconOpen) iconOpen.style.display = "none";
+            if (iconClose) iconClose.style.display = "inline-block";
         }
     }
     // Functionalities for accordion goes here
@@ -262,114 +268,80 @@ function xuiHideSkeleton(ele){
         }
     }, 2500);
 };
-function xuiModal(){
+function xuiModal() {
     let modals = document.querySelectorAll('[xui-modal]');
-    setInterval(() => {
-        for (var i = 0; i < modals.length; i++) {
-            let display = modals[i].style.transform;
-            if (display === "scale(1)") {
-                let xuiBody = document.querySelector('body');
-                if (xuiBody !== null) {
-                    xuiBody.style.overflow = "hidden";
-                }
-            }
-            else {
-                let xuiBody = document.querySelector('body');
-                if (xuiBody !== null) {
-                    xuiBody.style.overflow = "auto";
-                }
-            }
-        }
-    }, 2000);
-    function getParents(el, parentSelector /* optional */) {
 
-        // If no parentSelector defined will bubble up all the way to *document*
-        if (parentSelector === undefined) {
-            parentSelector = document;
-        }
-    
-        var parents = [];
-        var p = el.parentNode;
-        
-        while (p !== parentSelector) {
-            var o = p;
-            parents.push(o);
-            p = o.parentNode;
-        }
-        parents.push(parentSelector); // Push that parentSelector you wanted to stop at
-        
-        return parents;
-    }
     setInterval(() => {
-        for (var i = 0; i < modals.length; i++) {
-            let display = modals[i].style.transform;
-            if (display === "scale(1)") {
-                let xuiBody = document.querySelector('body');
-                if (xuiBody !== null) {
-                    xuiBody.style.overflow = "hidden";
-                }
-            }
-            else {
-                let xuiBody = document.querySelector('body');
-                if (xuiBody !== null) {
-                    xuiBody.style.overflow = "auto";
-                }
+        for (let i = 0; i < modals.length; i++) {
+            let modal = modals[i];
+            let isPresent = modal.hasAttribute("xui-present") || modal.hasAttribute("display");
+
+            let xuiBody = document.querySelector('body');
+            if (xuiBody !== null) {
+                // xuiBody.style.overflow = isPresent ? "hidden" : "auto";
             }
         }
     }, 2000);
+
     document.onclick = function (e) {
         const currentModal = e.target.getAttribute('xui-modal');
-        if(e.target.hasAttribute("xui-modal")){
-            for(let i = 0; i < modals.length; i++){
-                let modalName = modals[i];
-                if(!modalName.hasAttribute('disable-click-on-outside')){
-                    if(currentModal == modalName.getAttribute('xui-modal')){
-                        if (modalName.hasAttribute('open')) {
-                            modalName.removeAttribute("open");
-                            void modalName.offsetWidth;
-                            modalName.setAttribute("open", false);
+        if (e.target.hasAttribute("xui-modal")) {
+            for (let i = 0; i < modals.length; i++) {
+                let modal = modals[i];
+                if (!modal.hasAttribute('disable-click-on-outside')) {
+                    if (currentModal == modal.getAttribute('xui-modal')) {
+                        if (modal.hasAttribute('display') || modal.hasAttribute('xui-present')) {
+                            modal.removeAttribute("display");
+                            modal.removeAttribute("xui-present");
+                            void modal.offsetWidth;
+                            modal.setAttribute("display", false);
+                            modal.setAttribute("xui-present", false);
                         }
                     }
                 }
             }
         }
+
         const target = e.target;
         let modalOpen = target.getAttribute("xui-modal-open");
         let modalClose = target.getAttribute("xui-modal-close");
-        if(!modalOpen){
+
+        if (!modalOpen) {
             const parentNode = target.parentNode;
-            if(parentNode){
-                if(parentNode.getAttribute){
-                    modalOpen = parentNode.getAttribute("xui-modal-open");
-                }
+            if (parentNode && parentNode.getAttribute) {
+                modalOpen = parentNode.getAttribute("xui-modal-open");
             }
         }
-        if(!modalClose){
+        if (!modalClose) {
             const parentNode = target.parentNode;
-            if(parentNode){
-                if(parentNode.getAttribute){
-                    modalClose = parentNode.getAttribute("xui-modal-close");
-                }
+            if (parentNode && parentNode.getAttribute) {
+                modalClose = parentNode.getAttribute("xui-modal-close");
             }
         }
+
         if (modalOpen !== null) {
             let xuiModalOpen = document.querySelector('[xui-modal="' + modalOpen + '"]');
             if (xuiModalOpen !== null) {
-                xuiModalOpen.removeAttribute("open");
+                xuiModalOpen.removeAttribute("display");
+                xuiModalOpen.removeAttribute("xui-present");
                 void xuiModalOpen.offsetWidth;
-                xuiModalOpen.setAttribute("open", true);
+                xuiModalOpen.setAttribute("display", true);
+                xuiModalOpen.setAttribute("xui-present", true);
             }
             let xuiBody = document.querySelector('body');
             if (xuiBody !== null) {
                 xuiBody.style.overflow = "hidden";
             }
         }
+
         if (modalClose !== null) {
             let xuiModalClose = document.querySelector('[xui-modal="' + modalClose + '"]');
             if (xuiModalClose !== null) {
-                xuiModalClose.removeAttribute("open");
+                xuiModalClose.removeAttribute("display");
+                xuiModalClose.removeAttribute("xui-present");
                 void xuiModalClose.offsetWidth;
-                xuiModalClose.setAttribute("open", false);
+                xuiModalClose.setAttribute("display", false);
+                xuiModalClose.setAttribute("xui-present", false);
             }
             let xuiBody = document.querySelector('body');
             if (xuiBody !== null) {
@@ -377,76 +349,32 @@ function xuiModal(){
             }
         }
     };
-};
-function isHidden(el){
-    if (typeof window !== "undefined") {
-        // Client-side-only code
-        var style = window.getComputedStyle(el);
-        return (style.display === 'none');
-    }
-};
-function xuiAccordion(){
-    let accordionHeaders = document.querySelectorAll('.xui-accordion-box .xui-accordion-header');
-    for (var i = 0; i < accordionHeaders.length; i++) {
-        accordionHeaders[i].addEventListener('click', ((j) => {
-            return function () {
-                let accordionHeader = document.querySelectorAll('.xui-accordion-box .xui-accordion-header')[j];
-                let accordionIconOpen = accordionHeader.querySelector(".xui-accordion-box .xui-accordion-header .xui-accordion-header-icon-open");
-                let accordionIconClose = accordionHeader.querySelector(".xui-accordion-box .xui-accordion-header .xui-accordion-header-icon-close");
-                let accordionContent = document.querySelectorAll('.xui-accordion-box .xui-accordion-content')[j];
-                if (isHidden(accordionContent)) {
-                    let accordionBoxes = document.querySelectorAll('.xui-accordion-box');
-                    for (var k = 0; k < accordionBoxes.length; k++) {
-                        let accordionIconOpen = accordionBoxes[k].querySelector(".xui-accordion-header .xui-accordion-header-icon-open");
-                        let accordionIconClose = accordionBoxes[k].querySelector(".xui-accordion-header .xui-accordion-header-icon-close");
-                        let accordionContent = accordionBoxes[k].querySelector('.xui-accordion-content');
-                        if (accordionIconOpen !== null) {
-                            accordionIconOpen.style.display = "inline-block";
-                        }
-                        if (accordionIconClose !== null) {
-                            accordionIconClose.style.display = "none";
-                        }
-                        if (accordionContent !== null) {
-                            accordionContent.style.display = "none";
-                        }
-                    }
-                    if (accordionIconOpen !== null) {
-                        accordionIconOpen.style.display = "none";
-                    }
-                    if (accordionIconClose !== null) {
-                        accordionIconClose.style.display = "inline-block";
-                    }
-                    if (accordionContent !== null) {
-                        accordionContent.style.display = "block";
-                    }
-                }
-                else {
-                    let accordionBoxes = document.querySelectorAll('.xui-accordion-box');
-                    for (var k = 0; k < accordionBoxes.length; k++) {
-                        let accordionIconOpen = accordionBoxes[k].querySelector(".xui-accordion-header .xui-accordion-header-icon-open");
-                        let accordionIconClose = accordionBoxes[k].querySelector(".xui-accordion-header .xui-accordion-header-icon-close");
-                        let accordionContent = accordionBoxes[k].querySelector('.xui-accordion-content');
-                        if (accordionIconOpen !== null) {
-                            accordionIconOpen.style.display = "inline-block";
-                        }
-                        if (accordionIconClose !== null) {
-                            accordionIconClose.style.display = "none";
-                        }
-                        if (accordionContent !== null) {
-                            accordionContent.style.display = "none";
-                        }
-                    }
-                }
-            };
-        })(i));
-    }
-};
-function xuiAlerts(){
-    let alertBoxesClose = document.querySelectorAll('.xui-alert .xui-alert-close');
+}
+function isHidden(el) {
+    if (!el) return true;
+
+    const style = window.getComputedStyle(el);
+
+    return (
+        el.style.display === "none" ||
+        el.offsetParent === null || // Checks if it's not in the layout
+        style.visibility === "hidden" ||
+        style.opacity === "0" ||
+        style.clipPath === "inset(0 0 100% 0)" ||
+        style.transform === "scale(0)" ||
+        parseInt(style.maxHeight) === 0
+    );
+}
+function xuiAlerts() {
+    // Select both close button classes
+    let alertBoxesClose = document.querySelectorAll('.xui-alert .xui-alert-close, .xui-alert .cancel');
+    
     for (var i = 0; i < alertBoxesClose.length; i++) {
         alertBoxesClose[i].addEventListener('click', ((j) => {
             return function () {
-                let alertBox = document.querySelectorAll('.xui-alert')[j];
+                // Find the parent alert box for this close button
+                let alertBox = alertBoxesClose[j].closest('.xui-alert');
+                
                 let alertBoxAnimation = alertBox.classList.contains('xui-anime');
                 if (alertBoxAnimation) {
                     let animationDuration = alertBox.getAttribute("xui-anime-duration");
@@ -466,7 +394,7 @@ function xuiAlerts(){
                     }
                 }
                 else {
-                    alertBox.style.cssText = "overflow: hidden; padding: 0; margin: 0; height: 0; transition: .2s;";
+                    alertBox.removeAttribute('xui-present');
                 }
             };
         })(i));
@@ -569,60 +497,62 @@ function xuiLazyLoadings(){
         return init();
     })();
 };
-function xuiAnime(customDefinition){
+function xuiAnime(customDefinition) {
     let xuiCustom = customDefinition;
+    
     if (xuiCustom !== undefined) {
-        let el = document.querySelector('[xui-custom="' + xuiCustom + '"]');
+        let el = document.querySelector(`[xui-custom="${xuiCustom}"], [xui-anime="${xuiCustom}"]`);
+        
         if (el !== null) {
-            let elPlaced = el.getAttribute("xui-placed");
+            let elPlaced = el.getAttribute("xui-placed") || el.getAttribute("xui-set");
             let elAnimateReverse = el.getAttribute("xui-anime-reverse");
             let elAnimateDuration = el.getAttribute("xui-anime-duration");
-            if ((elAnimateDuration !== null) && (elAnimateDuration !== "")) {
-                el.style.transition = elAnimateDuration + "s";
+
+            if (elAnimateDuration !== null && elAnimateDuration !== "") {
+                // el.style.transition = elAnimateDuration + "s";
+            } else {
+                // el.style.transition = "1s";
             }
-            else {
-                el.style.transition = "1s";
-            }
+
             setTimeout(() => {
                 if (el !== null) {
                     el.classList.add("xui-anime");
                 }
             });
+
             setTimeout(() => {
-                if ((elAnimateReverse !== undefined) && (elAnimateReverse !== null)) {
-                    // Convert to milliseconds
-                    let duration = Number(elAnimateReverse * 1000);
+                if (elAnimateReverse !== undefined && elAnimateReverse !== null) {
+                    let duration = Number(elAnimateReverse) * 1000;
                     setTimeout(() => {
                         if (el !== null) {
                             el.classList.remove("xui-anime");
                         }
                     }, duration);
-                }
-                else {
+                } else {
                     setTimeout(() => {
                         if (el !== null) {
                             el.classList.remove("xui-anime");
                         }
                     }, 3000);
                 }
-            }, Number(elAnimateDuration * 1000));
+            }, Number(elAnimateDuration ? elAnimateDuration + 240 : 3000));
         }
+    } else {
+        console.warn("xuiAnime() is missing a parameter");
     }
-    else {
-        console.warn("xui.animate() is missing a parameter");
-    }
-};
+}
+
 function xuiAnimeStart(customDefinition){
     let xuiCustom = customDefinition;
     if (xuiCustom !== undefined) {
-        let el = document.querySelector('[xui-custom="' + xuiCustom + '"]');
+        let el = document.querySelector(`[xui-custom="${xuiCustom}"], [xui-anime="${xuiCustom}"]`);
         if (el !== null) {
             let elAnimateDuration = el.getAttribute("xui-anime-duration");
             if ((elAnimateDuration !== null) && (elAnimateDuration !== "")) {
-                el.style.transition = elAnimateDuration + "s";
+                // el.style.transition = elAnimateDuration + "s";
             }
             else {
-                el.style.transition = "1s";
+                // el.style.transition = "1s";
             }
             setTimeout(() => {
                 if (el !== null) {
@@ -635,27 +565,30 @@ function xuiAnimeStart(customDefinition){
         console.warn("xui.animate() is missing a parameter");
     }
 };
-function xuiAnimeEnd(customDefinition){
+function xuiAnimeEnd(customDefinition) {
     let xuiCustom = customDefinition;
     if (xuiCustom !== undefined) {
-        let el = document.querySelector('[xui-custom="' + xuiCustom + '"]');
+        let el = document.querySelector(`[xui-custom="${xuiCustom}"], [xui-anime="${xuiCustom}"]`);
         if (el !== null) {
             let elAnimateDuration = el.getAttribute("xui-anime-duration");
-            if ((elAnimateDuration !== null) && (elAnimateDuration !== "")) {
-                el.style.transition = elAnimateDuration + "s";
+            let duration = 1000; // Default duration in ms
+            
+            if (elAnimateDuration !== null && elAnimateDuration !== "") {
+                duration = Number(elAnimateDuration) * 1000;
             }
-            else {
-                el.style.transition = "1s";
-            }
+
+            // Start the hide animation
+            el.classList.remove("xui-anime");
+            
+            // Remove the element after animation completes
             setTimeout(() => {
                 if (el !== null) {
-                    el.classList.remove("xui-anime");
+                    el.removeAttribute('xui-present'); // Or el.remove() if you want to remove completely
                 }
             });
         }
-    }
-    else {
-        console.warn("xui.animate() is missing a parameter");
+    } else {
+        console.warn("xui.animateEnd() is missing a parameter");
     }
 };
 function xuiTypeWriter(obj){
@@ -1001,20 +934,60 @@ function xuiScrollOnAnimation(){
         }
     }
 };
-function xuiModalShow(name){
+function xuiModalShow(name) {
     let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
     if (modalName !== null) {
-        modalName.removeAttribute("display");
-        void modalName.offsetWidth;
-        modalName.setAttribute("display", true);
+        if (modalName.hasAttribute("xui-present")) {
+            modalName.removeAttribute("xui-present");
+            void modalName.offsetWidth;
+            modalName.setAttribute("xui-present", true);
+        } else {
+            modalName.removeAttribute("display");
+            void modalName.offsetWidth;
+            modalName.setAttribute("display", true);
+        }
     }
 }
-function xuiModalHide(name){
+function xuiModalHide(name) {
     let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
     if (modalName !== null) {
-        modalName.removeAttribute("display");
-        void modalName.offsetWidth;
-        modalName.setAttribute("display", false);
+        if (modalName.hasAttribute("xui-present")) {
+            modalName.removeAttribute("xui-present");
+            void modalName.offsetWidth;
+            modalName.setAttribute("xui-present", false);
+        } else {
+            modalName.removeAttribute("display");
+            void modalName.offsetWidth;
+            modalName.setAttribute("display", false);
+        }
+    }
+}
+function xuiModalOpen(name) {
+    let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
+    if (modalName !== null) {
+        if (modalName.hasAttribute("xui-present")) {
+            modalName.removeAttribute("xui-present");
+            void modalName.offsetWidth;
+            modalName.setAttribute("xui-present", true);
+        } else {
+            modalName.removeAttribute("display");
+            void modalName.offsetWidth;
+            modalName.setAttribute("display", true);
+        }
+    }
+}
+function xuiModalClose(name) {
+    let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
+    if (modalName !== null) {
+        if (modalName.hasAttribute("xui-present")) {
+            modalName.removeAttribute("xui-present");
+            void modalName.offsetWidth;
+            modalName.setAttribute("xui-present", false);
+        } else {
+            modalName.removeAttribute("display");
+            void modalName.offsetWidth;
+            modalName.setAttribute("display", false);
+        }
     }
 }
 if (typeof window !== "undefined") {
@@ -1044,123 +1017,123 @@ if (typeof window !== "undefined") {
 }
 // This function ensures you can add your own unit instead of a fixed unit
 const xuiDynamicCSS = () => {
-    // Map dynamic class prefixes to CSS properties
     const propertyMap = {
-      "xui-column-count": "column-count",
-      "xui-column-count-gap": "column-gap",
-      "xui-m": "margin",
-      "xui-mt": "margin-top",
-      "xui-mr": "margin-right",
-      "xui-mb": "margin-bottom",
-      "xui-ml": "margin-left",
-      "xui-mx": ["margin-left", "margin-right"],
-      "xui-my": ["margin-top", "margin-bottom"],
-      "xui-p": "padding",
-      "xui-pt": "padding-top",
-      "xui-pr": "padding-right",
-      "xui-pb": "padding-bottom",
-      "xui-pl": "padding-left",
-      "xui-px": ["padding-left", "padding-right"],
-      "xui-py": ["padding-top", "padding-bottom"],
-      "xui-space": "letter-spacing",
-      "xui-bdr-rad": "border-radius",
-      "xui-bdr-w": "border-width",
-      "xui-z-index": "z-index",
-      "xui-min-w": "min-width",
-      "xui-min-h": "min-height",
-      "xui-max-w": "max-width",
-      "xui-max-h": "max-height",
-      "xui-font-w": "font-weight",
-      "xui-font-sz": "font-size",
-      "xui-opacity": "opacity",
-      "xui-w": "width",
-      "xui-h": "height",
-      "xui-line-height": "line-height",
-      "xui-letter-spacing": "letter-spacing",
+        "xui-bg": "background-image",
+        "xui-column-count": "column-count",
+        "xui-column-count-gap": "column-gap",
+        "xui-m": "margin",
+        "xui-mt": "margin-top",
+        "xui-mr": "margin-right",
+        "xui-mb": "margin-bottom",
+        "xui-ml": "margin-left",
+        "xui-mx": ["margin-left", "margin-right"],
+        "xui-my": ["margin-top", "margin-bottom"],
+        "xui-p": "padding",
+        "xui-pt": "padding-top",
+        "xui-pr": "padding-right",
+        "xui-pb": "padding-bottom",
+        "xui-pl": "padding-left",
+        "xui-px": ["padding-left", "padding-right"],
+        "xui-py": ["padding-top", "padding-bottom"],
+        "xui-space": "letter-spacing",
+        "xui-bdr-rad": "border-radius",
+        "xui-bdr-w": "border-width",
+        "xui-z-index": "z-index",
+        "xui-min-w": "min-width",
+        "xui-min-h": "min-height",
+        "xui-max-w": "max-width",
+        "xui-max-h": "max-height",
+        "xui-font-w": "font-weight",
+        "xui-font-sz": "font-size",
+        "xui-opacity": "opacity",
+        "xui-w": "width",
+        "xui-h": "height",
+        "xui-line-height": "line-height",
+        "xui-letter-spacing": "letter-spacing",
+        "xui-grid-gap": "grid-gap"
     };
-  
-    // Map responsive prefixes to media queries
+
     const responsiveMap = {
-      sm: "(min-width: 640px)",
-      md: "(min-width: 768px)",
-      lg: "(min-width: 1024px)",
-      xl: "(min-width: 1280px)",
+        "xui-sm": "(min-width: 640px)",
+        "xui-md": "(min-width: 768px)",
+        "xui-lg": "(min-width: 1024px)",
+        "xui-xl": "(min-width: 1280px)",
     };
-  
-    // Create a single <style> tag for all dynamic styles
+
     const styleSheet = document.createElement("style");
     document.head.appendChild(styleSheet);
-  
-    // Track already processed classes to avoid duplicates
+
     const processedClasses = new Set();
-  
-    // Select all elements with classes containing `[]`
     const elements = document.querySelectorAll("[class*='[']");
-  
-    elements.forEach((el) => {
-      const classes = el.className.split(" "); // Get all classes on the element
-  
-      classes.forEach((cls) => {
-        // Check if the class contains `[]` syntax and hasn't been processed yet
-        if (cls.includes("[") && cls.includes("]") && !processedClasses.has(cls)) {
-          // Match the class and extract its prefix, property, and value
-          const match = cls.match(/(xui-)?(sm|md|lg|xl)?-?([a-z-]+)-\[(.+)\]/);
-          if (match) {
-            const isXui = match[1]; // Check if the class starts with "xui-"
-            const prefix = match[2]; // Extract the responsive prefix, e.g., "md"
-            const propertyKey = match[3]; // Extract the property, e.g., "font-sz"
-            const value = match[4]; // Extract the value, e.g., "100px"
-  
-            // Map the property key to the corresponding CSS property
-            const properties = propertyMap[`xui-${propertyKey}`];
-            if (properties) {
-              // Sanitize the class name for use in CSS (escape brackets)
-              const sanitizedClass = cls.replace(/\[/g, "\\[").replace(/\]/g, "\\]");
-  
-              // Generate the CSS rule(s)
-              if (Array.isArray(properties)) {
-                // Handle multiple properties (e.g., xui-px, xui-py)
-                const rules = properties.map((prop) => `${prop}: ${value};`).join(" ");
-                const rule = `.${sanitizedClass} { ${rules} }`;
-                if (prefix) {
-                  // Wrap the rule in a media query for responsive classes
-                  const mediaQuery = responsiveMap[prefix];
-                  styleSheet.sheet.insertRule(
-                    `@media ${mediaQuery} { ${rule} }`,
-                    styleSheet.sheet.cssRules.length
-                  );
-                } else {
-                  // Add the rule globally for non-responsive classes
-                  styleSheet.sheet.insertRule(rule, styleSheet.sheet.cssRules.length);
-                }
-              } else {
-                // Handle single property
-                const rule = `.${sanitizedClass} { ${properties}: ${value}; }`;
-                if (prefix) {
-                  // Wrap the rule in a media query for responsive classes
-                  const mediaQuery = responsiveMap[prefix];
-                  styleSheet.sheet.insertRule(
-                    `@media ${mediaQuery} { ${rule} }`,
-                    styleSheet.sheet.cssRules.length
-                  );
-                } else {
-                  // Add the rule globally for non-responsive classes
-                  styleSheet.sheet.insertRule(rule, styleSheet.sheet.cssRules.length);
-                }
-              }
-  
-              // Mark the class as processed
-              processedClasses.add(cls);
-            }
-          }
+
+    const generateHash = (str) => {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+            hash = (hash << 5) - hash + str.charCodeAt(i);
+            hash |= 0;
         }
-      });
+        return `x${Math.abs(hash).toString(36)}`;
+    };
+
+    elements.forEach((el) => {
+        const classes = el.className.split(" ");
+
+        classes.forEach((cls) => {
+            if (cls.includes("[") && cls.includes("]"))  {
+                const match = cls.match(/(xui-(sm|md|lg|xl)-)?(xui-[a-z-]+)-\[(.+)\]/);
+                if (match) {
+                    const responsivePrefix = match[1]?.slice(0, -1); // e.g., "xui-md"
+                    const propertyKey = match[3]; // e.g., "xui-bg"
+                    let value = match[4]; // e.g., "url('https://example.com')"
+
+                    const properties = propertyMap[propertyKey];
+                    if (properties) {
+                        // Handle URL values properly
+                        let classNameSuffix = value;
+                        if (propertyKey === "xui-bg" && value.startsWith("url")) {
+                            const urlMatch = value.match(/url\((.*)\)/);
+                            if (urlMatch) {
+                                value = `url(${urlMatch[1]})`;
+                                classNameSuffix = generateHash(urlMatch[1]); // Replace full URL with a short hash
+                            }
+                        }
+
+                        // Construct new valid class name
+                        const newClassName = `${propertyKey}-${classNameSuffix}`;
+                        el.classList.add(newClassName);
+
+                        // Generate CSS
+                        let rule = "";
+                        if (Array.isArray(properties)) {
+                            rule = properties.map((prop) => `${prop}: ${value};`).join(" ");
+                        } else {
+                            rule = `${properties}: ${value};`;
+                        }
+
+                        // Apply responsive logic if needed
+                        if (responsivePrefix && responsiveMap[responsivePrefix]) {
+                            const mediaQuery = responsiveMap[responsivePrefix];
+                            styleSheet.sheet.insertRule(
+                                `@media ${mediaQuery} { .${newClassName} { ${rule} } }`,
+                                styleSheet.sheet.cssRules.length
+                            );
+                        } else {
+                            styleSheet.sheet.insertRule(
+                                `.${newClassName} { ${rule} }`,
+                                styleSheet.sheet.cssRules.length
+                            );
+                        }
+
+                        processedClasses.add(cls);
+                    }
+                }
+            }
+        });
     });
 };
+
 function xuiRun(){
     xuiLazyLoadings();
-    xuiModal();
-    xuiAccordion();
     xuiAlerts();
     xuiScrollOnAnimation();
     xuiDynamicCSS();
