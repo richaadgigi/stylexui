@@ -1079,7 +1079,6 @@ const xuiDynamicCSS = () => {
         const classes = el.className.split(" ");
 
         classes.forEach((cls) => {
-            console.log("Processing class:", cls);
             if (cls.includes("[") && cls.includes("]"))  {
                 const match = cls.match(/(xui-(sm|md|lg|xl)-)?(xui-[a-z-]+)-\[(.+)\]/);
                 if (match) {
