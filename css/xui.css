@@ -2836,7 +2836,7 @@ button[disabled]:hover,
   -webkit-appearance: none;
   -moz-appearance: none;
   position: relative;
-  background-image: url('../images/custom-select-arrow.svg'); /* Custom arrow */
+  background-image: url('https://res.cloudinary.com/dabfoaprr/image/upload/v1743013840/custom-select-arrow_jyppbt.svg'); /* Custom arrow */
   background-repeat: no-repeat;
   background-position: right 10px center; /* Position the arrow */
   background-size: 16px; /* Adjust size */
@@ -3116,7 +3116,7 @@ input[type="checkbox"] {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  background-image: url('../images/custom-check.svg');
+  background-image: url('https://res.cloudinary.com/dabfoaprr/image/upload/v1743013841/custom-check_xkpvha.svg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 12px 12px; /* Adjust size here */
@@ -7450,37 +7450,37 @@ select:-webkit-autofill:focus {
 
 /*Background Images*/
 .xui-bg-lazy {
-  background-image: url("../images/image-loading.png");
+  background-image: url("https://res.cloudinary.com/dabfoaprr/image/upload/v1743013894/image-loading_tho5r3.png");
 }
 
 .xui-bg-pattern-white {
   background-color: #FFFFFF;
   color: #000000;
-  background-image: url(../images/white-card-pattern.png);
+  background-image: url('https://res.cloudinary.com/dabfoaprr/image/upload/v1743013669/white-card-pattern_prikhk.png');
 }
 
 .xui-bg-pattern-blue {
   background-color: var(--blue);
   color: #FFFFFF;
-  background-image: url(../images/blue-card-pattern.png);
+  background-image: url('https://res.cloudinary.com/dabfoaprr/image/upload/v1743013669/blue-card-pattern_rt8ylb.png');
 }
 
 .xui-bg-pattern-red {
   background-color: var(--red);
   color: #FFFFFF;
-  background-image: url(../images/red-card-pattern.png);
+  background-image: url('https://res.cloudinary.com/dabfoaprr/image/upload/v1743013669/red-card-pattern_jukijh.png');
 }
 
 .xui-bg-pattern-green {
   background-color: var(--green);
   color: #000000;
-  background-image: url(../images/green-card-pattern.png);
+  background-image: url('https://res.cloudinary.com/dabfoaprr/image/upload/v1743013669/green-card-pattern_vpodqb.png');
 }
 
 .xui-bg-pattern-black {
   background-color: #01010e;
   color: #FFFFFF;
-  background-image: url(../images/black-card-pattern.png);
+  background-image: url('https://res.cloudinary.com/dabfoaprr/image/upload/v1743013669/black-card-pattern_szfzi6.png');
 }
 
 
@@ -27478,6 +27478,10 @@ select:-webkit-autofill:focus {
     flex-wrap: wrap;
   }
 
+  .xui-navbar:has(.menu.animate) {
+    position: fixed;
+  }
+
   .xui-navbar .brand {
     width: 120px;
     z-index: 2;
@@ -27653,7 +27657,6 @@ select:-webkit-autofill:focus {
     top: 0;
     left: auto;
     right: -100%;
-    pointer-events: none;
   }
 
   .xui-navbar[layout="2"] .links .main.animate,

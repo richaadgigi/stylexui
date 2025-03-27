@@ -1,3 +1,46 @@
-css/
-images/
-js/
+# Development files
+src/
+tests/
+examples/
+demo/
+*.log
+
+# Build artifacts (already in dist/)
+*.tmp.*
+.temp/
+
+# Version control
+.git/
+.gitignore
+.github/
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment files
+.env
+.env.local
+.env*.local
+
+# Documentation (unless needed)
+*.md
+!README.md
+CHANGELOG.md
+
+# Config files (keep package.json)
+*.config.js
+!postcss.config.js
+tsconfig.json
+
+# Lockfiles
+package-lock.json
+yarn.lock
+
+# MacOS files
+.DS_Store
+
+# Windows files
+Thumbs.db
