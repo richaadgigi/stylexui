@@ -37,10 +37,10 @@ Add the following `<link>` tag to your HTML file:
 
 ```html
 <!-- CSS -->
-<link rel="stylesheet" href="https://cdn.stylexui.com/css/xui.css" />
+<link rel="stylesheet" href="https://cdn.stylexui.com/@v1.0.0-stable/css/xui.css" />
 
 <!-- Optional JavaScript (for interactive components) -->
-<script src="https://cdn.stylexui.com/js/xui.js" defer></script>
+<script src="https://cdn.stylexui.com/@v1.0.0-stable/js/xui.js" defer></script>
 ```
 ✅ Best for: Prototyping, static HTML projects, minimal dependencies.
 
