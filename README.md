@@ -58,7 +58,10 @@ yarn add @richaadgigi/stylexui
 
 Then, import it in your project:
 ```js
-import '@richaadgigi/stylexui';
+import '@richaadgigi/stylexui/css/xui.min.css';
+import { apply } from '@richaadgigi/stylexui';
+
+apply();
 ```
 ✅ Best for: React, Vue, Angular, scalable projects, and version control.
 
@@ -105,6 +108,8 @@ Copy and paste the following template to start using StyleXui:
 </body>
 </html>
 ```
+
+Visit our documentation to [learn more](https://doc.clickup.com/9012486388/p/h/8cjz87m-2112/8989912e92c935b/8cjz87m-2112).
 
 ---
 

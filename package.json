@@ -9,6 +9,7 @@
     "*.js",
     "*.d.ts",
     "css/",
+    "assets/",
     "js/",
     "types"
   ],
@@ -29,7 +30,6 @@
   },
   "keywords": [
     "css",
-    "stylexui",
     "xui",
     "style",
     "js",
@@ -37,7 +37,8 @@
     "ui-framework",
     "frontend",
     "css-framework",
-    "javascript-library"
+    "javascript-library",
+    "xnyder"
   ],
   "author": "Richard Gigi",
   "license": "MIT",
