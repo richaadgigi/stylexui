@@ -1,7 +1,7 @@
 {
   "name": "@richaadgigi/stylexui",
-  "version": "1.0.0-stable",
-  "description": "StyleXui, also known as Style You, is a CSS framework built to enhance your workflow with pre-designed components and utility classes. Whether you're an experienced developer or just starting out, StyleXui helps you build stunning, responsive UIs with ease.",
+  "version": "1.0.0-final",
+  "description": "Build responsive, beautiful interfaces faster than ever with utility-first classes and smart defaults. No bloat. No fuss. Just results.",
   "main": "index.js",
   "types": "index.d.ts",
   "files": [

@@ -749,7 +749,7 @@ const xuiDynamicCSS = () => {
     document.head.appendChild(styleSheet);
 
     const processedClasses = new Set();
-    const elements = document.querySelectorAll("[class*='[']");
+    const elements = document.querySelectorAll("[class*='xui-']");
 
     const generateHash = (str) => {
         let hash = 0;
@@ -761,15 +761,23 @@ const xuiDynamicCSS = () => {
     };
 
     elements.forEach((el) => {
-        const classes = el.className.split(" ");
+        const classes = el.className.split(" ").filter(cls => cls.startsWith('xui-'));
 
+        // Process non-responsive classes first
         classes.forEach((cls) => {
-            if (cls.includes("[") && cls.includes("]"))  {
-                const match = cls.match(/(xui-(sm|md|lg|xl)-)?(xui-[a-z-]+)-\[(.+)\]/);
-                if (match) {
-                    const responsivePrefix = match[1]?.slice(0, -1); // e.g., "xui-md"
-                    const propertyKey = match[3]; // e.g., "xui-bg"
-                    let value = match[4]; // e.g., "url('https://example.com')"
+            if (cls.includes("[") && cls.includes("]") && !processedClasses.has(cls)) {
+                // Check for responsive prefix (sm, md, lg, xl)
+                const responsiveMatch = cls.match(/^xui-(sm|md|lg|xl)-([a-z-]+)-\[(.+)\]$/);
+                if (responsiveMatch) {
+                    // This is a responsive class, we'll process it after base classes
+                    return;
+                }
+
+                // Process base classes
+                const baseMatch = cls.match(/^(xui-[a-z-]+)-\[(.+)\]$/);
+                if (baseMatch) {
+                    const propertyKey = baseMatch[1];
+                    let value = baseMatch[2];
 
                     const properties = propertyMap[propertyKey];
                     if (properties) {
@@ -779,12 +787,12 @@ const xuiDynamicCSS = () => {
                             const urlMatch = value.match(/url\((.*)\)/);
                             if (urlMatch) {
                                 value = `url(${urlMatch[1]})`;
-                                classNameSuffix = generateHash(urlMatch[1]); // Replace full URL with a short hash
+                                classNameSuffix = generateHash(urlMatch[1]);
                             }
                         }
 
                         // Construct new valid class name
-                        const newClassName = `${propertyKey}-${classNameSuffix}`;
+                        const newClassName = `${propertyKey}-${classNameSuffix.replace(/[^a-z0-9]/g, '-')}`;
                         el.classList.add(newClassName);
 
                         // Generate CSS
@@ -795,19 +803,55 @@ const xuiDynamicCSS = () => {
                             rule = `${properties}: ${value};`;
                         }
 
-                        // Apply responsive logic if needed
-                        if (responsivePrefix && responsiveMap[responsivePrefix]) {
-                            const mediaQuery = responsiveMap[responsivePrefix];
-                            styleSheet.sheet.insertRule(
-                                `@media ${mediaQuery} { .${newClassName} { ${rule} } }`,
-                                styleSheet.sheet.cssRules.length
-                            );
-                        } else {
-                            styleSheet.sheet.insertRule(
-                                `.${newClassName} { ${rule} }`,
-                                styleSheet.sheet.cssRules.length
-                            );
+                        styleSheet.sheet.insertRule(
+                            `.${newClassName} { ${rule} }`,
+                            styleSheet.sheet.cssRules.length
+                        );
+
+                        processedClasses.add(cls);
+                    }
+                }
+            }
+        });
+
+        // Process responsive classes after base classes
+        classes.forEach((cls) => {
+            if (cls.includes("[") && cls.includes("]") && !processedClasses.has(cls)) {
+                const responsiveMatch = cls.match(/^xui-(sm|md|lg|xl)-([a-z-]+)-\[(.+)\]$/);
+                if (responsiveMatch) {
+                    const responsivePrefix = `xui-${responsiveMatch[1]}`;
+                    const propertyKey = `xui-${responsiveMatch[2]}`;
+                    let value = responsiveMatch[3];
+
+                    const properties = propertyMap[propertyKey];
+                    if (properties && responsiveMap[responsivePrefix]) {
+                        // Handle URL values properly
+                        let classNameSuffix = value;
+                        if (propertyKey === "xui-bg" && value.startsWith("url")) {
+                            const urlMatch = value.match(/url\((.*)\)/);
+                            if (urlMatch) {
+                                value = `url(${urlMatch[1]})`;
+                                classNameSuffix = generateHash(urlMatch[1]);
+                            }
                         }
+
+                        // Construct new valid class name
+                        const newClassName = `${responsivePrefix}-${propertyKey}-${classNameSuffix.replace(/[^a-z0-9]/g, '-')}`;
+                        el.classList.add(newClassName);
+
+                        // Generate CSS
+                        let rule = "";
+                        if (Array.isArray(properties)) {
+                            rule = properties.map((prop) => `${prop}: ${value};`).join(" ");
+                        } else {
+                            rule = `${properties}: ${value};`;
+                        }
+
+                        const mediaQuery = responsiveMap[responsivePrefix];
+                        styleSheet.sheet.insertRule(
+                            `@media ${mediaQuery} { .${newClassName} { ${rule} } }`,
+                            styleSheet.sheet.cssRules.length
+                        );
 
                         processedClasses.add(cls);
                     }
