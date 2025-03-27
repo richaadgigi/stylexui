@@ -9778,18 +9778,17 @@ select:-webkit-autofill:focus {
   position: relative;
 }
 
-.xui-dashboard .navigator,
-.xui-dashboard .screen {
-  position: fixed;
-  top: 0;
-  height: 100vh;
-}
-
 .xui-dashboard .navigator {
   width: var(--default-sidebar-width);
   left: 0;
   position: relative;
   overflow-y: auto;
+}
+.xui-dashboard .navigator,
+.xui-dashboard .screen {
+  position: fixed;
+  top: 0;
+  height: 100vh;
 }
 
 .xui-dashboard .navigator .brand {
