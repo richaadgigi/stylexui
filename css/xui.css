@@ -28277,12 +28277,7 @@ body.xui-dark-mode .xui-form .input-holder .right {
   color: var(--dark-input-text, #e0e0e0); 
   
   /* Border: Subtle dark gray (softer than --gray-300) */
-  border-color: var(--dark-input-border, #3a3a3a); 
-  
-  /* Placeholder text (if needed) */
-  &::placeholder {
-    color: var(--dark-input-placeholder, #7a7a7a);
-  }
+  border-color: var(--dark-input-border, #3a3a3a);
 }
 
 body.xui-dark-mode .xui-toggle-switch .slider {
@@ -28307,12 +28302,4 @@ body.xui-dark-mode .xui-form input[type="radio"]:checked::after {
 
 body.xui-dark-mode .xui-navbar .menu {
   background-color: rgba(255, 255, 255, 0.08); /* Light overlay on dark */
-  
-  /* Optional: Hover/focus states for better interactivity */
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.12);
-  }
-  &:active {
-    background-color: rgba(255, 255, 255, 0.16);
-  }
 }
