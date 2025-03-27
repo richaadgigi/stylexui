@@ -1,1 +1,1148 @@
-!function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports["@richaadgigistylexui"]=t():e["@richaadgigistylexui"]=t()}(this,(()=>(()=>{"use strict";var e={};return((e,t)=>{Object.defineProperty(t,"__esModule",{value:!0}),t.xui=t.xuiModalHide=t.xuiModalShow=t.xuiScrollOnAnimation=t.xuiTypeWriter=t.xuiAnimeEnd=t.xuiAnimeStart=t.xuiAnime=t.xuiLazyLoadings=t.xuiAlerts=t.xuiAccordion=t.xuiModal=t.xuiHideSkeleton=t.xuiLoadingScreen=void 0;const i=(e,t)=>{for(;e;){if(e.hasAttribute(t))return e;e=e.parentElement}return null};if(t.xuiLoadingScreen=()=>{const e=document.querySelector(".xui-loader");null!==e&&(e.style.display="flex");const t=setInterval((()=>{"complete"===document.readyState&&(clearInterval(t),setTimeout((()=>{null!==e&&(e.style.display="none")}),1e3))}),100)},t.xuiHideSkeleton=e=>{setTimeout((()=>{const t=e?`${e} .xui--skeleton, ${e} .xui--skeleton-btn-small`:".xui--skeleton, .xui--skeleton-btn-small";document.querySelectorAll(t).forEach((e=>{e.classList.add("hidden")}))}),2500)},t.xuiModal=()=>{const e=document.querySelectorAll("[xui-modal]");setInterval((()=>{e.forEach((e=>{const t=e.style.transform,i=document.querySelector("body");null!==i&&(i.style.overflow="scale(1)"===t?"hidden":"auto")}))}),2e3),document.onclick=t=>{var i,o;const n=t.target,r=n.getAttribute("xui-modal"),u=n.getAttribute("xui-modal-open")||(null===(i=n.parentElement)||void 0===i?void 0:i.getAttribute("xui-modal-open")),s=n.getAttribute("xui-modal-close")||(null===(o=n.parentElement)||void 0===o?void 0:o.getAttribute("xui-modal-close"));if(r&&e.forEach((e=>{e.hasAttribute("disable-click-on-outside")||r!==e.getAttribute("xui-modal")||e.toggleAttribute("open",!1)})),u){const e=document.querySelector(`[xui-modal="${u}"]`);e&&(e.toggleAttribute("open",!0),document.body.style.overflow="hidden")}if(s){const e=document.querySelector(`[xui-modal="${s}"]`);e&&(e.toggleAttribute("open",!1),document.body.style.overflow="auto")}}},t.xuiAccordion=()=>{document.querySelectorAll(".xui-accordion-box .xui-accordion-header").forEach(((e,t)=>{e.addEventListener("click",(()=>{if("undefined"!=typeof window){const e=document.querySelectorAll(".xui-accordion-box .xui-accordion-header")[t],i=e.querySelector(".xui-accordion-header-icon-open"),o=e.querySelector(".xui-accordion-header-icon-close"),n=document.querySelectorAll(".xui-accordion-box .xui-accordion-content")[t],r=e=>!e||"none"===window.getComputedStyle(e).display,u=(e,t,i,o)=>{t&&(t.style.display="block"===e?"none":"inline-block"),i&&(i.style.display="block"===e?"inline-block":"none"),o&&(o.style.display=e)};document.querySelectorAll(".xui-accordion-box").forEach((e=>{const t=e.querySelector(".xui-accordion-content"),i=e.querySelector(".xui-accordion-header-icon-open"),o=e.querySelector(".xui-accordion-header-icon-close");u("none",i,o,t)})),u(r(n)?"block":"none",i,o,n)}}))}))},t.xuiAlerts=()=>{document.querySelectorAll(".xui-alert .xui-alert-close").forEach(((e,t)=>{e.addEventListener("click",(()=>{const e=document.querySelectorAll(".xui-alert")[t],i=e.classList.contains("xui-anime"),o=e.getAttribute("xui-anime-duration");if(i){const t=o?parseFloat(o):1;e.style.transition=`${t}s`,e.classList.remove("xui-anime"),setTimeout((()=>{e.style.transition=""}),1e3*t)}else e.style.cssText="overflow: hidden; padding: 0; margin: 0; height: 0; transition: .2s;"}))}))},t.xuiLazyLoadings=()=>{!function(){const e=document.querySelectorAll("[xui-bg-img]");let t=0;const i=function(){e.forEach((e=>{const t=e.getBoundingClientRect();if("undefined"!=typeof window&&t.top<=window.innerHeight&&t.bottom>=0&&e.getAttribute("xui-bg-img")){const t=e.getAttribute("xui-bg-img");t&&(e.style.backgroundImage=`url('${t}')`,e.removeAttribute("xui-bg-img"))}})),t=Array.from(e).filter((e=>null===e.getAttribute("xui-bg-img"))).length,t===e.length&&"undefined"!=typeof window&&window.removeEventListener("scroll",i)};!function(){"undefined"!=typeof window&&window.addEventListener("scroll",i);const e=document.querySelector(".xui-dashboard .screen .content");e&&e.addEventListener("scroll",i),i()}()}(),function(){const e=document.querySelectorAll("[xui-img-src]");let t=0;const i=function(){e.forEach((e=>{const t=e.getBoundingClientRect();if("undefined"!=typeof window&&t.top<=window.innerHeight&&t.bottom>=0&&e.getAttribute("xui-img-src")){const t=e.getAttribute("xui-img-src");t&&(e.src=t,e.onload=function(){e.removeAttribute("xui-img-src")})}})),t=Array.from(e).filter((e=>null===e.getAttribute("xui-img-src"))).length,t===e.length&&"undefined"!=typeof window&&window.removeEventListener("scroll",i)};!function(){const e=document.querySelector(".xui-dashboard .screen .content");e&&e.addEventListener("scroll",i),i()}()}()},t.xuiAnime=e=>{if(e){const t=document.querySelector(`[xui-custom="${e}"]`);if(t){const e=t.getAttribute("xui-anime-reverse"),i=t.getAttribute("xui-anime-duration");t.style.transition=i?`${i}s`:"1s",setTimeout((()=>{t&&t.classList.add("xui-anime")})),setTimeout((()=>{if(e){const i=1e3*Number(e);setTimeout((()=>{t&&t.classList.remove("xui-anime")}),i)}else setTimeout((()=>{t&&t.classList.remove("xui-anime")}),3e3)}),i?1e3*Number(i):1e3)}}else console.warn("xui.animate() is missing a parameter")},t.xuiAnimeStart=e=>{if(e){const t=document.querySelector(`[xui-custom="${e}"]`);if(t){const e=t.getAttribute("xui-anime-duration");t.style.transition=e?`${e}s`:"1s",setTimeout((()=>{t&&t.classList.add("xui-anime")}))}}else console.warn("xui.animate() is missing a parameter")},t.xuiAnimeEnd=e=>{if(e){const t=document.querySelector(`[xui-custom="${e}"]`);if(t){const e=t.getAttribute("xui-anime-duration");t.style.transition=e?`${e}s`:"1s",setTimeout((()=>{t&&t.classList.remove("xui-anime")}))}}else console.warn("xui.animate() is missing a parameter")},t.xuiTypeWriter=e=>{var t,i;let o=e.words||["Hello friend 👋. This is a default text from XUI. I hope you're enjoying this","It can be changed as well! Just like this."],n=null!==(t=e.duration)&&void 0!==t?t:1e3,r=e.target,u=null!==(i=e.delay)&&void 0!==i?i:1e3,s=e.cursor;const l=document.querySelector(`.xui-effect-typewriter[xui-effect-typewriter="${r}"]`);if(l){l.innerHTML+='<span class="xui-effect-typewriter-content"></span>',s&&(l.innerHTML+='<span class="xui-effect-typewriter-cursor"></span>');const e=document.querySelector(`.xui-effect-typewriter[xui-effect-typewriter="${r}"] span.xui-effect-typewriter-content`),t=o,i=(t,o,r)=>{o>=0?(e&&(e.innerHTML=t.substring(0,o--)),setTimeout((()=>i(t,o,r)),n)):r&&setTimeout(r,n)},a=(o,s,l)=>{if(t.length>1)s<o.length+1?(e&&(e.innerHTML=o.substring(0,s++)),setTimeout((()=>a(o,s,l)),n)):s===o.length+1&&setTimeout((()=>i(o,s,l)),u);else if(s<o.length+1)e&&(e.innerHTML=o.substring(0,s++)),setTimeout((()=>a(o,s,l)),n);else if(s===o.length+1){const e=document.querySelector(`.xui-effect-typewriter[xui-effect-typewriter="${r}"]`);e&&e.classList.add("xui-effect-typewriter-ready");const t=document.querySelector(`.xui-effect-typewriter[xui-effect-typewriter="${r}"] span.xui-effect-typewriter-cursor`);t&&(t.style.display="none")}},c=e=>{void 0===t[e]?setTimeout((()=>c(0)),u):e<t[e].length+1&&a(t[e],0,(()=>c(e+1)))};setTimeout((()=>c(0)),u)}else console.error(`[xui-effect-typewriter="${r}"] not found`)},t.xuiScrollOnAnimation=()=>{const e=document.querySelector("body");if(e&&e.classList.contains("xui-aos")){const e=document.querySelector('meta[name="viewport"]');if(e&&e.setAttribute("content","width=device-width, initial-scale=1 maximum-scale=1.0, user-scalable=no"),"IntersectionObserver"in window){const e=(e,t,i)=>{const o=new IntersectionObserver((e=>{if("undefined"!=typeof window){const i=window.outerWidth;let n=null,r=null;const u=e[0].target;i>576&&i<768?(n=u.getAttribute("xui-sm-aos-duration"),r=1e3*Number(u.getAttribute("xui-sm-aos-delay")||0)):i>768&&i<992?(n=u.getAttribute("xui-md-aos-duration"),r=1e3*Number(u.getAttribute("xui-md-aos-delay")||0)):i>992&&i<1200?(n=u.getAttribute("xui-lg-aos-duration"),r=1e3*Number(u.getAttribute("xui-lg-aos-delay")||0)):i>1200?(n=u.getAttribute("xui-xl-aos-duration"),r=1e3*Number(u.getAttribute("xui-xl-aos-delay")||0)):(n=u.getAttribute("xui-aos-duration"),r=1e3*Number(u.getAttribute("xui-aos-delay")||0)),u.style.animationDuration=n?`${n}s`:".5s",u.style.transition=n?`${n}s`:".5s",e[0].isIntersecting?(r?setTimeout((()=>{u.classList.add("xui-aos-animate")}),r):u.classList.add("xui-aos-animate"),t&&o.unobserve(u)):u.classList.remove("xui-aos-animate")}}),{rootMargin:i,threshold:0});o.observe(e)},t=document.querySelectorAll("[xui-aos]");for(let i=0;i<t.length;i++){const o=t[i];if("undefined"!=typeof window){const t=window.outerWidth;let i=null;i=Number(t>576&&t<768?o.getAttribute("xui-sm-aos-offset")||o.getAttribute("xui-aos-offset"):t>768&&t<992?o.getAttribute("xui-md-aos-offset")||o.getAttribute("xui-sm-aos-offset")||o.getAttribute("xui-aos-offset"):t>992&&t<1200?o.getAttribute("xui-lg-aos-offset")||o.getAttribute("xui-md-aos-offset")||o.getAttribute("xui-sm-aos-offset")||o.getAttribute("xui-aos-offset"):t>1200&&(o.getAttribute("xui-xl-aos-offset")||o.getAttribute("xui-lg-aos-offset")||o.getAttribute("xui-md-aos-offset")||o.getAttribute("xui-sm-aos-offset"))||o.getAttribute("xui-aos-offset"));const n=o.hasAttribute("xui-aos-once");e(o,n,i?`0px 0px -${i}%`:"0px 0px -5%")}}}}},t.xuiModalShow=e=>{const t=document.querySelector(`[xui-modal="${e}"]`);t&&(t.removeAttribute("display"),t.offsetWidth,t.setAttribute("display","true"))},t.xuiModalHide=e=>{const t=document.querySelector(`[xui-modal="${e}"]`);t&&(t.removeAttribute("display"),t.offsetWidth,t.setAttribute("display","false"))},"undefined"!=typeof window){if(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches){const e=document.querySelector('[xui-mode="auto"]');e&&e.classList.add("xui-dark-mode")}window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",(e=>{const t=e.matches?"dark":"light",i=document.querySelector('[xui-mode="auto"]');i&&("dark"===t?i.classList.add("xui-dark-mode"):i.classList.remove("xui-dark-mode"))}))}t.xui={run:()=>{(0,t.xuiLazyLoadings)(),(0,t.xuiModal)(),(0,t.xuiAccordion)(),(0,t.xuiAlerts)(),(0,t.xuiScrollOnAnimation)()},control:{loader:()=>{(0,t.xuiLoadingScreen)()}},animate:{default:e=>{(0,t.xuiAnime)(e)},start:e=>{(0,t.xuiAnimeStart)(e)},end:e=>{(0,t.xuiAnimeEnd)(e)}},effect:{typewriter:e=>{null==e?console.warn("Parse an object"):(0,t.xuiTypeWriter)(e)}},reveal:{images:()=>{(0,t.xuiLazyLoadings)()},skeletons:e=>{(0,t.xuiHideSkeleton)(e)}},modal:{show:e=>{const t=document.querySelector(`[xui-modal="${e}"]`);null!==t&&(t.removeAttribute("open"),t.offsetWidth,t.setAttribute("open","true"))},hide:e=>{const t=document.querySelector(`[xui-modal="${e}"]`);null!==t&&(t.removeAttribute("open"),t.offsetWidth,t.setAttribute("open","false"))}}},t.default=()=>{document.addEventListener("click",(e=>{const t=e.target;if(document.getElementsByClassName("xui-navbar").length>0){const e=document.querySelector(".xui-navbar .menu"),i=document.querySelector(".xui-navbar .links .main"),o=document.querySelector(".xui-dashboard");if(document.querySelector(".xui-dashboard.animate"),document.querySelectorAll(".xui-navbar .links a"),t===e&&(t.classList.contains("animate")?(null==o||o.classList.remove("animate"),null==i||i.classList.remove("animate"),e.classList.remove("animate")):(null==o||o.classList.add("animate"),null==i||i.classList.add("animate"),e.classList.add("animate"))),t===o&&t.classList.contains("animate")&&(null==o||o.classList.remove("animate"),null==e||e.classList.remove("animate")),t.closest(".xui-navbar .links .main a")||t.closest(".xui-dashboard .navigator .links a")){const n=t.getAttribute("href");"#"!==n&&""!==n&&(null==e||e.classList.remove("animate"),null==o||o.classList.remove("animate"),null==i||i.classList.remove("animate"))}}const o=document.querySelectorAll("[xui-modal]"),n=t.getAttribute("xui-modal");t.hasAttribute("xui-modal")&&o.forEach((e=>{const t=e;t.hasAttribute("disable-click-on-outside")||n===t.getAttribute("xui-modal")&&t.hasAttribute("display")&&(t.removeAttribute("display"),t.offsetWidth,t.setAttribute("display","false"));const i=document.querySelector("body");i&&(i.style.overflow="auto")}));let r=t.getAttribute("xui-modal-open"),u=t.getAttribute("xui-modal-close");if(!r){const e=i(t,"xui-modal-open");e&&e.getAttribute&&(r=e.getAttribute("xui-modal-open"))}if(!u){const e=i(t,"xui-modal-close");e&&e.getAttribute&&(u=e.getAttribute("xui-modal-close"))}if(null!==r){const e=document.querySelector(`[xui-modal="${r}"]`);e&&(e.removeAttribute("display"),e.offsetWidth,e.setAttribute("display","true"));const t=document.querySelector("body");t&&(t.style.overflow="hidden")}if(null!==u){const e=document.querySelector(`[xui-modal="${u}"]`);e&&(e.removeAttribute("display"),e.offsetWidth,e.setAttribute("display","false"));const t=document.querySelector("body");t&&(t.style.overflow="auto")}const s=Array.from(document.querySelectorAll(".xui-accordion-box .xui-accordion-header")),l=t.closest(".xui-accordion-box .xui-accordion-header");if(l){const e=s.indexOf(l),t=document.querySelectorAll(".xui-accordion-box .xui-accordion-header")[e],i=t.querySelector(".xui-accordion-header-icon-open"),o=t.querySelector(".xui-accordion-header-icon-close"),n=document.querySelectorAll(".xui-accordion-box .xui-accordion-content")[e];a=n,"undefined"!=typeof window&&"none"===window.getComputedStyle(a).display?(document.querySelectorAll(".xui-accordion-box").forEach((e=>{const t=e.querySelector(".xui-accordion-header .xui-accordion-header-icon-open"),i=e.querySelector(".xui-accordion-header .xui-accordion-header-icon-close"),o=e.querySelector(".xui-accordion-content");t&&(t.style.display="inline-block"),i&&(i.style.display="none"),o&&(o.style.display="none")})),i&&(i.style.display="none"),o&&(o.style.display="inline-block"),n&&(n.style.display="block")):document.querySelectorAll(".xui-accordion-box").forEach((e=>{const t=e.querySelector(".xui-accordion-header .xui-accordion-header-icon-open"),i=e.querySelector(".xui-accordion-header .xui-accordion-header-icon-close"),o=e.querySelector(".xui-accordion-content");t&&(t.style.display="inline-block"),i&&(i.style.display="none"),o&&(o.style.display="none")}))}var a;const c=document.querySelector(".xui-dashboard .screen .content"),d=document.querySelector(".xui-dashboard .screen .aside");t===document.querySelector(".xui-dashboard .screen .content .xui-open-sidebar")&&(null==c||c.classList.add("animate"),null==d||d.classList.add("animate")),t===c&&(null==c||c.classList.remove("animate"),null==d||d.classList.remove("animate"))})),function(){const e=document.querySelector("body");if(null!==e){const i=e.getAttribute("xui-run");null!==i?"true"!==i&&t.xui.run():t.xui.run()}}()}})(0,e),e})()));
+// Utility Functions
+const findElementWithAttribute = (element, attributeName) => {
+    while (element) {
+        if (element.hasAttribute(attributeName)) {
+            return element;
+        }
+        element = element.parentElement;
+    }
+    return null;
+}
+
+const isHidden = (el) => {
+    if (!el) return true;
+    const style = window.getComputedStyle(el);
+    return (
+        el.style.display === "none" ||
+        el.offsetParent === null ||
+        style.visibility === "hidden" ||
+        style.opacity === "0" ||
+        style.clipPath === "inset(0 0 100% 0)" ||
+        style.transform === "scale(0)" ||
+        parseInt(style.maxHeight) === 0
+    );
+}
+
+// Core Functionality
+const xuiLoadingScreen = () => {
+    let loader = document.querySelector(".xui-loader");
+    if (loader !== null) {
+        loader.style.display = "flex";
+    }
+    let stateCheck = setInterval(() => {
+        if (document.readyState === 'complete') {
+            clearInterval(stateCheck);
+            // document ready
+            setTimeout(() => {
+                if (loader !== null) {
+                    loader.style.display = "none";
+                }
+            }, 1000);
+        }
+    }, 100);
+};
+
+const xuiHideSkeleton = (ele) => {
+    setTimeout(function () {
+        if(ele !== undefined){
+            let xuiSkeleton = document.querySelectorAll(ele + " .xui--skeleton");
+            let xuiSkeletonBtnSmall = document.querySelectorAll(ele + " .xui--skeleton-btn-small");
+            for (let i = 0; i < xuiSkeleton.length; i++) {
+                xuiSkeleton[i].classList.add("hidden");
+            }
+            for (let i = 0; i < xuiSkeletonBtnSmall.length; i++) {
+                xuiSkeletonBtnSmall[i].classList.add("hidden");
+            }
+        } else {
+            let xuiSkeleton = document.querySelectorAll(".xui--skeleton");
+            let xuiSkeletonBtnSmall = document.querySelectorAll(".xui--skeleton-btn-small");
+            for (let i = 0; i < xuiSkeleton.length; i++) {
+                xuiSkeleton[i].classList.add("hidden");
+            }
+            for (let i = 0; i < xuiSkeletonBtnSmall.length; i++) {
+                xuiSkeletonBtnSmall[i].classList.add("hidden");
+            }
+        }
+    }, 2500);
+};
+
+const xuiAlerts = () => {
+    // Select both close button classes
+    let alertBoxesClose = document.querySelectorAll('.xui-alert .xui-alert-close, .xui-alert .cancel');
+    
+    for (var i = 0; i < alertBoxesClose.length; i++) {
+        alertBoxesClose[i].addEventListener('click', ((j) => {
+            return function () {
+                // Find the parent alert box for this close button
+                let alertBox = alertBoxesClose[j].closest('.xui-alert');
+                
+                let alertBoxAnimation = alertBox.classList.contains('xui-anime');
+                if (alertBoxAnimation) {
+                    let animationDuration = alertBox.getAttribute("xui-anime-duration");
+                    if ((animationDuration !== null) && (animationDuration !== "")) {
+                        alertBox.style.transition = animationDuration + "s";
+                        alertBox.classList.remove("xui-anime");
+                        setTimeout(() => {
+                            alertBox.style.transition = "";
+                        }, Number(animationDuration * 1000));
+                    }
+                    else {
+                        alertBox.style.transition = "1s";
+                        alertBox.classList.remove("xui-anime");
+                        setTimeout(() => {
+                            alertBox.style.transition = "";
+                        }, 1000);
+                    }
+                }
+                else {
+                    alertBox.removeAttribute('xui-present');
+                }
+            };
+        })(i));
+    }
+};
+
+const xuiLazyLoadings = () => {
+    (function () {
+        const elements = document.querySelectorAll('[xui-bg-img]');
+        let loadedElements = 0; // Track how many elements have been lazy-loaded
+    
+        const lazyLoad = function () {
+            elements.forEach((item) => {
+                const rect = item.getBoundingClientRect(); // Get the element's position relative to the viewport
+                // Check if the item is in the viewport
+                if (typeof window !== "undefined") {
+                    // Client-side-only code
+                    if (rect.top <= window.innerHeight && rect.bottom >= 0 && item.getAttribute('xui-bg-img')) {
+                        const src = item.getAttribute('xui-bg-img');
+                        if (src) {
+                            item.style.backgroundImage = `url('${src}')`;
+                            item.onload = function () {
+                                item.removeAttribute('xui-bg-img');
+                            };
+                        }
+                    }
+                }
+            });
+    
+            // Stop listening to scroll events if all elements have been lazy-loaded
+            loadedElements = Array.from(elements).filter(el => el.getAttribute('xui-bg-img') === null).length;
+            if (loadedElements === elements.length) {
+                if (typeof window !== "undefined") {
+                    // Client-side-only code
+                    window.removeEventListener('scroll', lazyLoad);
+                }
+            }
+        };
+    
+        const init = function () {
+            if (typeof window !== "undefined") {
+                // Client-side-only code
+                window.addEventListener('scroll', lazyLoad);
+            }
+            // Add scroll event listener to the specific container
+            const contentElement = document.querySelector('.xui-dashboard .screen .content');
+            if (contentElement) {
+                contentElement.addEventListener('scroll', lazyLoad);
+            }
+            lazyLoad(); // Initial check in case some elements are already in view
+        };
+    
+        return init();
+    })();
+    
+    (function () {
+        const elements = document.querySelectorAll('[xui-img-src]');
+        let loadedElements = 0; // Track how many elements have been lazy-loaded
+    
+        const lazyLoad = function () {
+            elements.forEach((item) => {
+                const rect = item.getBoundingClientRect(); // Get the element's position relative to the viewport
+                // Check if the item is in the viewport
+                if (typeof window !== "undefined") {
+                    // Client-side-only code
+                    if (rect.top <= window.innerHeight && rect.bottom >= 0 && item.getAttribute('xui-img-src')) {
+                        const src = item.getAttribute('xui-img-src');
+                        if (src) {
+                            item.src = src;
+                            item.onload = function () {
+                                item.removeAttribute('xui-img-src');
+                            };
+                        }
+                    }
+                }
+            });
+    
+            // Stop listening to scroll events if all elements have been lazy-loaded
+            loadedElements = Array.from(elements).filter(el => el.getAttribute('xui-img-src') === null).length;
+            if (loadedElements === elements.length) {
+                if (typeof window !== "undefined") {
+                    // Client-side-only code
+                    window.removeEventListener('scroll', lazyLoad);
+                }
+            }
+        };
+    
+        const init = function () {
+            if (typeof window !== "undefined") {
+                // Client-side-only code
+                window.addEventListener('scroll', lazyLoad);
+            }
+            // Add scroll event listener to the specific container
+            const contentElement = document.querySelector('.xui-dashboard .screen .content');
+            if (contentElement) {
+                contentElement.addEventListener('scroll', lazyLoad);
+            }
+            lazyLoad(); // Initial check in case some elements are already in view
+        };
+    
+        return init();
+    })();
+};
+
+const xuiAnime = (customDefinition) => {
+    let xuiCustom = customDefinition;
+    
+    if (xuiCustom !== undefined) {
+        let el = document.querySelector(`[xui-custom="${xuiCustom}"], [xui-anime="${xuiCustom}"]`);
+        
+        if (el !== null) {
+            let elPlaced = el.getAttribute("xui-placed") || el.getAttribute("xui-set");
+            let elAnimateReverse = el.getAttribute("xui-anime-reverse");
+            let elAnimateDuration = el.getAttribute("xui-anime-duration");
+
+            if (elAnimateDuration !== null && elAnimateDuration !== "") {
+                // el.style.transition = elAnimateDuration + "s";
+            } else {
+                // el.style.transition = "1s";
+            }
+
+            setTimeout(() => {
+                if (el !== null) {
+                    el.classList.add("xui-anime");
+                }
+            });
+
+            setTimeout(() => {
+                if (elAnimateReverse !== undefined && elAnimateReverse !== null) {
+                    let duration = Number(elAnimateReverse) * 1000;
+                    setTimeout(() => {
+                        if (el !== null) {
+                            el.classList.remove("xui-anime");
+                        }
+                    }, duration);
+                } else {
+                    setTimeout(() => {
+                        if (el !== null) {
+                            el.classList.remove("xui-anime");
+                        }
+                    }, 3000);
+                }
+            }, Number(elAnimateDuration ? elAnimateDuration + 240 : 3000));
+        }
+    } else {
+        console.warn("xuiAnime() is missing a parameter");
+    }
+}
+
+const xuiAnimeStart = (customDefinition) => {
+    let xuiCustom = customDefinition;
+    if (xuiCustom !== undefined) {
+        let el = document.querySelector(`[xui-custom="${xuiCustom}"], [xui-anime="${xuiCustom}"]`);
+        if (el !== null) {
+            let elAnimateDuration = el.getAttribute("xui-anime-duration");
+            if ((elAnimateDuration !== null) && (elAnimateDuration !== "")) {
+                // el.style.transition = elAnimateDuration + "s";
+            }
+            else {
+                // el.style.transition = "1s";
+            }
+            setTimeout(() => {
+                if (el !== null) {
+                    el.classList.add("xui-anime");
+                }
+            });
+        }
+    }
+    else {
+        console.warn("xui.animate() is missing a parameter");
+    }
+};
+
+const xuiAnimeEnd = (customDefinition) => {
+    let xuiCustom = customDefinition;
+    if (xuiCustom !== undefined) {
+        let el = document.querySelector(`[xui-custom="${xuiCustom}"], [xui-anime="${xuiCustom}"]`);
+        if (el !== null) {
+            let elAnimateDuration = el.getAttribute("xui-anime-duration");
+            let duration = 1000; // Default duration in ms
+            
+            if (elAnimateDuration !== null && elAnimateDuration !== "") {
+                duration = Number(elAnimateDuration) * 1000;
+            }
+
+            // Start the hide animation
+            el.classList.remove("xui-anime");
+            
+            // Remove the element after animation completes
+            setTimeout(() => {
+                if (el !== null) {
+                    el.removeAttribute('xui-present'); // Or el.remove() if you want to remove completely
+                }
+            });
+        }
+    } else {
+        console.warn("xui.animateEnd() is missing a parameter");
+    }
+};
+
+const xuiTypeWriter = (obj) => {
+    let quoteArray = obj.words;
+    let speed = obj.duration;
+    let target = obj.target;
+    let delay = obj.delay;
+    let cursor = obj.cursor;
+    let textPosition = 0;
+    if (quoteArray === undefined) {
+        quoteArray = ["Hello friend ðŸ‘‹. This is a default text from XUI. I hope you're enjoying this", "It can be changed as well! Just like this."];
+        console.warn("XUI Typewriter: We didn't find \"words\" parameter in your object");
+    }
+    if ((typeof speed === undefined) || (typeof speed !== "number")) {
+        speed = 1000;
+    }
+    if ((typeof delay === undefined) || (typeof delay !== "number")) {
+        delay = 1000;
+    }
+    if (target !== undefined) {
+        var typeWriterElement = document.querySelector(".xui-effect-typewriter[xui-effect-typewriter=\"" + target + "\"]");
+        if (typeWriterElement) {
+            typeWriterElement.innerHTML = typeWriterElement.innerHTML + "<span class=\"xui-effect-typewriter-content\"></span>";
+            if (cursor !== undefined) {
+                if (cursor) {
+                    typeWriterElement.innerHTML = typeWriterElement.innerHTML + "<span class=\"xui-effect-typewriter-cursor\"></span>";
+                }
+            }
+            typeWriterElement = document.querySelector(".xui-effect-typewriter[xui-effect-typewriter=\"" + target + "\"] span.xui-effect-typewriter-content");
+            var textArray = quoteArray;
+            // function to generate the backspace effect
+            let delWriter = (text, i, cb) => {
+                if (i >= 0) {
+                    if (typeWriterElement !== null) {
+                        typeWriterElement.innerHTML = text.substring(0, i--);
+                    }
+                    // generate a random Number to emulate backspace hitting.
+                    var rndBack = 10 + Math.random() * 100;
+                    setTimeout(function () {
+                        delWriter(text, i, cb);
+                    }, speed);
+                }
+                else if (typeof cb == 'function') {
+                    setTimeout(cb, speed);
+                }
+            };
+            // function to generate the keyhitting effect
+            let typeWriter = (text, i, cb) => {
+                if (textArray.length > 1) {
+                    if (i < text.length + 1) {
+                        if (typeWriterElement !== null) {
+                            typeWriterElement.innerHTML = text.substring(0, i++);
+                        }
+                        // generate a random Number to emulate Typing on the Keyboard.
+                        var rndTyping = 250 - Math.random() * 100;
+                        setTimeout(function () {
+                            typeWriter(text, i++, cb);
+                        }, speed);
+                    }
+                    else if (i === text.length + 1) {
+                        setTimeout(function () {
+                            delWriter(text, i, cb);
+                        }, delay);
+                    }
+                }
+                else {
+                    if (i < text.length + 1) {
+                        if (typeWriterElement !== null) {
+                            typeWriterElement.innerHTML = text.substring(0, i++);
+                        }
+                        // generate a random Number to emulate Typing on the Keyboard.
+                        var rndTyping = 250 - Math.random() * 100;
+                        setTimeout(function () {
+                            typeWriter(text, i++, cb);
+                        }, speed);
+                    }
+                    else if (i === text.length + 1) {
+                        let typeWriterEffectTarget = document.querySelector(".xui-effect-typewriter[xui-effect-typewriter=\"" + target + "\"]");
+                        if (typeWriterEffectTarget !== null) {
+                            typeWriterEffectTarget.classList.add("xui-effect-typewriter-ready");
+                        }
+                        let typeWriterEffectCursor = document.querySelector(".xui-effect-typewriter[xui-effect-typewriter=\"" + target + "\"] span.xui-effect-typewriter-cursor");
+                        if (typeWriterEffectCursor !== null) {
+                            typeWriterEffectCursor.style.display = "none";
+                        }
+                    }
+                }
+            };
+            // the main writer function
+            let StartWriter = (i) => {
+                if (typeof textArray[i] == "undefined") {
+                    setTimeout(function () {
+                        StartWriter(0);
+                    }, delay);
+                }
+                else if (i < textArray[i].length + 1) {
+                    if (textArray.length > 1) {
+                        typeWriter(textArray[i], 0, function () {
+                            StartWriter(i + 1);
+                        });
+                    }
+                    else {
+                        typeWriter(textArray[i], 0, function () {
+                            StartWriter(i + 1);
+                        });
+                    }
+                }
+            };
+            // wait one second then start the typewriter
+            setTimeout(function () {
+                StartWriter(0);
+            }, delay);
+        }
+        else {
+            console.error("[xui-effect-typewriter=\"" + target + "\"] not found");
+        }
+    }
+    else {
+        console.error("No target found in xui.effect.typewriter(obj)");
+    }
+};
+
+const xuiScrollOnAnimation = () => {
+    // Check if xui-aos is available in the body tag
+    let xuiBody = document.querySelector("body");
+    if (xuiBody !== null) {
+        let xuiAOSCheck = xuiBody.classList.contains('xui-aos');
+        if (xuiAOSCheck) {
+            let metaViewPort = document.querySelector("meta[name=\"viewport\"]");
+            if (metaViewPort !== null) {
+                metaViewPort.setAttribute("content", "width=device-width, initial-scale=1 maximum-scale=1.0, user-scalable=no");
+            }
+        }
+        if ('IntersectionObserver' in window) {
+            let xuiScroll = (ele, repeat, rootMargin) => {
+                let observer = new IntersectionObserver(function (entries) {
+                    if (typeof window !== "undefined") {
+                        // Client-side-only code
+                        let deviceWidth = window.outerWidth;
+                        let duration;
+                        let delay;
+                        if ((deviceWidth > 576) && (deviceWidth < 768)) {
+                            duration = entries[0].target.getAttribute("xui-sm-aos-duration");
+                            if (duration === 0) {
+                                duration = entries[0].target.getAttribute("xui-aos-duration");
+                            }
+                            delay = Number(entries[0].target.getAttribute("xui-sm-aos-delay") * 1000);
+                            if (delay === 0) {
+                                delay = Number(entries[0].target.getAttribute("xui-aos-delay") * 1000);
+                            }
+                            if (duration !== null) {
+                                entries[0].target.style.animationDuration = duration + "s";
+                                entries[0].target.style.transition = duration + "s";
+                            }
+                            else {
+                                entries[0].target.style.animationDuration = ".5s";
+                                entries[0].target.style.transition = ".5s";
+                            }
+                        }
+                        else if ((deviceWidth > 768) && (deviceWidth < 992)) {
+                            duration = entries[0].target.getAttribute("xui-md-aos-duration");
+                            if (duration === 0) {
+                                duration = entries[0].target.getAttribute("xui-sm-aos-duration");
+                                if (duration === 0) {
+                                    duration = entries[0].target.getAttribute("xui-aos-duration");
+                                }
+                            }
+                            delay = Number(entries[0].target.getAttribute("xui-md-aos-delay") * 1000);
+                            if (delay === 0) {
+                                delay = Number(entries[0].target.getAttribute("xui-sm-aos-delay") * 1000);
+                                if (delay === 0) {
+                                    delay = Number(entries[0].target.getAttribute("xui-aos-delay") * 1000);
+                                }
+                            }
+                            if (duration !== null) {
+                                entries[0].target.style.animationDuration = duration + "s";
+                                entries[0].target.style.transition = duration + "s";
+                            }
+                            else {
+                                entries[0].target.style.animationDuration = ".5s";
+                                entries[0].target.style.transition = ".5s";
+                            }
+                        }
+                        else if ((deviceWidth > 992) && (deviceWidth < 1200)) {
+                            duration = entries[0].target.getAttribute("xui-lg-aos-duration");
+                            if (duration === 0) {
+                                duration = entries[0].target.getAttribute("xui-md-aos-duration");
+                                if (duration === 0) {
+                                    duration = entries[0].target.getAttribute("xui-sm-aos-duration");
+                                    if (duration === 0) {
+                                        duration = entries[0].target.getAttribute("xui-aos-duration");
+                                    }
+                                }
+                            }
+                            delay = Number(entries[0].target.getAttribute("xui-lg-aos-delay") * 1000);
+                            if (delay === 0) {
+                                delay = Number(entries[0].target.getAttribute("xui-md-aos-delay") * 1000);
+                                if (delay === 0) {
+                                    delay = Number(entries[0].target.getAttribute("xui-sm-aos-delay") * 1000);
+                                    if (delay === 0) {
+                                        delay = Number(entries[0].target.getAttribute("xui-aos-delay") * 1000);
+                                    }
+                                }
+                            }
+                            if (duration !== null) {
+                                entries[0].target.style.animationDuration = duration + "s";
+                                entries[0].target.style.transition = duration + "s";
+                            }
+                            else {
+                                entries[0].target.style.animationDuration = ".5s";
+                                entries[0].target.style.transition = ".5s";
+                            }
+                        }
+                        else if (deviceWidth > 1200) {
+                            duration = entries[0].target.getAttribute("xui-xl-aos-duration");
+                            if (duration === 0) {
+                                duration = entries[0].target.getAttribute("xui-lg-aos-duration");
+                                if (duration === 0) {
+                                    duration = entries[0].target.getAttribute("xui-md-aos-duration");
+                                    if (duration === 0) {
+                                        duration = entries[0].target.getAttribute("xui-sm-aos-duration");
+                                        if (duration === 0) {
+                                            duration = entries[0].target.getAttribute("xui-aos-duration");
+                                        }
+                                    }
+                                }
+                            }
+                            delay = Number(entries[0].target.getAttribute("xui-xl-aos-delay") * 1000);
+                            if (delay === 0) {
+                                delay = Number(entries[0].target.getAttribute("xui-lg-aos-delay") * 1000);
+                                if (delay === 0) {
+                                    delay = Number(entries[0].target.getAttribute("xui-md-aos-delay") * 1000);
+                                    if (delay === 0) {
+                                        delay = Number(entries[0].target.getAttribute("xui-sm-aos-delay") * 1000);
+                                        if (delay === 0) {
+                                            delay = Number(entries[0].target.getAttribute("xui-aos-delay") * 1000);
+                                        }
+                                    }
+                                }
+                            }
+                            if (duration !== null) {
+                                entries[0].target.style.animationDuration = duration + "s";
+                                entries[0].target.style.transition = duration + "s";
+                            }
+                            else {
+                                entries[0].target.style.animationDuration = ".5s";
+                                entries[0].target.style.transition = ".5s";
+                            }
+                        }
+                        else {
+                            duration = entries[0].target.getAttribute("xui-aos-duration");
+                            delay = Number(entries[0].target.getAttribute("xui-aos-delay") * 1000);
+                            if (duration !== null) {
+                                entries[0].target.style.animationDuration = duration + "s";
+                                entries[0].target.style.transition = duration + "s";
+                            }
+                            else {
+                                entries[0].target.style.animationDuration = ".5s";
+                                entries[0].target.style.transition = ".5s";
+                            }
+                        }
+                        if (entries[0].isIntersecting === true) {
+                            if (delay !== null) {
+                                setTimeout(() => {
+                                    entries[0].target.classList.add("xui-aos-animate");
+                                }, delay);
+                            }
+                            else {
+                                entries[0].target.classList.add("xui-aos-animate");
+                            }
+                            if (repeat) {
+                                observer.unobserve(entries[0].target);
+                            }
+                        }
+                        else {
+                            entries[0].target.classList.remove("xui-aos-animate");
+                        }
+                    }
+                }, { rootMargin: rootMargin, threshold: 0 });
+                observer.observe(ele);
+            };
+            let xuiAOS = document.querySelectorAll("[xui-aos]");
+            for (var i = 0; i < xuiAOS.length; i++) {
+                var offset;
+                if (typeof window !== "undefined") {
+                    // Client-side-only code
+                    let deviceWidth = window.outerWidth;
+                    if ((deviceWidth > 576) && (deviceWidth < 768)) {
+                        offset = Number(xuiAOS[i].getAttribute("xui-sm-aos-offset"));
+                        if (offset === 0) {
+                            offset = Number(xuiAOS[i].getAttribute("xui-aos-offset"));
+                        }
+                    }
+                    else if ((deviceWidth > 768) && (deviceWidth < 992)) {
+                        offset = Number(xuiAOS[i].getAttribute("xui-md-aos-offset"));
+                        if (offset === 0) {
+                            offset = Number(xuiAOS[i].getAttribute("xui-sm-aos-offset"));
+                            if (offset === 0) {
+                                offset = Number(xuiAOS[i].getAttribute("xui-aos-offset"));
+                            }
+                        }
+                    }
+                    else if ((deviceWidth > 992) && (deviceWidth < 1200)) {
+                        offset = Number(xuiAOS[i].getAttribute("xui-lg-aos-offset"));
+                        if (offset === 0) {
+                            offset = Number(xuiAOS[i].getAttribute("xui-md-aos-offset"));
+                            if (offset === 0) {
+                                offset = Number(xuiAOS[i].getAttribute("xui-sm-aos-offset"));
+                                if (offset === 0) {
+                                    offset = Number(xuiAOS[i].getAttribute("xui-aos-offset"));
+                                }
+                            }
+                        }
+                    }
+                    else if (deviceWidth > 1200) {
+                        offset = Number(xuiAOS[i].getAttribute("xui-xl-aos-offset"));
+                        if (offset === 0) {
+                            offset = Number(xuiAOS[i].getAttribute("xui-lg-aos-offset"));
+                            if (offset === 0) {
+                                offset = Number(xuiAOS[i].getAttribute("xui-md-aos-offset"));
+                                if (offset === 0) {
+                                    offset = Number(xuiAOS[i].getAttribute("xui-sm-aos-offset"));
+                                    if (offset === 0) {
+                                        offset = Number(xuiAOS[i].getAttribute("xui-aos-offset"));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        offset = xuiAOS[i].getAttribute("xui-aos-offset");
+                    }
+                    let getNoRepeatAttr = xuiAOS[i].hasAttribute("xui-aos-once");
+                    if (offset !== null) {
+                        let rootMargin = "0px 0px -" + offset + "%";
+                        xuiScroll(xuiAOS[i], getNoRepeatAttr, rootMargin);
+                    }
+                    else {
+                        let rootMargin = "0px 0px -5%";
+                        xuiScroll(xuiAOS[i], getNoRepeatAttr, rootMargin);
+                    }
+                }
+            }
+        }
+    }
+};
+
+const xuiModalShow = (name) => {
+    let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
+    if (modalName !== null) {
+        if (modalName.hasAttribute("xui-present")) {
+            modalName.removeAttribute("xui-present");
+            void modalName.offsetWidth;
+            modalName.setAttribute("xui-present", true);
+        } else {
+            modalName.removeAttribute("display");
+            void modalName.offsetWidth;
+            modalName.setAttribute("display", true);
+        }
+    }
+}
+
+const xuiModalHide = (name) => {
+    let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
+    if (modalName !== null) {
+        if (modalName.hasAttribute("xui-present")) {
+            modalName.removeAttribute("xui-present");
+            void modalName.offsetWidth;
+            modalName.setAttribute("xui-present", false);
+        } else {
+            modalName.removeAttribute("display");
+            void modalName.offsetWidth;
+            modalName.setAttribute("display", false);
+        }
+    }
+}
+
+const xuiModalOpen = (name) => {
+    let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
+    if (modalName !== null) {
+        if (modalName.hasAttribute("xui-present")) {
+            modalName.removeAttribute("xui-present");
+            void modalName.offsetWidth;
+            modalName.setAttribute("xui-present", true);
+        } else {
+            modalName.removeAttribute("display");
+            void modalName.offsetWidth;
+            modalName.setAttribute("display", true);
+        }
+    }
+}
+
+const xuiModalClose = (name) => {
+    let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
+    if (modalName !== null) {
+        if (modalName.hasAttribute("xui-present")) {
+            modalName.removeAttribute("xui-present");
+            void modalName.offsetWidth;
+            modalName.setAttribute("xui-present", false);
+        } else {
+            modalName.removeAttribute("display");
+            void modalName.offsetWidth;
+            modalName.setAttribute("display", false);
+        }
+    }
+}
+
+const xuiDynamicCSS = () => {
+    const propertyMap = {
+        "xui-bg": "background-image",
+        "xui-column-count": "column-count",
+        "xui-column-count-gap": "column-gap",
+        "xui-m": "margin",
+        "xui-mt": "margin-top",
+        "xui-mr": "margin-right",
+        "xui-mb": "margin-bottom",
+        "xui-ml": "margin-left",
+        "xui-mx": ["margin-left", "margin-right"],
+        "xui-my": ["margin-top", "margin-bottom"],
+        "xui-p": "padding",
+        "xui-pt": "padding-top",
+        "xui-pr": "padding-right",
+        "xui-pb": "padding-bottom",
+        "xui-pl": "padding-left",
+        "xui-px": ["padding-left", "padding-right"],
+        "xui-py": ["padding-top", "padding-bottom"],
+        "xui-space": "letter-spacing",
+        "xui-bdr-rad": "border-radius",
+        "xui-bdr-w": "border-width",
+        "xui-z-index": "z-index",
+        "xui-min-w": "min-width",
+        "xui-min-h": "min-height",
+        "xui-max-w": "max-width",
+        "xui-max-h": "max-height",
+        "xui-font-w": "font-weight",
+        "xui-font-sz": "font-size",
+        "xui-opacity": "opacity",
+        "xui-w": "width",
+        "xui-h": "height",
+        "xui-line-height": "line-height",
+        "xui-letter-spacing": "letter-spacing",
+        "xui-grid-gap": "grid-gap"
+    };
+
+    const responsiveMap = {
+        "xui-sm": "(min-width: 640px)",
+        "xui-md": "(min-width: 768px)",
+        "xui-lg": "(min-width: 1024px)",
+        "xui-xl": "(min-width: 1280px)",
+    };
+
+    const styleSheet = document.createElement("style");
+    document.head.appendChild(styleSheet);
+
+    const processedClasses = new Set();
+    const elements = document.querySelectorAll("[class*='[']");
+
+    const generateHash = (str) => {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+            hash = (hash << 5) - hash + str.charCodeAt(i);
+            hash |= 0;
+        }
+        return `x${Math.abs(hash).toString(36)}`;
+    };
+
+    elements.forEach((el) => {
+        const classes = el.className.split(" ");
+
+        classes.forEach((cls) => {
+            if (cls.includes("[") && cls.includes("]"))  {
+                const match = cls.match(/(xui-(sm|md|lg|xl)-)?(xui-[a-z-]+)-\[(.+)\]/);
+                if (match) {
+                    const responsivePrefix = match[1]?.slice(0, -1); // e.g., "xui-md"
+                    const propertyKey = match[3]; // e.g., "xui-bg"
+                    let value = match[4]; // e.g., "url('https://example.com')"
+
+                    const properties = propertyMap[propertyKey];
+                    if (properties) {
+                        // Handle URL values properly
+                        let classNameSuffix = value;
+                        if (propertyKey === "xui-bg" && value.startsWith("url")) {
+                            const urlMatch = value.match(/url\((.*)\)/);
+                            if (urlMatch) {
+                                value = `url(${urlMatch[1]})`;
+                                classNameSuffix = generateHash(urlMatch[1]); // Replace full URL with a short hash
+                            }
+                        }
+
+                        // Construct new valid class name
+                        const newClassName = `${propertyKey}-${classNameSuffix}`;
+                        el.classList.add(newClassName);
+
+                        // Generate CSS
+                        let rule = "";
+                        if (Array.isArray(properties)) {
+                            rule = properties.map((prop) => `${prop}: ${value};`).join(" ");
+                        } else {
+                            rule = `${properties}: ${value};`;
+                        }
+
+                        // Apply responsive logic if needed
+                        if (responsivePrefix && responsiveMap[responsivePrefix]) {
+                            const mediaQuery = responsiveMap[responsivePrefix];
+                            styleSheet.sheet.insertRule(
+                                `@media ${mediaQuery} { .${newClassName} { ${rule} } }`,
+                                styleSheet.sheet.cssRules.length
+                            );
+                        } else {
+                            styleSheet.sheet.insertRule(
+                                `.${newClassName} { ${rule} }`,
+                                styleSheet.sheet.cssRules.length
+                            );
+                        }
+
+                        processedClasses.add(cls);
+                    }
+                }
+            }
+        });
+    });
+};
+
+// Application System
+let isApplied = false;
+const appliedComponents = new Set();
+
+const applyComponent = (name, initFn) => {
+    if (appliedComponents.has(name)) return;
+    appliedComponents.add(name);
+    initFn();
+};
+
+const setupEventListeners = () => {
+    // Event Handlers (keep your existing implementations)
+    document.querySelectorAll('.xui-tilt-card').forEach((card) => {
+        card.addEventListener('mousemove', (e) => {
+            let rect = card.getBoundingClientRect();
+            let x = (e.clientX - rect.left) / rect.width - 0.5;
+            let y = (e.clientY - rect.top) / rect.height - 0.5;
+
+            let tiltX = y * 45; 
+            let tiltY = x * -45;
+
+            card.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'rotateX(0deg) rotateY(0deg)';
+        });
+    });
+
+    document.addEventListener("click", (e) => {
+        // Functionalities for navabar goes here
+        const xuiNavbar = document.getElementsByClassName('xui-navbar');
+        if (xuiNavbar.length > 0) {
+            const xuiNavbarMenu = document.querySelector(".xui-navbar .menu");
+            const xuiNavbarLinksMain = document.querySelector(".xui-navbar .links .main");
+            const xuiDashboard = document.querySelector(".xui-dashboard");
+            const xuiDashboardAnimate = document.querySelector(".xui-dashboard.animate");
+            const xuiNavbarLinksUrl = document.querySelectorAll(".xui-navbar .links a");
+            if(e.target.closest(".xui-navbar .menu")){
+                if(e.target && e.target.classList.contains('animate')){
+                    if(xuiDashboard){
+                        xuiDashboard.classList.remove("animate");
+                    }
+                    if(xuiNavbarLinksMain){
+                        xuiNavbarLinksMain.classList.remove("animate");
+                    }
+                    xuiNavbarMenu.classList.remove("animate");
+                }
+                else {
+                    if(xuiDashboard){
+                        xuiDashboard.classList.add("animate");
+                    }
+                    if(xuiNavbarLinksMain){
+                        xuiNavbarLinksMain.classList.add("animate");
+                    }
+                    xuiNavbarMenu.classList.add("animate");
+                }
+            }
+            if(e.target === xuiDashboard){
+                if(e.target && e.target.classList.contains('animate')){
+                    if(xuiDashboard){
+                        xuiDashboard.classList.remove("animate");
+                    }
+                    xuiNavbarMenu.classList.remove("animate");
+                }
+            }
+            // Closing animations when a link with url is clicked
+            const target = e.target;
+            if (target.closest('.xui-navbar .links .main a') || target.closest('.xui-dashboard .navigator .links a')) {
+                const href = target.getAttribute("href");
+                if ((href !== "#") && (href !== "")) {
+                    if (xuiNavbarMenu !== null) {
+                        xuiNavbarMenu.classList.remove("animate");
+                    }
+                    if(xuiDashboard !== null){
+                        xuiDashboard.classList.remove("animate");
+                    }
+                    if (xuiNavbarLinksMain !== null) {
+                        xuiNavbarLinksMain.classList.remove("animate");
+                    }
+                }
+            }
+        }
+        // Functionalities for navabar goes here
+
+        // Functionalities for modal goes here
+        const modals = document.querySelectorAll('[xui-modal]');
+        const currentModal = e.target.getAttribute('xui-modal');
+
+        if (e.target.hasAttribute("xui-modal")) {
+            for (let i = 0; i < modals.length; i++) {
+                let modalName = modals[i];
+                if (!modalName.hasAttribute('disable-click-on-outside')) {
+                    if (currentModal === modalName.getAttribute('xui-modal')) {
+                        if (modalName.hasAttribute('xui-set')) {
+                            modalName.removeAttribute("xui-present");
+                            void modalName.offsetWidth;
+                            modalName.setAttribute("xui-present", false);
+                        } else if (modalName.hasAttribute('display')) {
+                            modalName.removeAttribute("display");
+                            void modalName.offsetWidth;
+                            modalName.setAttribute("display", false);
+                        }
+                    }
+                }
+            }
+            let xuiBody = document.querySelector('body');
+            if (xuiBody !== null) {
+                xuiBody.style.overflow = "auto";
+            }
+        }
+
+        const target = e.target;
+        let modalOpen = target.getAttribute("xui-modal-open");
+        let modalClose = target.getAttribute("xui-modal-close");
+
+        // Find modalOpen if not directly on target
+        if (!modalOpen) {
+            const parentNode = findElementWithAttribute(target, "xui-modal-open");
+            if (parentNode) {
+                modalOpen = parentNode.getAttribute("xui-modal-open");
+            }
+        }
+
+        // Find modalClose if not directly on target
+        if (!modalClose) {
+            const parentNode = findElementWithAttribute(target, "xui-modal-close");
+            if (parentNode) {
+                modalClose = parentNode.getAttribute("xui-modal-close");
+            }
+        }
+
+        if (modalOpen !== null) {
+            let xuiModalOpen = document.querySelector('[xui-modal="' + modalOpen + '"]');
+            if (xuiModalOpen !== null) {
+                if (xuiModalOpen.hasAttribute("xui-present")) {
+                    xuiModalOpen.removeAttribute("xui-present");
+                    void xuiModalOpen.offsetWidth;
+                    xuiModalOpen.setAttribute("xui-present", true);
+                } else {
+                    xuiModalOpen.removeAttribute("display");
+                    void xuiModalOpen.offsetWidth;
+                    xuiModalOpen.setAttribute("display", true);
+                }
+            }
+            let xuiBody = document.querySelector('body');
+            if (xuiBody !== null) {
+                xuiBody.style.overflow = "hidden";
+            }
+        }
+
+        if (modalClose !== null) {
+            let xuiModalClose = document.querySelector('[xui-modal="' + modalClose + '"]');
+            if (xuiModalClose !== null) {
+                if (xuiModalClose.hasAttribute("xui-present")) {
+                    xuiModalClose.removeAttribute("xui-present");
+                    void xuiModalClose.offsetWidth;
+                    xuiModalClose.setAttribute("xui-present", false);
+                } else {
+                    xuiModalClose.removeAttribute("display");
+                    void xuiModalClose.offsetWidth;
+                    xuiModalClose.setAttribute("display", false);
+                }
+            }
+            let xuiBody = document.querySelector('body');
+            if (xuiBody !== null) {
+                xuiBody.style.overflow = "auto";
+            }
+        }
+        // Functionalities for modal goes here
+
+        // Functionalities for accordion goes here
+        const accordionHeaders = Array.from(document.querySelectorAll('.xui-accordion-box .xui-accordion-header, .xui-accordion .box .header'));
+
+        if (e.target.closest('.xui-accordion-box .xui-accordion-header, .xui-accordion .box .header')) {
+            const header = e.target.closest('.xui-accordion-box .xui-accordion-header, .xui-accordion .box .header');
+            const index = accordionHeaders.indexOf(header);
+            
+            // Find elements using all possible selector variations
+            const iconOpen = header.querySelector(".xui-accordion-header-icon-open, .xui-accordion .header .icon .open");
+            const iconClose = header.querySelector(".xui-accordion-header-icon-close, .xui-accordion .header .icon .close");
+            const allContents = document.querySelectorAll('.xui-accordion-box .xui-accordion-content, .xui-accordion .box .content');
+            const content = allContents[index];
+
+            // Check if the clicked accordion is currently open
+            const isCurrentlyOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+
+            // Close all accordions
+            allContents.forEach(content => {
+                content.style.maxHeight = "0";
+                content.style.marginBottom = "0";
+            });
+
+            // Reset all icons
+            document.querySelectorAll('.xui-accordion-header-icon-open, .xui-accordion .header .icon .open').forEach(icon => {
+                icon.style.display = "inline-block";
+            });
+            document.querySelectorAll('.xui-accordion-header-icon-close, .xui-accordion .header .icon .close').forEach(icon => {
+                icon.style.display = "none";
+            });
+
+            // Toggle the clicked accordion if it wasn't open
+            if (!isCurrentlyOpen) {
+                content.style.maxHeight = content.scrollHeight + "px";
+                content.style.marginBottom = "20px";
+                if (iconOpen) iconOpen.style.display = "none";
+                if (iconClose) iconClose.style.display = "inline-block";
+            }
+        }
+        // Functionalities for accordion goes here
+
+        // Functionalities for dashboard sidebar goes here
+        const xuiDashboardContent = document.querySelector('.xui-dashboard .screen .content');
+        const xuiDashboardAside = document.querySelector('.xui-dashboard .screen .aside');
+        const xuiSidebarBtn = document.querySelector(".xui-dashboard .screen .content .xui-open-sidebar");
+        // const xuiNavbarLinksMain = document.querySelector(".xui-navbar .links .main");
+        // const xuiDashboard = document.querySelector(".xui-dashboard");
+        // const xuiDashboardAnimate = document.querySelector(".xui-dashboard.animate");
+        // const xuiNavbarLinksUrl = document.querySelectorAll(".xui-navbar .links a");
+        if(e.target === xuiSidebarBtn){
+            xuiDashboardContent.classList.add("animate");
+            xuiDashboardAside.classList.add("animate");
+        }
+        
+        if(e.target === xuiDashboardContent){
+            xuiDashboardContent.classList.remove("animate");
+            xuiDashboardAside.classList.remove("animate");
+        }
+        // Functionalities for dashboard sidebar goes here
+    });
+}
+
+const apply = () => {
+    if (isApplied) return;
+    isApplied = true;
+
+    // Apply core components
+    applyComponent('lazyLoad', xuiLazyLoadings);
+    applyComponent('alerts', xuiAlerts);
+    applyComponent('scrollAnimation', xuiScrollOnAnimation);
+    applyComponent('dynamicCSS', xuiDynamicCSS);
+    applyComponent('loadingScreen', xuiLoadingScreen);
+
+    // Setup event listeners
+    setupEventListeners();
+
+    console.log('StyleXUI applied successfully');
+};
+
+// Core Runner
+function xuiRun() {
+    apply();
+}
+
+// Main Framework Object
+const stylexui = {
+    // Core Functions
+    run: xuiRun,
+    apply,
+
+    // Control Functions
+    control: {
+        navbar: () => {
+            // Navbar control implementation
+        },
+        loader: xuiLoadingScreen
+    },
+    
+    // Animation Functions
+    animate: {
+        default: xuiAnime,
+        start: xuiAnimeStart,
+        end: xuiAnimeEnd
+    },
+    
+    // Effect Functions
+    effect: {
+        typewriter: xuiTypeWriter
+    },
+    
+    // UI Reveal Functions
+    reveal: {
+        images: xuiLazyLoadings,
+        skeletons: xuiHideSkeleton
+    },
+    
+    // Modal Functions
+    modal: {
+        show: xuiModalShow,
+        hide: xuiModalHide,
+        open: xuiModalOpen,
+        close: xuiModalClose
+    }
+};
+
+// Export all functionality
+export {
+    findElementWithAttribute,
+    isHidden,
+    xuiLoadingScreen as loadingScreen,
+    xuiHideSkeleton as hideSkeleton,
+    xuiModalShow as modalShow,
+    xuiModalHide as modalHide,
+    xuiModalOpen as modalOpen,
+    xuiModalClose as modalClose,
+    xuiAlerts as alerts,
+    xuiLazyLoadings as lazyLoadings,
+    xuiAnime as animate,
+    xuiAnimeStart as animateStart,
+    xuiAnimeEnd as animateEnd,
+    xuiTypeWriter as typewriter,
+    xuiScrollOnAnimation as scrollOnAnimation,
+    xuiDynamicCSS as dynamicCSS,
+    xuiRun as run,
+    apply
+};
+
+// Default export
+export default stylexui;
+
+// Browser global attachment
+if (typeof window !== 'undefined') {
+    window.stylexui = stylexui;
+}
+
+// Auto-application
+if (typeof document !== 'undefined') {
+    apply();
+}

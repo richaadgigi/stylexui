@@ -1195,6 +1195,22 @@ let xui = {
                 void modalName.offsetWidth;
                 modalName.setAttribute("open", false);
             }
+        },
+        open: () => {
+            let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
+            if (modalName !== null) {
+                modalName.removeAttribute("open");
+                void modalName.offsetWidth;
+                modalName.setAttribute("open", true);
+            }
+        },
+        close: (name) => {
+            let modalName = document.querySelector("[xui-modal=\"" + name + "\"]");
+            if (modalName !== null) {
+                modalName.removeAttribute("open");
+                void modalName.offsetWidth;
+                modalName.setAttribute("open", false);
+            }
         }
     }
 };

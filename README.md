@@ -26,6 +26,8 @@ Dive in and see how StyleXui can bring your projects to life! 🎨✨
 
 ✔ **Comprehensive Documentation** – A well-structured, beginner-friendly guide to help you get started effortlessly and make the most out of StyleXui. 
 
+✔ **JavaScript Enhancements** – Optional JavaScript for interactive components with smooth animations and behaviors.
+
 ---
 
 ## 📦 Installation
@@ -34,7 +36,11 @@ Dive in and see how StyleXui can bring your projects to life! 🎨✨
 Add the following `<link>` tag to your HTML file:
 
 ```html
+<!-- CSS -->
 <link rel="stylesheet" href="https://cdn.stylexui.com/css/xui.css" />
+
+<!-- Optional JavaScript (for interactive components) -->
+<script src="https://cdn.stylexui.com/js/xui.js" defer></script>
 ```
 ✅ Best for: Prototyping, static HTML projects, minimal dependencies.
 
@@ -62,7 +68,11 @@ import '@richaadgigi/stylexui';
 2. Extract the files and link the CSS in your HTML file:
 
 ```html
+<!-- CSS -->
 <link rel="stylesheet" href="path/to/xui.css" />
+
+<!-- Optional JavaScript (for interactive components) -->
+<script src="path/to/xui.js" defer></script>
 ```
 ✅ Best for: Legacy systems, static projects, or custom hosting.
 
@@ -89,6 +99,9 @@ Copy and paste the following template to start using StyleXui:
         <p>Build modern, responsive, and accessible UIs with ease.</p>
         <button class="xui-btn xui-btn-primary">Get Started</button>
     </div>
+
+    <!-- Optional StyleXui JS (for interactive components) -->
+    <script src="path/to/xui.js"></script>
 </body>
 </html>
 ```
@@ -98,7 +111,13 @@ Copy and paste the following template to start using StyleXui:
 ## 📜 Release Notes
 
 ### 🔹 Version 1.0.0 (Beta)
-✅ Initial release of **StyleXui**! 🚀
+✅ Initial release of StyleXui! 🚀
+
+✅ Includes core CSS utilities and components
+
+✅ Optional JavaScript for interactive elements
+
+✅ Comprehensive documentation
 
 ---
 ## 🌍 Contribution
