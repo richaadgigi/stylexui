@@ -2156,7 +2156,7 @@ img {
 .xui-btn-primary:focus,
 .xui-btn-primary:active {
   background-color: var(--blue-link);
-  color: #fff;
+  color: #fff !important;
 }
 .xui-btn-primary:hover,
 .xui-btn-primary:focus{
@@ -2169,7 +2169,7 @@ img {
 .xui-btn-success:focus,
 .xui-btn-success:active {
   background-color: var(--success-500);
-  color: var(--white);
+  color: var(--white) !important; 
 }
 
 .xui-btn-success:hover {
@@ -2181,7 +2181,7 @@ img {
 .xui-btn-warning:focus,
 .xui-btn-warning:active {
   background-color: var(--warning-500);
-  color: var(--white);
+  color: var(--white) !important;;
 }
 
 .xui-btn-warning:hover {
@@ -2193,7 +2193,7 @@ img {
 .xui-btn-danger:focus,
 .xui-btn-danger:active {
   background-color: var(--error-500);
-  color: var(--white);
+  color: var(--white) !important;;
 }
 
 .xui-btn-danger:hover {
@@ -2205,7 +2205,7 @@ img {
 .xui-btn-blue:focus,
 .xui-btn-blue:active {
   background-color: var(--blue);
-  color: var(--white);
+  color: var(--white) !important;;
 }
 
 .xui-btn-blue:hover {
@@ -2217,7 +2217,7 @@ img {
 .xui-btn-red:focus,
 .xui-btn-red:active {
   background-color: var(--red);
-  color: var(--white);
+  color: var(--white) !important;
 }
 
 .xui-btn-red:hover {
@@ -2229,12 +2229,12 @@ img {
 .xui-btn-green:focus,
 .xui-btn-green:active {
   background-color: var(--green);
-  color: var(--white);
+  color: var(--white) !important;
 }
 
 .xui-btn-green:hover {
   background-color: #112f0e;
-  color: var(--white);
+  color: var(--white) !important;
 }
 
 .xui-btn-white,
@@ -4287,12 +4287,12 @@ select:-webkit-autofill:focus {
 /* Tooltip Position: Bottom Right */
 .xui-tooltip[xui-set="bottom-right"] .xui-tooltip-content {
   top: calc(100% + 8px);
-  right: 0;
+  left: 0;
 }
 
 .xui-tooltip[xui-set="bottom-right"] .xui-tooltip-content::after {
   bottom: 100%;
-  right: 16px;
+  left: 16px;
   border-bottom-color: white; 
   border-top: none;
 }
@@ -4300,12 +4300,12 @@ select:-webkit-autofill:focus {
 /* Tooltip Position: Bottom Left */
 .xui-tooltip[xui-set="bottom-left"] .xui-tooltip-content {
   top: calc(100% + 8px);;
-  left: 0;
+  right: 0;
 }
 
 .xui-tooltip[xui-set="bottom-left"] .xui-tooltip-content::after {
   bottom: 100%;
-  left: 16px; 
+  right: 16px; 
   border-bottom-color: white; 
   border-top: none;
 }
