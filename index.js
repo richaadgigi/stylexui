@@ -702,10 +702,21 @@ const xuiModalClose = (name) => {
 }
 
 const xuiDynamicCSS = () => {
+    const styleId = "xui-dynamic-css-styles";
+    let styleElement = document.getElementById(styleId);
+
+    if (!styleElement) {
+        styleElement = document.createElement("style");
+        styleElement.id = styleId;
+        document.head.appendChild(styleElement);
+    }
+
+    const appliedStyles = new Set(); // Stores applied CSS rules
+
     const propertyMap = {
         "xui-bg": "background-image",
         "xui-column-count": "column-count",
-        "xui-column-count-gap": "column-gap",
+        "xui-column-gap": "column-gap",
         "xui-m": "margin",
         "xui-mt": "margin-top",
         "xui-mr": "margin-right",
@@ -735,7 +746,7 @@ const xuiDynamicCSS = () => {
         "xui-h": "height",
         "xui-line-height": "line-height",
         "xui-letter-spacing": "letter-spacing",
-        "xui-grid-gap": "grid-gap"
+        "xui-grid-gap": "grid-gap",
     };
 
     const responsiveMap = {
@@ -745,130 +756,54 @@ const xuiDynamicCSS = () => {
         "xui-xl": "(min-width: 1280px)",
     };
 
-    const styleSheet = document.createElement("style");
-    document.head.appendChild(styleSheet);
-
-    const processedClasses = new Set();
-    const elements = document.querySelectorAll("[class*='xui-']");
-
-    const generateHash = (str) => {
-        let hash = 0;
-        for (let i = 0; i < str.length; i++) {
-            hash = (hash << 5) - hash + str.charCodeAt(i);
-            hash |= 0;
+    const addCSSRule = (rule, className) => {
+        if (!appliedStyles.has(className)) {
+            styleElement.appendChild(document.createTextNode(rule));
+            appliedStyles.add(className);
         }
-        return `x${Math.abs(hash).toString(36)}`;
     };
 
-    elements.forEach((el) => {
-        const classes = el.className.split(" ").filter(cls => cls.startsWith('xui-'));
+    const processElements = () => {
+        const elements = document.querySelectorAll("[class*='xui-']");
 
-        // Process non-responsive classes first
-        classes.forEach((cls) => {
-            if (cls.includes("[") && cls.includes("]") && !processedClasses.has(cls)) {
-                // Check for responsive prefix (sm, md, lg, xl)
+        elements.forEach((el) => {
+            const classes = el.className.split(" ").filter((cls) => cls.startsWith("xui-"));
+
+            classes.forEach((cls) => {
                 const responsiveMatch = cls.match(/^xui-(sm|md|lg|xl)-([a-z-]+)-\[(.+)\]$/);
                 if (responsiveMatch) {
-                    // This is a responsive class, we'll process it after base classes
-                    return;
-                }
+                    const [, breakpoint, propertyKey, value] = responsiveMatch;
+                    const property = propertyMap[`xui-${propertyKey}`];
 
-                // Process base classes
-                const baseMatch = cls.match(/^(xui-[a-z-]+)-\[(.+)\]$/);
-                if (baseMatch) {
-                    const propertyKey = baseMatch[1];
-                    let value = baseMatch[2];
+                    if (property && responsiveMap[`xui-${breakpoint}`]) {
+                        const safeValue = value.replace(/[^a-z0-9-(),.%]/gi, "");
+                        const uniqueClass = cls.replace(/[^a-z0-9-]/gi, "-");
 
-                    const properties = propertyMap[propertyKey];
-                    if (properties) {
-                        // Handle URL values properly
-                        let classNameSuffix = value;
-                        if (propertyKey === "xui-bg" && value.startsWith("url")) {
-                            const urlMatch = value.match(/url\((.*)\)/);
-                            if (urlMatch) {
-                                value = `url(${urlMatch[1]})`;
-                                classNameSuffix = generateHash(urlMatch[1]);
-                            }
-                        }
+                        const rule = Array.isArray(property)
+                            ? property.map((prop) => `${prop}: ${safeValue};`).join(" ")
+                            : `${property}: ${safeValue};`;
 
-                        // Construct new valid class name
-                        const newClassName = `${propertyKey}-${classNameSuffix.replace(/[^a-z0-9]/g, '-')}`;
-                        el.classList.add(newClassName);
+                        const mediaRule = `@media ${responsiveMap[`xui-${breakpoint}`]} { .${uniqueClass} { ${rule} } }`;
 
-                        // Generate CSS
-                        let rule = "";
-                        if (Array.isArray(properties)) {
-                            rule = properties.map((prop) => `${prop}: ${value};`).join(" ");
-                        } else {
-                            rule = `${properties}: ${value};`;
-                        }
-
-                        styleSheet.sheet.insertRule(
-                            `.${newClassName} { ${rule} }`,
-                            styleSheet.sheet.cssRules.length
-                        );
-
-                        processedClasses.add(cls);
+                        addCSSRule(mediaRule, uniqueClass);
+                        el.classList.add(uniqueClass);
                     }
                 }
-            }
+            });
         });
+    };
 
-        // Process responsive classes after base classes
-        classes.forEach((cls) => {
-            if (cls.includes("[") && cls.includes("]") && !processedClasses.has(cls)) {
-                const responsiveMatch = cls.match(/^xui-(sm|md|lg|xl)-([a-z-]+)-\[(.+)\]$/);
-                if (responsiveMatch) {
-                    const responsivePrefix = `xui-${responsiveMatch[1]}`;
-                    const propertyKey = `xui-${responsiveMatch[2]}`;
-                    let value = responsiveMatch[3];
-
-                    const properties = propertyMap[propertyKey];
-                    if (properties && responsiveMap[responsivePrefix]) {
-                        // Handle URL values properly
-                        let classNameSuffix = value;
-                        if (propertyKey === "xui-bg" && value.startsWith("url")) {
-                            const urlMatch = value.match(/url\((.*)\)/);
-                            if (urlMatch) {
-                                value = `url(${urlMatch[1]})`;
-                                classNameSuffix = generateHash(urlMatch[1]);
-                            }
-                        }
-
-                        // Construct new valid class name
-                        const newClassName = `${responsivePrefix}-${propertyKey}-${classNameSuffix.replace(/[^a-z0-9]/g, '-')}`;
-                        el.classList.add(newClassName);
-
-                        // Generate CSS
-                        let rule = "";
-                        if (Array.isArray(properties)) {
-                            rule = properties.map((prop) => `${prop}: ${value};`).join(" ");
-                        } else {
-                            rule = `${properties}: ${value};`;
-                        }
-
-                        const mediaQuery = responsiveMap[responsivePrefix];
-                        styleSheet.sheet.insertRule(
-                            `@media ${mediaQuery} { .${newClassName} { ${rule} } }`,
-                            styleSheet.sheet.cssRules.length
-                        );
-
-                        processedClasses.add(cls);
-                    }
-                }
-            }
-        });
+    // Throttle observer execution
+    let observerTimeout;
+    const observer = new MutationObserver(() => {
+        clearTimeout(observerTimeout);
+        observerTimeout = setTimeout(processElements, 100); // Prevents excessive re-processing
     });
-};
 
-// Application System
-let isApplied = false;
-const appliedComponents = new Set();
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true });
 
-const applyComponent = (name, initFn) => {
-    if (appliedComponents.has(name)) return;
-    appliedComponents.add(name);
-    initFn();
+    // Initial processing
+    processElements();
 };
 
 const setupEventListeners = () => {
@@ -1093,21 +1028,40 @@ const setupEventListeners = () => {
     });
 }
 
+// Application System
+let isApplied = false;
+const appliedComponents = new Set();
+
+const applyComponent = (name, initFn) => {
+    if (appliedComponents.has(name)) return;
+    appliedComponents.add(name);
+    try {
+      initFn();
+    } catch (e) {
+      console.error(`Failed to initialize ${name}:`, e);
+    }
+};
+
 const apply = () => {
     if (isApplied) return;
-    isApplied = true;
-
-    // Apply core components
-    applyComponent('lazyLoad', xuiLazyLoadings);
-    applyComponent('alerts', xuiAlerts);
-    applyComponent('scrollAnimation', xuiScrollOnAnimation);
-    applyComponent('dynamicCSS', xuiDynamicCSS);
-    applyComponent('loadingScreen', xuiLoadingScreen);
-
-    // Setup event listeners
-    setupEventListeners();
-
-    console.log('StyleXUI applied successfully');
+    
+    const init = () => {
+      isApplied = true;
+      // Initialize components in correct order
+      applyComponent('dynamicCSS', xuiDynamicCSS); // First
+      applyComponent('loadingScreen', xuiLoadingScreen);
+      applyComponent('alerts', xuiAlerts);
+      applyComponent('lazyLoad', xuiLazyLoadings);
+      applyComponent('scrollAnimation', xuiScrollOnAnimation);
+      setupEventListeners();
+    };
+  
+    // Handle DOM readiness
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      init();
+    } else {
+      document.addEventListener('DOMContentLoaded', init);
+    }
 };
 
 // Core Runner
@@ -1118,7 +1072,7 @@ function xuiRun() {
 // Main Framework Object
 const stylexui = {
     // Core Functions
-    run: xuiRun,
+    run: apply,
     apply,
 
     // Control Functions
@@ -1173,7 +1127,6 @@ export {
     xuiAnimeEnd as animateEnd,
     xuiTypeWriter as typewriter,
     xuiScrollOnAnimation as scrollOnAnimation,
-    xuiDynamicCSS as dynamicCSS,
     xuiRun as run,
     apply
 };
@@ -1186,7 +1139,20 @@ if (typeof window !== 'undefined') {
     window.stylexui = stylexui;
 }
 
-// Auto-application
-if (typeof document !== 'undefined') {
-    apply();
+// Auto-application - only if in browser environment
+if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+    const init = () => {
+        // Check if already initialized by user
+        if (!isApplied) {
+            console.log('Auto-initializing StyleXUI...');
+            apply();
+        }
+    };
+    
+    // Run either now or when DOM is ready
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        setTimeout(init, 0);
+    } else {
+        document.addEventListener('DOMContentLoaded', init);
+    }
 }
