@@ -1,6 +1,6 @@
 {
   "name": "@richaadgigi/stylexui",
-  "version": "1.0.1-final",
+  "version": "1.0.2-stable",
   "description": "Build responsive, beautiful interfaces faster than ever with utility-first classes and smart defaults. No bloat. No fuss. Just results.",
   "main": "index.js",
   "types": "index.d.ts",

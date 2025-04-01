@@ -1016,56 +1016,75 @@ if (typeof window !== "undefined") {
     });
 }
 // This function ensures you can add your own unit instead of a fixed unit
-const xuiDynamicCSS = () => {
-    const propertyMap = {
-        "xui-bg": "background-image",
-        "xui-column-count": "column-count",
-        "xui-column-count-gap": "column-gap",
-        "xui-m": "margin",
-        "xui-mt": "margin-top",
-        "xui-mr": "margin-right",
-        "xui-mb": "margin-bottom",
-        "xui-ml": "margin-left",
-        "xui-mx": ["margin-left", "margin-right"],
-        "xui-my": ["margin-top", "margin-bottom"],
-        "xui-p": "padding",
-        "xui-pt": "padding-top",
-        "xui-pr": "padding-right",
-        "xui-pb": "padding-bottom",
-        "xui-pl": "padding-left",
-        "xui-px": ["padding-left", "padding-right"],
-        "xui-py": ["padding-top", "padding-bottom"],
-        "xui-space": "letter-spacing",
-        "xui-bdr-rad": "border-radius",
-        "xui-bdr-w": "border-width",
-        "xui-z-index": "z-index",
-        "xui-min-w": "min-width",
-        "xui-min-h": "min-height",
-        "xui-max-w": "max-width",
-        "xui-max-h": "max-height",
-        "xui-font-w": "font-weight",
-        "xui-font-sz": "font-size",
-        "xui-opacity": "opacity",
-        "xui-w": "width",
-        "xui-h": "height",
-        "xui-line-height": "line-height",
-        "xui-letter-spacing": "letter-spacing",
-        "xui-grid-gap": "grid-gap"
+const xuiDynamicCSS = (() => {
+    // Configuration
+    const config = {
+        styleId: "xui-dynamic-css-styles",
+        propertyMap: {
+            "xui-bg": "background",
+            "xui-column-count": "column-count",
+            "xui-column-count-gap": "column-gap",
+            "xui-m": "margin",
+            "xui-mt": "margin-top",
+            "xui-mr": "margin-right",
+            "xui-mb": "margin-bottom",
+            "xui-ml": "margin-left",
+            "xui-mx": ["margin-left", "margin-right"],
+            "xui-my": ["margin-top", "margin-bottom"],
+            "xui-p": "padding",
+            "xui-pt": "padding-top",
+            "xui-pr": "padding-right",
+            "xui-pb": "padding-bottom",
+            "xui-pl": "padding-left",
+            "xui-px": ["padding-left", "padding-right"],
+            "xui-py": ["padding-top", "padding-bottom"],
+            "xui-space": "letter-spacing",
+            "xui-bdr-rad": "border-radius",
+            "xui-bdr-w": "border-width",
+            "xui-z-index": "z-index",
+            "xui-min-w": "min-width",
+            "xui-min-h": "min-height",
+            "xui-max-w": "max-width",
+            "xui-max-h": "max-height",
+            "xui-font-w": "font-weight",
+            "xui-font-sz": "font-size",
+            "xui-opacity": "opacity",
+            "xui-w": "width",
+            "xui-h": "height",
+            "xui-line-height": "line-height",
+            "xui-letter-spacing": "letter-spacing",
+            "xui-grid-gap": "grid-gap"
+        },
+        responsiveMap: {
+            "xui-sm": "(min-width: 640px)",
+            "xui-md": "(min-width: 768px)",
+            "xui-lg": "(min-width: 1024px)",
+            "xui-xl": "(min-width: 1280px)",
+        }
     };
 
-    const responsiveMap = {
-        "xui-sm": "(min-width: 640px)",
-        "xui-md": "(min-width: 768px)",
-        "xui-lg": "(min-width: 1024px)",
-        "xui-xl": "(min-width: 1280px)",
-    };
-
-    const styleSheet = document.createElement("style");
-    document.head.appendChild(styleSheet);
-
+    // State
+    let styleElement = null;
     const processedClasses = new Set();
-    const elements = document.querySelectorAll("[class*='xui-']");
+    let observer = null;
+    let observerTimeout = null;
 
+    // Initialize the style element
+    const initStyleElement = () => {
+        if (!document.head) {
+            setTimeout(initStyleElement, 50);
+            return;
+        }
+
+        styleElement = document.getElementById(config.styleId);
+        if (!styleElement) {
+            styleElement = document.createElement('style');
+            styleElement.id = config.styleId;
+            document.head.appendChild(styleElement);
+        }
+    };
+
+    // Generate a hash for URL values
     const generateHash = (str) => {
         let hash = 0;
         for (let i = 0; i < str.length; i++) {
@@ -1075,106 +1094,160 @@ const xuiDynamicCSS = () => {
         return `x${Math.abs(hash).toString(36)}`;
     };
 
-    elements.forEach((el) => {
-        const classes = el.className.split(" ").filter(cls => cls.startsWith('xui-'));
+    // Process a single class on an element
+    const processClass = (element, cls) => {
+        if (processedClasses.has(cls)) return;
 
-        // Process non-responsive classes first
-        classes.forEach((cls) => {
-            if (cls.includes("[") && cls.includes("]") && !processedClasses.has(cls)) {
-                // Check for responsive prefix (sm, md, lg, xl)
-                const responsiveMatch = cls.match(/^xui-(sm|md|lg|xl)-([a-z-]+)-\[(.+)\]$/);
-                if (responsiveMatch) {
-                    // This is a responsive class, we'll process it after base classes
-                    return;
-                }
+        // Handle responsive classes
+        const responsiveMatch = cls.match(/^xui-(sm|md|lg|xl)-([a-z-]+)-\[(.+)\]$/);
+        if (responsiveMatch) {
+            const [, breakpoint, propKey, value] = responsiveMatch;
+            const propertyKey = `xui-${propKey}`;
+            const responsivePrefix = `xui-${breakpoint}`;
+            const properties = config.propertyMap[propertyKey];
+            const mediaQuery = config.responsiveMap[responsivePrefix];
 
-                // Process base classes
-                const baseMatch = cls.match(/^(xui-[a-z-]+)-\[(.+)\]$/);
-                if (baseMatch) {
-                    const propertyKey = baseMatch[1];
-                    let value = baseMatch[2];
+            if (properties && mediaQuery) {
+                return processProperty(element, cls, propertyKey, properties, value, mediaQuery);
+            }
+        }
 
-                    const properties = propertyMap[propertyKey];
-                    if (properties) {
-                        // Handle URL values properly
-                        let classNameSuffix = value;
-                        if (propertyKey === "xui-bg" && value.startsWith("url")) {
-                            const urlMatch = value.match(/url\((.*)\)/);
-                            if (urlMatch) {
-                                value = `url(${urlMatch[1]})`;
-                                classNameSuffix = generateHash(urlMatch[1]);
-                            }
-                        }
+        // Handle base classes
+        const baseMatch = cls.match(/^(xui-[a-z-]+)-\[(.+)\]$/);
+        if (baseMatch) {
+            const [_, propertyKey, value] = baseMatch;
+            const properties = config.propertyMap[propertyKey];
 
-                        // Construct new valid class name
-                        const newClassName = `${propertyKey}-${classNameSuffix.replace(/[^a-z0-9]/g, '-')}`;
-                        el.classList.add(newClassName);
+            if (properties) {
+                return processProperty(element, cls, propertyKey, properties, value);
+            }
+        }
+    };
 
-                        // Generate CSS
-                        let rule = "";
-                        if (Array.isArray(properties)) {
-                            rule = properties.map((prop) => `${prop}: ${value};`).join(" ");
-                        } else {
-                            rule = `${properties}: ${value};`;
-                        }
+    // Process a CSS property and generate the appropriate rules
+    const processProperty = (element, originalClass, propertyKey, properties, value, mediaQuery = null) => {
+        // Handle URL values
+        let classNameSuffix = value;
+        if (propertyKey === "xui-bg" && value.startsWith("url")) {
+            const urlMatch = value.match(/url\((.*)\)/);
+            if (urlMatch) {
+                value = `url(${urlMatch[1]})`;
+                classNameSuffix = generateHash(urlMatch[1]);
+            }
+        }
 
-                        styleSheet.sheet.insertRule(
-                            `.${newClassName} { ${rule} }`,
-                            styleSheet.sheet.cssRules.length
-                        );
+        // Generate valid class name
+        const newClassName = mediaQuery 
+            ? `xui-${propertyKey.replace('xui-', '')}-${classNameSuffix.replace(/[^a-z0-9]/g, '-')}-${mediaQuery.replace(/\D/g, '')}`
+            : `xui-${propertyKey.replace('xui-', '')}-${classNameSuffix.replace(/[^a-z0-9]/g, '-')}`;
 
-                        processedClasses.add(cls);
-                    }
-                }
+        // Add the new class to the element
+        element.classList.add(newClassName);
+
+        // Generate CSS rule
+        const rule = Array.isArray(properties) 
+            ? properties.map(prop => `${prop}:${value}`).join(';')
+            : `${properties}:${value}`;
+
+        try {
+            if (mediaQuery) {
+                // Responsive rule
+                const fullRule = `@media ${mediaQuery} { .${newClassName} { ${rule} } }`;
+                styleElement.sheet.insertRule(fullRule, styleElement.sheet.cssRules.length);
+            } else {
+                // Base rule
+                const fullRule = `.${newClassName} { ${rule} }`;
+                styleElement.sheet.insertRule(fullRule, styleElement.sheet.cssRules.length);
+            }
+
+            processedClasses.add(originalClass);
+        } catch (e) {
+            console.error('Failed to insert CSS rule:', e);
+        }
+    };
+
+    // Process all elements with xui classes
+    const processAllElements = () => {
+        if (!styleElement) return;
+
+        document.querySelectorAll('[class*="xui-"]').forEach(element => {
+            // Safely get className (works for SVG and regular DOM elements)
+            const classString = element.getAttribute ? element.getAttribute('class') : '';
+            if (classString) {
+                classString.split(/\s+/)
+                    .filter(cls => cls.startsWith('xui-'))
+                    .forEach(cls => processClass(element, cls));
             }
         });
+    };
 
-        // Process responsive classes after base classes
-        classes.forEach((cls) => {
-            if (cls.includes("[") && cls.includes("]") && !processedClasses.has(cls)) {
-                const responsiveMatch = cls.match(/^xui-(sm|md|lg|xl)-([a-z-]+)-\[(.+)\]$/);
-                if (responsiveMatch) {
-                    const responsivePrefix = `xui-${responsiveMatch[1]}`;
-                    const propertyKey = `xui-${responsiveMatch[2]}`;
-                    let value = responsiveMatch[3];
+    // Initialize MutationObserver
+    const initObserver = () => {
+        if (observer) observer.disconnect();
 
-                    const properties = propertyMap[propertyKey];
-                    if (properties && responsiveMap[responsivePrefix]) {
-                        // Handle URL values properly
-                        let classNameSuffix = value;
-                        if (propertyKey === "xui-bg" && value.startsWith("url")) {
-                            const urlMatch = value.match(/url\((.*)\)/);
-                            if (urlMatch) {
-                                value = `url(${urlMatch[1]})`;
-                                classNameSuffix = generateHash(urlMatch[1]);
+        observer = new MutationObserver(mutations => {
+            clearTimeout(observerTimeout);
+            observerTimeout = setTimeout(() => {
+                mutations.forEach(mutation => {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                        const classString = mutation.target.getAttribute ? mutation.target.getAttribute('class') : '';
+                        if (classString) {
+                            classString.split(/\s+/)
+                                .filter(cls => cls.startsWith('xui-'))
+                                .forEach(cls => processClass(mutation.target, cls));
+                        }
+                    } else {
+                        mutation.addedNodes.forEach(node => {
+                            if (node.nodeType === 1 && node.getAttribute && node.getAttribute('class')?.includes('xui-')) {
+                                const classString = node.getAttribute('class');
+                                if (classString) {
+                                    classString.split(/\s+/)
+                                        .filter(cls => cls.startsWith('xui-'))
+                                        .forEach(cls => processClass(node, cls));
+                                }
                             }
-                        }
-
-                        // Construct new valid class name
-                        const newClassName = `${responsivePrefix}-${propertyKey}-${classNameSuffix.replace(/[^a-z0-9]/g, '-')}`;
-                        el.classList.add(newClassName);
-
-                        // Generate CSS
-                        let rule = "";
-                        if (Array.isArray(properties)) {
-                            rule = properties.map((prop) => `${prop}: ${value};`).join(" ");
-                        } else {
-                            rule = `${properties}: ${value};`;
-                        }
-
-                        const mediaQuery = responsiveMap[responsivePrefix];
-                        styleSheet.sheet.insertRule(
-                            `@media ${mediaQuery} { .${newClassName} { ${rule} } }`,
-                            styleSheet.sheet.cssRules.length
-                        );
-
-                        processedClasses.add(cls);
+                        });
                     }
-                }
-            }
+                });
+            }, 100);
         });
-    });
-};
+
+        observer.observe(document.body, {
+            subtree: true,
+            childList: true,
+            attributes: true,
+            attributeFilter: ['class']
+        });
+    };
+
+    // The actual function that gets exposed
+    const xuiDynamicCSSFunction = () => {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', xuiDynamicCSSFunction);
+            return;
+        }
+
+        initStyleElement();
+        processAllElements();
+        initObserver();
+    };
+
+    // Add public methods to the function
+    xuiDynamicCSSFunction.refresh = () => {
+        processAllElements();
+    };
+    
+    xuiDynamicCSSFunction.destroy = () => {
+        if (observer) observer.disconnect();
+        if (styleElement && styleElement.parentNode) {
+            styleElement.parentNode.removeChild(styleElement);
+        }
+        clearTimeout(observerTimeout);
+        processedClasses.clear();
+    };
+
+    return xuiDynamicCSSFunction;
+})();
 
 function xuiRun(){
     xuiLazyLoadings();

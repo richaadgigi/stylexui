@@ -60,8 +60,8 @@ declare module '@richaadgigi/stylexui' {
   export const modalClose: typeof xuiModalClose;
 
   // Dynamic CSS
-  // export function xuiDynamicCSS(): void;
-  // export const dynamicCSS: typeof xuiDynamicCSS;
+  export function xuiDynamicCSS(): void;
+  export const dynamicCSS: typeof xuiDynamicCSS;
 
   // Core Runner
   export function xuiRun(): void;

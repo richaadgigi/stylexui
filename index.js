@@ -702,108 +702,230 @@ const xuiModalClose = (name) => {
 }
 
 const xuiDynamicCSS = () => {
-    const styleId = "xui-dynamic-css-styles";
-    let styleElement = document.getElementById(styleId);
-
-    if (!styleElement) {
-        styleElement = document.createElement("style");
-        styleElement.id = styleId;
-        document.head.appendChild(styleElement);
-    }
-
-    const appliedStyles = new Set(); // Stores applied CSS rules
-
-    const propertyMap = {
-        "xui-bg": "background-image",
-        "xui-column-count": "column-count",
-        "xui-column-gap": "column-gap",
-        "xui-m": "margin",
-        "xui-mt": "margin-top",
-        "xui-mr": "margin-right",
-        "xui-mb": "margin-bottom",
-        "xui-ml": "margin-left",
-        "xui-mx": ["margin-left", "margin-right"],
-        "xui-my": ["margin-top", "margin-bottom"],
-        "xui-p": "padding",
-        "xui-pt": "padding-top",
-        "xui-pr": "padding-right",
-        "xui-pb": "padding-bottom",
-        "xui-pl": "padding-left",
-        "xui-px": ["padding-left", "padding-right"],
-        "xui-py": ["padding-top", "padding-bottom"],
-        "xui-space": "letter-spacing",
-        "xui-bdr-rad": "border-radius",
-        "xui-bdr-w": "border-width",
-        "xui-z-index": "z-index",
-        "xui-min-w": "min-width",
-        "xui-min-h": "min-height",
-        "xui-max-w": "max-width",
-        "xui-max-h": "max-height",
-        "xui-font-w": "font-weight",
-        "xui-font-sz": "font-size",
-        "xui-opacity": "opacity",
-        "xui-w": "width",
-        "xui-h": "height",
-        "xui-line-height": "line-height",
-        "xui-letter-spacing": "letter-spacing",
-        "xui-grid-gap": "grid-gap",
-    };
-
-    const responsiveMap = {
-        "xui-sm": "(min-width: 640px)",
-        "xui-md": "(min-width: 768px)",
-        "xui-lg": "(min-width: 1024px)",
-        "xui-xl": "(min-width: 1280px)",
-    };
-
-    const addCSSRule = (rule, className) => {
-        if (!appliedStyles.has(className)) {
-            styleElement.appendChild(document.createTextNode(rule));
-            appliedStyles.add(className);
+    // Configuration
+    const config = {
+        styleId: "xui-dynamic-css-styles",
+        propertyMap: {
+            "xui-bg": "background",
+            "xui-column-count": "column-count",
+            "xui-column-count-gap": "column-gap",
+            "xui-m": "margin",
+            "xui-mt": "margin-top",
+            "xui-mr": "margin-right",
+            "xui-mb": "margin-bottom",
+            "xui-ml": "margin-left",
+            "xui-mx": ["margin-left", "margin-right"],
+            "xui-my": ["margin-top", "margin-bottom"],
+            "xui-p": "padding",
+            "xui-pt": "padding-top",
+            "xui-pr": "padding-right",
+            "xui-pb": "padding-bottom",
+            "xui-pl": "padding-left",
+            "xui-px": ["padding-left", "padding-right"],
+            "xui-py": ["padding-top", "padding-bottom"],
+            "xui-space": "letter-spacing",
+            "xui-bdr-rad": "border-radius",
+            "xui-bdr-w": "border-width",
+            "xui-z-index": "z-index",
+            "xui-min-w": "min-width",
+            "xui-min-h": "min-height",
+            "xui-max-w": "max-width",
+            "xui-max-h": "max-height",
+            "xui-font-w": "font-weight",
+            "xui-font-sz": "font-size",
+            "xui-opacity": "opacity",
+            "xui-w": "width",
+            "xui-h": "height",
+            "xui-line-height": "line-height",
+            "xui-letter-spacing": "letter-spacing",
+            "xui-grid-gap": "grid-gap"
+        },
+        responsiveMap: {
+            "xui-sm": "(min-width: 640px)",
+            "xui-md": "(min-width: 768px)",
+            "xui-lg": "(min-width: 1024px)",
+            "xui-xl": "(min-width: 1280px)",
         }
     };
 
+    let styleElement = null;
+    const appliedRules = new Set();
+
+    const initStyleElement = () => {
+        if (!document.head) return false;
+        
+        styleElement = document.getElementById(config.styleId);
+        if (!styleElement) {
+            styleElement = document.createElement('style');
+            styleElement.id = config.styleId;
+            document.head.appendChild(styleElement);
+        }
+        return true;
+    };
+
+    const generateValidCSSClass = (str) => {
+        return str.replace(/[^a-zA-Z0-9-]/g, '-')
+                 .replace(/-+/g, '-')
+                 .replace(/^-|-$/g, '');
+    };
+
+    const processClass = (cls) => {
+        // Match ONLY square-bracket classes (e.g., xui-[...], xui-lg-[...], xui-bg-[...])
+        const match = cls.match(/xui-(sm|md|lg|xl)?-?([a-z-]+)?-\[([^\]]+)\]/);
+        if (!match) return null; // Skip if not a bracket class
+
+        const [, breakpoint, propKey, value] = match;
+        const prop = propKey ? config.propertyMap[`xui-${propKey}`] : null;
+
+        // If no propKey (e.g., xui-[72px]), default to "font-size"
+        const cssProperty = prop || (propKey ? null : "font-size");
+        if (!cssProperty) {
+            console.warn(`No property mapping found for: ${propKey}`);
+            return null;
+        }
+
+        const safeValue = value.trim();
+        const selectorClass = generateValidCSSClass(cls);
+        const selector = `.${selectorClass}`;
+
+        // Handle responsive classes (e.g., xui-lg-[72px])
+        if (breakpoint && config.responsiveMap[`xui-${breakpoint}`]) {
+            const mediaQuery = config.responsiveMap[`xui-${breakpoint}`];
+            
+            // Handle multiple properties (like mx, px, etc.)
+            if (Array.isArray(cssProperty)) {
+                const properties = cssProperty.map(p => `${p}: ${safeValue}`).join('; ');
+                return {
+                    rule: `@media ${mediaQuery} { ${selector} { ${properties} } }`,
+                    selectorClass
+                };
+            }
+            
+            return {
+                rule: `@media ${mediaQuery} { ${selector} { ${cssProperty}: ${safeValue}; } }`,
+                selectorClass
+            };
+        }
+
+        // Handle regular bracket classes (e.g., xui-[72px], xui-bg-[#FF0000])
+        if (Array.isArray(cssProperty)) {
+            const properties = cssProperty.map(p => `${p}: ${safeValue}`).join('; ');
+            return {
+                rule: `${selector} { ${properties} }`,
+                selectorClass
+            };
+        }
+        
+        return {
+            rule: `${selector} { ${cssProperty}: ${safeValue}; }`,
+            selectorClass
+        };
+    };
+
     const processElements = () => {
-        const elements = document.querySelectorAll("[class*='xui-']");
+        if (!styleElement) return;
 
-        elements.forEach((el) => {
-            const classes = el.className.split(" ").filter((cls) => cls.startsWith("xui-"));
+        // Clear existing rules
+        if (styleElement.sheet) {
+            while (styleElement.sheet.cssRules.length > 0) {
+                styleElement.sheet.deleteRule(0);
+            }
+        } else {
+            styleElement.textContent = '';
+        }
+        appliedRules.clear();
 
-            classes.forEach((cls) => {
-                const responsiveMatch = cls.match(/^xui-(sm|md|lg|xl)-([a-z-]+)-\[(.+)\]$/);
-                if (responsiveMatch) {
-                    const [, breakpoint, propertyKey, value] = responsiveMatch;
-                    const property = propertyMap[`xui-${propertyKey}`];
+        // Process all elements with xui- classes
+        document.querySelectorAll('[class*="xui-"]').forEach(el => {
+            const classes = el.className.split(/\s+/);
+            
+            classes.forEach(cls => {
+                if (!cls.startsWith('xui-') || appliedRules.has(cls)) return;
+                
+                const result = processClass(cls);
+                if (!result || !result.rule) return;
 
-                    if (property && responsiveMap[`xui-${breakpoint}`]) {
-                        const safeValue = value.replace(/[^a-z0-9-(),.%]/gi, "");
-                        const uniqueClass = cls.replace(/[^a-z0-9-]/gi, "-");
-
-                        const rule = Array.isArray(property)
-                            ? property.map((prop) => `${prop}: ${safeValue};`).join(" ")
-                            : `${property}: ${safeValue};`;
-
-                        const mediaRule = `@media ${responsiveMap[`xui-${breakpoint}`]} { .${uniqueClass} { ${rule} } }`;
-
-                        addCSSRule(mediaRule, uniqueClass);
-                        el.classList.add(uniqueClass);
+                try {
+                    if (styleElement.sheet) {
+                        styleElement.sheet.insertRule(result.rule, styleElement.sheet.cssRules.length);
+                    } else {
+                        styleElement.textContent += result.rule + '\n';
                     }
+                    appliedRules.add(cls);
+                    
+                    if (!el.classList.contains(result.selectorClass)) {
+                        el.classList.add(result.selectorClass);
+                    }
+                } catch (e) {
+                    console.error(`Error inserting rule for ${cls}:`, e);
                 }
             });
         });
     };
 
-    // Throttle observer execution
-    let observerTimeout;
-    const observer = new MutationObserver(() => {
-        clearTimeout(observerTimeout);
-        observerTimeout = setTimeout(processElements, 100); // Prevents excessive re-processing
-    });
+    const init = () => {
+        if (!initStyleElement()) {
+            setTimeout(init, 50);
+            return;
+        }
+        
+        processElements();
+        
+        // Improved MutationObserver
+        const observer = new MutationObserver((mutations) => {
+            let needsUpdate = false;
+            
+            mutations.forEach((mutation) => {
+                // Case 1: Direct class attribute change
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    const oldClasses = mutation.oldValue ? mutation.oldValue.split(/\s+/) : [];
+                    const newClasses = mutation.target.className.split(/\s+/);
+                    
+                    // Check if any xui- classes were added/removed
+                    const hadXui = oldClasses.some(c => c.startsWith('xui-'));
+                    const hasXui = newClasses.some(c => c.startsWith('xui-'));
+                    
+                    if (hadXui || hasXui) needsUpdate = true;
+                }
+                
+                // Case 2: New nodes added with xui- classes
+                if (mutation.addedNodes) {
+                    mutation.addedNodes.forEach(node => {
+                        if (node.nodeType === 1 && (
+                            node.classList?.contains('xui-') || 
+                            node.querySelector?.('[class*="xui-"]')
+                        )) {
+                            needsUpdate = true;
+                        }
+                    });
+                }
+            });
+            
+            if (needsUpdate) {
+                processElements();
+            }
+        });
 
-    observer.observe(document.body, { childList: true, subtree: true, attributes: true });
+        observer.observe(document.body, {
+            subtree: true,
+            childList: true,
+            attributes: true,
+            attributeFilter: ['class'],
+            attributeOldValue: true // Needed to track class changes
+        });
+    };
 
-    // Initial processing
-    processElements();
+    init();
+
+    return {
+        refresh: processElements, // Call this if changes aren't detected
+        destroy: () => {
+            if (styleElement?.parentNode) {
+                styleElement.parentNode.removeChild(styleElement);
+            }
+            appliedRules.clear();
+        }
+    };
 };
 
 const setupEventListeners = () => {
@@ -1127,6 +1249,7 @@ export {
     xuiAnimeEnd as animateEnd,
     xuiTypeWriter as typewriter,
     xuiScrollOnAnimation as scrollOnAnimation,
+    xuiDynamicCSS as dynamicCSS,
     xuiRun as run,
     apply
 };
