@@ -1065,7 +1065,7 @@ const xuiDynamicCSS = (() => {
 
     // State
     let styleElement = null;
-    const processedClasses = new Set();
+    const processedRules = new Set();
     let observer = null;
     let observerTimeout = null;
 
@@ -1096,8 +1096,6 @@ const xuiDynamicCSS = (() => {
 
     // Process a single class on an element
     const processClass = (element, cls) => {
-        if (processedClasses.has(cls)) return;
-
         // Handle responsive classes
         const responsiveMatch = cls.match(/^xui-(sm|md|lg|xl)-([a-z-]+)-\[(.+)\]$/);
         if (responsiveMatch) {
@@ -1108,7 +1106,8 @@ const xuiDynamicCSS = (() => {
             const mediaQuery = config.responsiveMap[responsivePrefix];
 
             if (properties && mediaQuery) {
-                return processProperty(element, cls, propertyKey, properties, value, mediaQuery);
+                processProperty(element, cls, propertyKey, properties, value, mediaQuery);
+                return;
             }
         }
 
@@ -1119,7 +1118,8 @@ const xuiDynamicCSS = (() => {
             const properties = config.propertyMap[propertyKey];
 
             if (properties) {
-                return processProperty(element, cls, propertyKey, properties, value);
+                processProperty(element, cls, propertyKey, properties, value);
+                return;
             }
         }
     };
@@ -1149,20 +1149,28 @@ const xuiDynamicCSS = (() => {
             ? properties.map(prop => `${prop}:${value}`).join(';')
             : `${properties}:${value}`;
 
-        try {
-            if (mediaQuery) {
-                // Responsive rule
-                const fullRule = `@media ${mediaQuery} { .${newClassName} { ${rule} } }`;
-                styleElement.sheet.insertRule(fullRule, styleElement.sheet.cssRules.length);
-            } else {
-                // Base rule
-                const fullRule = `.${newClassName} { ${rule} }`;
-                styleElement.sheet.insertRule(fullRule, styleElement.sheet.cssRules.length);
-            }
+        // Create a unique identifier for the rule
+        const ruleIdentifier = mediaQuery 
+            ? `${mediaQuery}-${newClassName}-${rule}`
+            : `${newClassName}-${rule}`;
 
-            processedClasses.add(originalClass);
-        } catch (e) {
-            console.error('Failed to insert CSS rule:', e);
+        // Only add the rule if it hasn't been processed before
+        if (!processedRules.has(ruleIdentifier)) {
+            try {
+                if (mediaQuery) {
+                    // Responsive rule
+                    const fullRule = `@media ${mediaQuery} { .${newClassName} { ${rule} } }`;
+                    styleElement.sheet.insertRule(fullRule, styleElement.sheet.cssRules.length);
+                } else {
+                    // Base rule
+                    const fullRule = `.${newClassName} { ${rule} }`;
+                    styleElement.sheet.insertRule(fullRule, styleElement.sheet.cssRules.length);
+                }
+
+                processedRules.add(ruleIdentifier);
+            } catch (e) {
+                console.error('Failed to insert CSS rule:', e);
+            }
         }
     };
 
@@ -1243,7 +1251,7 @@ const xuiDynamicCSS = (() => {
             styleElement.parentNode.removeChild(styleElement);
         }
         clearTimeout(observerTimeout);
-        processedClasses.clear();
+        processedRules.clear();
     };
 
     return xuiDynamicCSSFunction;
