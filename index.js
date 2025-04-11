@@ -707,6 +707,7 @@ const xuiDynamicCSS = () => {
         styleId: "xui-dynamic-css-styles",
         propertyMap: {
             "xui-bg": "background",
+            "xui-text": "color",
             "xui-column-count": "column-count",
             "xui-column-count-gap": "column-gap",
             "xui-m": "margin",
