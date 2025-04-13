@@ -841,7 +841,7 @@ const xuiDynamicCSS = () => {
             const classes = el.className.split(/\s+/);
             
             classes.forEach(cls => {
-                if (!cls.startsWith('xui-') || appliedRules.has(cls)) return;
+                if (!cls.startsWith('xui-')) return;
                 
                 const result = processClass(cls);
                 if (!result || !result.rule) return;
