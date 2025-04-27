@@ -1021,7 +1021,8 @@ const xuiDynamicCSS = (() => {
     const config = {
         styleId: "xui-dynamic-css-styles",
         propertyMap: {
-            "xui-bg": "background",
+            "xui-bg": "background-color",
+            "xui-bg-img": "background-image",
             "xui-text": "color",
             "xui-column-count": "column-count",
             "xui-column-count-gap": "column-gap",
@@ -1150,6 +1151,10 @@ const xuiDynamicCSS = (() => {
             ? properties.map(prop => `${prop}:${value}`).join(';')
             : `${properties}:${value}`;
 
+        const ruleWithImportant = Array.isArray(properties) 
+            ? properties.map(prop => `${prop}:${value} !important`).join(';')
+            : `${properties}:${value} !important`;
+
         // Create a unique identifier for the rule
         const ruleIdentifier = mediaQuery 
             ? `${mediaQuery}-${newClassName}-${rule}`
@@ -1159,11 +1164,11 @@ const xuiDynamicCSS = (() => {
         if (!processedRules.has(ruleIdentifier)) {
             try {
                 if (mediaQuery) {
-                    // Responsive rule
-                    const fullRule = `@media ${mediaQuery} { .${newClassName} { ${rule} } }`;
+                    // Responsive rule with !important
+                    const fullRule = `@media ${mediaQuery} { .${newClassName} { ${ruleWithImportant} } }`;
                     styleElement.sheet.insertRule(fullRule, styleElement.sheet.cssRules.length);
                 } else {
-                    // Base rule
+                    // Base rule (no change)
                     const fullRule = `.${newClassName} { ${rule} }`;
                     styleElement.sheet.insertRule(fullRule, styleElement.sheet.cssRules.length);
                 }

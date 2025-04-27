@@ -1310,6 +1310,16 @@ img {
   object-position: right;
 }
 
+.xui-object-pos-bottom,
+.xui-object-position-bottom {
+  object-position: bottom;
+}
+
+.xui-object-pos-top,
+.xui-object-position-top {
+  object-position: top;
+}
+
 .xui-object-pos-initial,
 .xui-object-position-initial {
   object-position: initial;

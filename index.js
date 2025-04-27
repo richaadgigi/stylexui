@@ -706,7 +706,8 @@ const xuiDynamicCSS = () => {
     const config = {
         styleId: "xui-dynamic-css-styles",
         propertyMap: {
-            "xui-bg": "background",
+            "xui-bg": "background-color",
+            "xui-bg-img": "background-image",
             "xui-text": "color",
             "xui-column-count": "column-count",
             "xui-column-count-gap": "column-gap",
@@ -774,40 +775,40 @@ const xuiDynamicCSS = () => {
         // Match ONLY square-bracket classes (e.g., xui-[...], xui-lg-[...], xui-bg-[...])
         const match = cls.match(/xui-(sm|md|lg|xl)?-?([a-z-]+)?-\[([^\]]+)\]/);
         if (!match) return null; // Skip if not a bracket class
-
+    
         const [, breakpoint, propKey, value] = match;
         const prop = propKey ? config.propertyMap[`xui-${propKey}`] : null;
-
+    
         // If no propKey (e.g., xui-[72px]), default to "font-size"
         const cssProperty = prop || (propKey ? null : "font-size");
         if (!cssProperty) {
             console.warn(`No property mapping found for: ${propKey}`);
             return null;
         }
-
+    
         const safeValue = value.trim();
         const selectorClass = generateValidCSSClass(cls);
         const selector = `.${selectorClass}`;
-
+    
         // Handle responsive classes (e.g., xui-lg-[72px])
         if (breakpoint && config.responsiveMap[`xui-${breakpoint}`]) {
             const mediaQuery = config.responsiveMap[`xui-${breakpoint}`];
             
             // Handle multiple properties (like mx, px, etc.)
             if (Array.isArray(cssProperty)) {
-                const properties = cssProperty.map(p => `${p}: ${safeValue}`).join('; ');
+                const properties = cssProperty.map(p => `${p}: ${safeValue} !important`).join('; ');
                 return {
-                    rule: `@media ${mediaQuery} { ${selector} { ${properties} } }`,
+                    rule: `@media ${mediaQuery} { ${selector} { ${properties}; } }`,
                     selectorClass
                 };
             }
             
             return {
-                rule: `@media ${mediaQuery} { ${selector} { ${cssProperty}: ${safeValue}; } }`,
+                rule: `@media ${mediaQuery} { ${selector} { ${cssProperty}: ${safeValue} !important; } }`,
                 selectorClass
             };
         }
-
+    
         // Handle regular bracket classes (e.g., xui-[72px], xui-bg-[#FF0000])
         if (Array.isArray(cssProperty)) {
             const properties = cssProperty.map(p => `${p}: ${safeValue}`).join('; ');
