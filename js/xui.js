@@ -33,35 +33,19 @@ document.addEventListener("click", (e) => {
     if (xuiNavbar.length > 0) {
         const xuiNavbarMenu = document.querySelector(".xui-navbar .menu");
         const xuiNavbarLinksMain = document.querySelector(".xui-navbar .links .main");
-        const xuiDashboard = document.querySelector(".xui-dashboard");
-        const xuiDashboardAnimate = document.querySelector(".xui-dashboard.animate");
         const xuiNavbarLinksUrl = document.querySelectorAll(".xui-navbar .links a");
         if(e.target.closest(".xui-navbar .menu")){
             if(e.target && e.target.classList.contains('animate')){
-                if(xuiDashboard){
-                    xuiDashboard.classList.remove("animate");
-                }
                 if(xuiNavbarLinksMain){
                     xuiNavbarLinksMain.classList.remove("animate");
                 }
                 xuiNavbarMenu.classList.remove("animate");
             }
             else {
-                if(xuiDashboard){
-                    xuiDashboard.classList.add("animate");
-                }
                 if(xuiNavbarLinksMain){
                     xuiNavbarLinksMain.classList.add("animate");
                 }
                 xuiNavbarMenu.classList.add("animate");
-            }
-        }
-        if(e.target === xuiDashboard){
-            if(e.target && e.target.classList.contains('animate')){
-                if(xuiDashboard){
-                    xuiDashboard.classList.remove("animate");
-                }
-                xuiNavbarMenu.classList.remove("animate");
             }
         }
         // Closing animations when a link with url is clicked
@@ -72,9 +56,6 @@ document.addEventListener("click", (e) => {
                 if (xuiNavbarMenu !== null) {
                     xuiNavbarMenu.classList.remove("animate");
                 }
-                if(xuiDashboard !== null){
-                    xuiDashboard.classList.remove("animate");
-                }
                 if (xuiNavbarLinksMain !== null) {
                     xuiNavbarLinksMain.classList.remove("animate");
                 }
@@ -82,6 +63,33 @@ document.addEventListener("click", (e) => {
         }
     }
     // Functionalities for navabar goes here
+
+    // Functionalities for dashboard goes here
+    const xuiDashboard = document.querySelector(".xui-dashboard");
+    const xuiDashboardMenu = document.querySelector(".xui-dashboard .menu");
+    if(e.target.closest(".xui-dashboard .menu")){
+        if(e.target && e.target.classList.contains('animate')){
+            if(xuiDashboard){
+                xuiDashboard.classList.remove("animate");
+            }
+            xuiDashboardMenu.classList.remove("animate");
+        }
+        else {
+            if(xuiDashboard){
+                xuiDashboard.classList.add("animate");
+            }
+            xuiDashboardMenu.classList.add("animate");
+        }
+    }
+    if(e.target === xuiDashboard){
+        if(e.target && e.target.classList.contains('animate')){
+            if(xuiDashboard){
+                xuiDashboard.classList.remove("animate");
+            }
+            xuiDashboardMenu.classList.remove("animate");
+        }
+    }
+    // Functionalities for dashboard goes here
 
     // Functionalities for modal goes here
     const modals = document.querySelectorAll('[xui-modal]');
@@ -94,9 +102,11 @@ document.addEventListener("click", (e) => {
                 if (currentModal === modalName.getAttribute('xui-modal')) {
                     if (modalName.hasAttribute('xui-set')) {
                         modalName.removeAttribute("xui-present");
+                        modalName.removeAttribute("display");
                         void modalName.offsetWidth;
                         modalName.setAttribute("xui-present", false);
                     } else if (modalName.hasAttribute('display')) {
+                        modalName.removeAttribute("xui-present");
                         modalName.removeAttribute("display");
                         void modalName.offsetWidth;
                         modalName.setAttribute("display", false);
@@ -209,22 +219,34 @@ document.addEventListener("click", (e) => {
     }
     // Functionalities for accordion goes here
 
+    // Sidebar dropdown functionality
+    const dropdownHeaders = Array.from(document.querySelectorAll('.link-box.dropdown'));
+    const clickedHeader = e.target.closest('.link-box.dropdown');
+
+    if (clickedHeader) {
+        const dropdownContent = clickedHeader.querySelector('.dropdown-box');
+        const computedStyle = window.getComputedStyle(dropdownContent);
+        const isOpen = computedStyle.maxHeight !== "0px" && computedStyle.maxHeight !== "none";
+
+        if (isOpen) {
+            // Close this dropdown
+            dropdownContent.style.maxHeight = "0";
+            clickedHeader.classList.remove("focus");
+        } else {
+            // Open this dropdown
+            dropdownContent.style.maxHeight = (dropdownContent.scrollHeight + 8) + "px";
+            clickedHeader.classList.add("focus");
+        }
+    }
+
     // Functionalities for dashboard sidebar goes here
-    const xuiDashboardContent = document.querySelector('.xui-dashboard .screen .content');
-    const xuiDashboardAside = document.querySelector('.xui-dashboard .screen .aside');
-    const xuiSidebarBtn = document.querySelector(".xui-dashboard .screen .content .xui-open-sidebar");
-    // const xuiNavbarLinksMain = document.querySelector(".xui-navbar .links .main");
-    // const xuiDashboard = document.querySelector(".xui-dashboard");
-    // const xuiDashboardAnimate = document.querySelector(".xui-dashboard.animate");
-    // const xuiNavbarLinksUrl = document.querySelectorAll(".xui-navbar .links a");
-    if(e.target === xuiSidebarBtn){
-        xuiDashboardContent.classList.add("animate");
-        xuiDashboardAside.classList.add("animate");
+    const xuiDashboardScreen = document.querySelector('.xui-dashboard .screen');
+    if(e.target.closest(".xui-dashboard [xui-aside-open]")){
+        xuiDashboardScreen.setAttribute("xui-aside", "true");
     }
     
-    if(e.target === xuiDashboardContent){
-        xuiDashboardContent.classList.remove("animate");
-        xuiDashboardAside.classList.remove("animate");
+    if(e.target.closest(".xui-dashboard [xui-aside-close]")){
+        xuiDashboardScreen.setAttribute("xui-aside", "false");
     }
     // Functionalities for dashboard sidebar goes here
 });
@@ -1024,6 +1046,7 @@ const xuiDynamicCSS = (() => {
             "xui-bg": "background-color",
             "xui-bg-img": "background-image",
             "xui-text": "color",
+            "xui-img": "max-width",
             "xui-column-count": "column-count",
             "xui-column-count-gap": "column-gap",
             "xui-m": "margin",
@@ -1043,6 +1066,7 @@ const xuiDynamicCSS = (() => {
             "xui-space": "letter-spacing",
             "xui-bdr-rad": "border-radius",
             "xui-bdr-w": "border-width",
+            "xui-bdr": "border-color",
             "xui-z-index": "z-index",
             "xui-min-w": "min-width",
             "xui-min-h": "min-height",
@@ -1163,15 +1187,11 @@ const xuiDynamicCSS = (() => {
         // Only add the rule if it hasn't been processed before
         if (!processedRules.has(ruleIdentifier)) {
             try {
-                if (mediaQuery) {
-                    // Responsive rule with !important
-                    const fullRule = `@media ${mediaQuery} { .${newClassName} { ${ruleWithImportant} } }`;
-                    styleElement.sheet.insertRule(fullRule, styleElement.sheet.cssRules.length);
-                } else {
-                    // Base rule (no change)
-                    const fullRule = `.${newClassName} { ${rule} }`;
-                    styleElement.sheet.insertRule(fullRule, styleElement.sheet.cssRules.length);
-                }
+                const fullRule = mediaQuery
+                    ? `@media ${mediaQuery} { .${newClassName} { ${ruleWithImportant} } }`
+                    : `.${newClassName} { ${ruleWithImportant} }`;
+
+                styleElement.sheet.insertRule(fullRule, styleElement.sheet.cssRules.length);
 
                 processedRules.add(ruleIdentifier);
             } catch (e) {
