@@ -124,6 +124,17 @@ Visit our documentation to [learn more](https://doc.clickup.com/9012486388/p/h/8
 
 ✅ Comprehensive documentation
 
+### 🔹 Version 1.0.1
+✅ Fixed: Ripple effect animation now works as expected for better visual feedback.
+
+🧼 Updated: Dashboard redesigned with a cleaner and neater UI for improved clarity and user experience.
+
+🧩 New Utility: Introduced "xui-bdr-rad-none" to easily apply "border-radius: none".
+
+📂 Dashboard Navigation: Now supports dropdowns for subpages, making multi-level navigation seamless.
+
+🚀 Improved Styling Logic: Dynamic CSS now uses !important to ensure proper style overrides.
+
 ---
 ## 🌍 Contribution
 
