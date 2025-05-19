@@ -828,29 +828,54 @@ const xuiDynamicCSS = () => {
         }
         appliedRules.clear();
 
+        const ruleBuckets = {
+            base: [],
+            sm: [],
+            md: [],
+            lg: [],
+            xl: []
+        };
+
         // Process all elements with xui- classes
         document.querySelectorAll('[class*="xui-"]').forEach(el => {
             const classes = el.className.split(/\s+/);
-            
             classes.forEach(cls => {
                 if (!cls.startsWith('xui-')) return;
-                
+
                 const result = processClass(cls);
                 if (!result || !result.rule) return;
 
+                // Determine the bucket
+                if (cls.startsWith("xui-xl-")) {
+                    ruleBuckets.xl.push(result);
+                } else if (cls.startsWith("xui-lg-")) {
+                    ruleBuckets.lg.push(result);
+                } else if (cls.startsWith("xui-md-")) {
+                    ruleBuckets.md.push(result);
+                } else if (cls.startsWith("xui-sm-")) {
+                    ruleBuckets.sm.push(result);
+                } else {
+                    ruleBuckets.base.push(result);
+                }
+
+                if (!el.classList.contains(result.selectorClass)) {
+                    el.classList.add(result.selectorClass);
+                }
+            });
+        });
+
+        // Insert rules in order: base < sm < md < lg < xl
+        ["base", "sm", "md", "lg", "xl"].forEach(key => {
+            ruleBuckets[key].forEach(({ rule, selectorClass }) => {
                 try {
                     if (styleElement.sheet) {
-                        styleElement.sheet.insertRule(result.rule, styleElement.sheet.cssRules.length);
+                        styleElement.sheet.insertRule(rule, styleElement.sheet.cssRules.length);
                     } else {
-                        styleElement.textContent += result.rule + '\n';
+                        styleElement.textContent += rule + '\n';
                     }
-                    appliedRules.add(cls);
-                    
-                    if (!el.classList.contains(result.selectorClass)) {
-                        el.classList.add(result.selectorClass);
-                    }
+                    appliedRules.add(selectorClass);
                 } catch (e) {
-                    console.error(`Error inserting rule for ${cls}:`, e);
+                    console.error(`Error inserting rule for ${selectorClass}:`, e);
                 }
             });
         });

@@ -1039,7 +1039,6 @@ if (typeof window !== "undefined") {
 }
 // This function ensures you can add your own unit instead of a fixed unit
 const xuiDynamicCSS = (() => {
-    // Configuration
     const config = {
         styleId: "xui-dynamic-css-styles",
         propertyMap: {
@@ -1089,13 +1088,19 @@ const xuiDynamicCSS = (() => {
         }
     };
 
-    // State
     let styleElement = null;
     const processedRules = new Set();
     let observer = null;
     let observerTimeout = null;
 
-    // Initialize the style element
+    const pendingRules = {
+        base: [],
+        sm: [],
+        md: [],
+        lg: [],
+        xl: []
+    };
+
     const initStyleElement = () => {
         if (!document.head) {
             setTimeout(initStyleElement, 50);
@@ -1110,7 +1115,6 @@ const xuiDynamicCSS = (() => {
         }
     };
 
-    // Generate a hash for URL values
     const generateHash = (str) => {
         let hash = 0;
         for (let i = 0; i < str.length; i++) {
@@ -1120,9 +1124,7 @@ const xuiDynamicCSS = (() => {
         return `x${Math.abs(hash).toString(36)}`;
     };
 
-    // Process a single class on an element
     const processClass = (element, cls) => {
-        // Handle responsive classes
         const responsiveMatch = cls.match(/^xui-(sm|md|lg|xl)-([a-z-]+)-\[(.+)\]$/);
         if (responsiveMatch) {
             const [, breakpoint, propKey, value] = responsiveMatch;
@@ -1137,7 +1139,6 @@ const xuiDynamicCSS = (() => {
             }
         }
 
-        // Handle base classes
         const baseMatch = cls.match(/^(xui-[a-z-]+)-\[(.+)\]$/);
         if (baseMatch) {
             const [_, propertyKey, value] = baseMatch;
@@ -1150,9 +1151,7 @@ const xuiDynamicCSS = (() => {
         }
     };
 
-    // Process a CSS property and generate the appropriate rules
     const processProperty = (element, originalClass, propertyKey, properties, value, mediaQuery = null) => {
-        // Handle URL values
         let classNameSuffix = value;
         if (propertyKey === "xui-bg" && value.startsWith("url")) {
             const urlMatch = value.match(/url\((.*)\)/);
@@ -1162,50 +1161,66 @@ const xuiDynamicCSS = (() => {
             }
         }
 
-        // Generate valid class name
-        const newClassName = mediaQuery 
+        const newClassName = mediaQuery
             ? `xui-${propertyKey.replace('xui-', '')}-${classNameSuffix.replace(/[^a-z0-9]/g, '-')}-${mediaQuery.replace(/\D/g, '')}`
             : `xui-${propertyKey.replace('xui-', '')}-${classNameSuffix.replace(/[^a-z0-9]/g, '-')}`;
 
-        // Add the new class to the element
         element.classList.add(newClassName);
 
-        // Generate CSS rule
-        const rule = Array.isArray(properties) 
+        const rule = Array.isArray(properties)
             ? properties.map(prop => `${prop}:${value}`).join(';')
             : `${properties}:${value}`;
 
-        const ruleWithImportant = Array.isArray(properties) 
+        const ruleWithImportant = Array.isArray(properties)
             ? properties.map(prop => `${prop}:${value} !important`).join(';')
             : `${properties}:${value} !important`;
 
-        // Create a unique identifier for the rule
-        const ruleIdentifier = mediaQuery 
+        const ruleIdentifier = mediaQuery
             ? `${mediaQuery}-${newClassName}-${rule}`
             : `${newClassName}-${rule}`;
 
-        // Only add the rule if it hasn't been processed before
-        if (!processedRules.has(ruleIdentifier)) {
-            try {
-                const fullRule = mediaQuery
-                    ? `@media ${mediaQuery} { .${newClassName} { ${ruleWithImportant} } }`
-                    : `.${newClassName} { ${ruleWithImportant} }`;
+        if (processedRules.has(ruleIdentifier)) return;
 
-                styleElement.sheet.insertRule(fullRule, styleElement.sheet.cssRules.length);
+        const cssRule = mediaQuery
+            ? { query: mediaQuery, className: newClassName, rule: ruleWithImportant }
+            : { className: newClassName, rule: ruleWithImportant };
 
-                processedRules.add(ruleIdentifier);
-            } catch (e) {
-                console.error('Failed to insert CSS rule:', e);
-            }
+        const queryKey = mediaQuery
+            ? Object.entries(config.responsiveMap).find(([_, q]) => q === mediaQuery)?.[0].replace("xui-", "")
+            : "base";
+
+        if (queryKey && pendingRules[queryKey]) {
+            pendingRules[queryKey].push(cssRule);
+            processedRules.add(ruleIdentifier);
         }
     };
 
-    // Process all elements with xui classes
+    const flushPendingRules = () => {
+        if (!styleElement || !styleElement.sheet) return;
+
+        const order = ["base", "sm", "md", "lg", "xl"];
+
+        order.forEach(key => {
+            const rules = pendingRules[key];
+            rules.forEach(r => {
+                try {
+                    const fullRule = key === "base"
+                        ? `.${r.className} { ${r.rule} }`
+                        : `@media ${config.responsiveMap[`xui-${key}`]} { .${r.className} { ${r.rule} } }`;
+
+                    styleElement.sheet.insertRule(fullRule, styleElement.sheet.cssRules.length);
+                } catch (e) {
+                    console.error("Failed to insert rule", e, r);
+                }
+            });
+            pendingRules[key] = [];
+        });
+    };
+
     const processAllElements = () => {
         if (!styleElement) return;
 
         document.querySelectorAll('[class*="xui-"]').forEach(element => {
-            // Safely get className (works for SVG and regular DOM elements)
             const classString = element.getAttribute ? element.getAttribute('class') : '';
             if (classString) {
                 classString.split(/\s+/)
@@ -1213,9 +1228,10 @@ const xuiDynamicCSS = (() => {
                     .forEach(cls => processClass(element, cls));
             }
         });
+
+        flushPendingRules();
     };
 
-    // Initialize MutationObserver
     const initObserver = () => {
         if (observer) observer.disconnect();
 
@@ -1243,6 +1259,8 @@ const xuiDynamicCSS = (() => {
                         });
                     }
                 });
+
+                flushPendingRules();
             }, 100);
         });
 
@@ -1254,7 +1272,6 @@ const xuiDynamicCSS = (() => {
         });
     };
 
-    // The actual function that gets exposed
     const xuiDynamicCSSFunction = () => {
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', xuiDynamicCSSFunction);
@@ -1266,11 +1283,10 @@ const xuiDynamicCSS = (() => {
         initObserver();
     };
 
-    // Add public methods to the function
     xuiDynamicCSSFunction.refresh = () => {
         processAllElements();
     };
-    
+
     xuiDynamicCSSFunction.destroy = () => {
         if (observer) observer.disconnect();
         if (styleElement && styleElement.parentNode) {
