@@ -3838,7 +3838,11 @@ select:-webkit-autofill:focus {
 
   .xui-navbar .links .main {
     transition: .12s;
-    background-color: var(--white);
+    background-color: transparent;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: -1000%;
   }
 
   .xui-navbar .links .main.animate {
