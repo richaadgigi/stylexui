@@ -50,7 +50,7 @@ document.addEventListener("click", (e) => {
         }
         // Closing animations when a link with url is clicked
         const target = e.target;
-        if (target.closest('.xui-navbar .links .main a') || target.closest('.xui-dashboard .navigator .links a')) {
+        if (target.closest('.xui-navbar .links .main a')) {
             const href = target.getAttribute("href");
             if ((href !== "#") && (href !== "")) {
                 if (xuiNavbarMenu !== null) {
@@ -86,6 +86,15 @@ document.addEventListener("click", (e) => {
             if(xuiDashboard){
                 xuiDashboard.classList.remove("animate");
             }
+            xuiDashboardMenu.classList.remove("animate");
+        }
+    }
+    // Closing animations when a link with url is clicked
+    const link = e.target;
+    if (link.closest('.xui-dashboard .navigator .links a')) {
+        const href = link.getAttribute("href");
+        if ((href !== "#") && (href !== "")) {
+            xuiDashboard.classList.remove("animate");
             xuiDashboardMenu.classList.remove("animate");
         }
     }
@@ -1078,7 +1087,9 @@ const xuiDynamicCSS = (() => {
             "xui-h": "height",
             "xui-line-height": "line-height",
             "xui-letter-spacing": "letter-spacing",
-            "xui-grid-gap": "grid-gap"
+            "xui-grid-gap": "grid-gap",
+            "xui-flex-grow": "flex-grow",
+            "xui-flex-shrink": "flex-shrink"
         },
         responsiveMap: {
             "xui-sm": "(min-width: 640px)",

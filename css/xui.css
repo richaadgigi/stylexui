@@ -10934,6 +10934,10 @@ button[disabled]:hover,
   flex-direction: inherit;
 }
 
+.xui-flex-grow-0 {
+  flex-grow: 0;
+}
+
 .xui-flex-grow-1 {
   flex-grow: 1;
 }
@@ -10960,6 +10964,10 @@ button[disabled]:hover,
 
 .xui-flex-grow-inherit {
   flex-grow: inherit;
+}
+
+.xui-flex-shrink-0 {
+  flex-shrink: 0;
 }
 
 .xui-flex-shrink-1 {
