@@ -28817,6 +28817,11 @@ body.xui-dark-mode .xui-form input[type="radio"]:checked::after {
   background-color: var(--dark-toggle-bg);
 }
 
+body.xui-dark-mode .xui-form input[type="radio"],
+body.xui-dark-mode .xui-form-input[type="radio"] {
+  border: none;
+}
+
 body.xui-dark-mode .xui-navbar .menu {
   background-color: rgba(255, 255, 255, 0.08); /* Light overlay on dark */
 }
