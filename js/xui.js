@@ -1095,151 +1095,112 @@ const xuiDynamicCSS = (() => {
             "xui-sm": "(min-width: 640px)",
             "xui-md": "(min-width: 768px)",
             "xui-lg": "(min-width: 1024px)",
-            "xui-xl": "(min-width: 1280px)",
+            "xui-xl": "(min-width: 1280px)"
         }
     };
 
-    let styleElement = null;
     const processedRules = new Set();
+    const pendingRules = { base: [], sm: [], md: [], lg: [], xl: [] };
+    let styleElement = null;
     let observer = null;
-    let observerTimeout = null;
-
-    const pendingRules = {
-        base: [],
-        sm: [],
-        md: [],
-        lg: [],
-        xl: []
-    };
+    let flushTimer = null;
 
     const initStyleElement = () => {
-        if (!document.head) {
-            setTimeout(initStyleElement, 50);
-            return;
-        }
-
-        styleElement = document.getElementById(config.styleId);
-        if (!styleElement) {
-            styleElement = document.createElement('style');
+        if (!document.head) return setTimeout(initStyleElement, 50);
+        styleElement = document.getElementById(config.styleId) || document.createElement("style");
+        if (!styleElement.id) {
             styleElement.id = config.styleId;
             document.head.appendChild(styleElement);
         }
     };
 
-    const generateHash = (str) => {
-        let hash = 0;
-        for (let i = 0; i < str.length; i++) {
-            hash = (hash << 5) - hash + str.charCodeAt(i);
-            hash |= 0;
+    const generateHash = str => `x${Math.abs([...str].reduce((a, c) => (a << 5) - a + c.charCodeAt(0), 0)).toString(36)}`;
+
+    const normalizeValue = (propKey, value) => {
+        if (propKey === "xui-bg" && value.startsWith("url")) {
+            const url = value.match(/url\((.*)\)/)?.[1];
+            return { cleanValue: `url(${url})`, suffix: generateHash(url) };
         }
-        return `x${Math.abs(hash).toString(36)}`;
+        return { cleanValue: value, suffix: value.replace(/[^a-z0-9]/gi, '-') };
     };
 
-    const processClass = (element, cls) => {
-        const responsiveMatch = cls.match(/^xui-(sm|md|lg|xl)-([a-z-]+)-\[(.+)\]$/);
-        if (responsiveMatch) {
-            const [, breakpoint, propKey, value] = responsiveMatch;
-            const propertyKey = `xui-${propKey}`;
-            const responsivePrefix = `xui-${breakpoint}`;
-            const properties = config.propertyMap[propertyKey];
-            const mediaQuery = config.responsiveMap[responsivePrefix];
+    const enqueueRule = (className, rule, mediaQuery) => {
+        const ruleKey = mediaQuery ? `${mediaQuery}-${className}-${rule}` : `${className}-${rule}`;
+        if (processedRules.has(ruleKey)) return;
 
-            if (properties && mediaQuery) {
-                processProperty(element, cls, propertyKey, properties, value, mediaQuery);
-                return;
-            }
-        }
-
-        const baseMatch = cls.match(/^(xui-[a-z-]+)-\[(.+)\]$/);
-        if (baseMatch) {
-            const [_, propertyKey, value] = baseMatch;
-            const properties = config.propertyMap[propertyKey];
-
-            if (properties) {
-                processProperty(element, cls, propertyKey, properties, value);
-                return;
-            }
-        }
-    };
-
-    const processProperty = (element, originalClass, propertyKey, properties, value, mediaQuery = null) => {
-        let classNameSuffix = value;
-        if (propertyKey === "xui-bg" && value.startsWith("url")) {
-            const urlMatch = value.match(/url\((.*)\)/);
-            if (urlMatch) {
-                value = `url(${urlMatch[1]})`;
-                classNameSuffix = generateHash(urlMatch[1]);
-            }
-        }
-
-        const newClassName = mediaQuery
-            ? `xui-${propertyKey.replace('xui-', '')}-${classNameSuffix.replace(/[^a-z0-9]/g, '-')}-${mediaQuery.replace(/\D/g, '')}`
-            : `xui-${propertyKey.replace('xui-', '')}-${classNameSuffix.replace(/[^a-z0-9]/g, '-')}`;
-
-        element.classList.add(newClassName);
-
-        const rule = Array.isArray(properties)
-            ? properties.map(prop => `${prop}:${value}`).join(';')
-            : `${properties}:${value}`;
-
-        const ruleWithImportant = Array.isArray(properties)
-            ? properties.map(prop => `${prop}:${value} !important`).join(';')
-            : `${properties}:${value} !important`;
-
-        const ruleIdentifier = mediaQuery
-            ? `${mediaQuery}-${newClassName}-${rule}`
-            : `${newClassName}-${rule}`;
-
-        if (processedRules.has(ruleIdentifier)) return;
-
-        const cssRule = mediaQuery
-            ? { query: mediaQuery, className: newClassName, rule: ruleWithImportant }
-            : { className: newClassName, rule: ruleWithImportant };
-
-        const queryKey = mediaQuery
-            ? Object.entries(config.responsiveMap).find(([_, q]) => q === mediaQuery)?.[0].replace("xui-", "")
+        const target = mediaQuery
+            ? Object.entries(config.responsiveMap).find(([k, v]) => v === mediaQuery)?.[0].replace('xui-', '')
             : "base";
 
-        if (queryKey && pendingRules[queryKey]) {
-            pendingRules[queryKey].push(cssRule);
-            processedRules.add(ruleIdentifier);
+        if (target) {
+            pendingRules[target].push({ className, rule, query: mediaQuery });
+            processedRules.add(ruleKey);
         }
+    };
+
+    const buildClassName = (propKey, suffix, mediaQuery) => {
+        const prefix = propKey.replace("xui-", "");
+        const mqId = mediaQuery ? mediaQuery.replace(/\D/g, '') : "";
+        return `xui-${prefix}-${suffix}${mqId ? '-' + mqId : ''}`;
+    };
+
+    const buildRule = (properties, value) =>
+        (Array.isArray(properties) ? properties : [properties])
+            .map(prop => `${prop}:${value} !important`).join(';');
+
+    const applyClassRule = (el, propKey, value, mediaQuery = null) => {
+        const properties = config.propertyMap[propKey];
+        if (!properties) return;
+
+        const { cleanValue, suffix } = normalizeValue(propKey, value);
+        const className = buildClassName(propKey, suffix, mediaQuery);
+
+        el.classList.add(className);
+        enqueueRule(className, buildRule(properties, cleanValue), mediaQuery);
+    };
+
+    const processClass = (el, cls) => {
+        const responsive = cls.match(/^xui-(sm|md|lg|xl)-([a-z-]+)-\[(.+)]$/);
+        const base = cls.match(/^(xui-[a-z-]+)-\[(.+)]$/);
+
+        if (responsive) {
+            const [, bp, key, val] = responsive;
+            applyClassRule(el, `xui-${key}`, val, config.responsiveMap[`xui-${bp}`]);
+        } else if (base) {
+            const [, key, val] = base;
+            applyClassRule(el, key, val);
+        }
+    };
+
+    const processElement = el => {
+        const classStr = el.getAttribute?.("class");
+        if (!classStr) return;
+
+        classStr.split(/\s+/)
+            .filter(cls => cls.startsWith("xui-"))
+            .forEach(cls => processClass(el, cls));
     };
 
     const flushPendingRules = () => {
-        if (!styleElement || !styleElement.sheet) return;
+        if (!styleElement?.sheet) return;
 
-        const order = ["base", "sm", "md", "lg", "xl"];
-
-        order.forEach(key => {
-            const rules = pendingRules[key];
-            rules.forEach(r => {
+        ["base", "sm", "md", "lg", "xl"].forEach(key => {
+            pendingRules[key].forEach(({ className, rule, query }) => {
                 try {
-                    const fullRule = key === "base"
-                        ? `.${r.className} { ${r.rule} }`
-                        : `@media ${config.responsiveMap[`xui-${key}`]} { .${r.className} { ${r.rule} } }`;
-
-                    styleElement.sheet.insertRule(fullRule, styleElement.sheet.cssRules.length);
+                    const css = query
+                        ? `@media ${query} { .${className} { ${rule} } }`
+                        : `.${className} { ${rule} }`;
+                    styleElement.sheet.insertRule(css, styleElement.sheet.cssRules.length);
                 } catch (e) {
-                    console.error("Failed to insert rule", e, r);
+                    console.error("CSS rule error:", e);
                 }
             });
             pendingRules[key] = [];
         });
     };
 
-    const processAllElements = () => {
-        if (!styleElement) return;
-
-        document.querySelectorAll('[class*="xui-"]').forEach(element => {
-            const classString = element.getAttribute ? element.getAttribute('class') : '';
-            if (classString) {
-                classString.split(/\s+/)
-                    .filter(cls => cls.startsWith('xui-'))
-                    .forEach(cls => processClass(element, cls));
-            }
-        });
-
+    const processAll = () => {
+        document.querySelectorAll('[class*="xui-"]').forEach(processElement);
         flushPendingRules();
     };
 
@@ -1247,30 +1208,19 @@ const xuiDynamicCSS = (() => {
         if (observer) observer.disconnect();
 
         observer = new MutationObserver(mutations => {
-            clearTimeout(observerTimeout);
-            observerTimeout = setTimeout(() => {
-                mutations.forEach(mutation => {
-                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                        const classString = mutation.target.getAttribute ? mutation.target.getAttribute('class') : '';
-                        if (classString) {
-                            classString.split(/\s+/)
-                                .filter(cls => cls.startsWith('xui-'))
-                                .forEach(cls => processClass(mutation.target, cls));
-                        }
-                    } else {
-                        mutation.addedNodes.forEach(node => {
-                            if (node.nodeType === 1 && node.getAttribute && node.getAttribute('class')?.includes('xui-')) {
-                                const classString = node.getAttribute('class');
-                                if (classString) {
-                                    classString.split(/\s+/)
-                                        .filter(cls => cls.startsWith('xui-'))
-                                        .forEach(cls => processClass(node, cls));
-                                }
+            clearTimeout(flushTimer);
+            flushTimer = setTimeout(() => {
+                mutations.forEach(m => {
+                    if (m.type === "attributes" && m.attributeName === "class") {
+                        processElement(m.target);
+                    } else if (m.type === "childList") {
+                        m.addedNodes.forEach(n => {
+                            if (n.nodeType === 1 && n.getAttribute?.("class")?.includes("xui-")) {
+                                processElement(n);
                             }
                         });
                     }
                 });
-
                 flushPendingRules();
             }, 100);
         });
@@ -1279,35 +1229,34 @@ const xuiDynamicCSS = (() => {
             subtree: true,
             childList: true,
             attributes: true,
-            attributeFilter: ['class']
+            attributeFilter: ["class"]
         });
     };
 
-    const xuiDynamicCSSFunction = () => {
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', xuiDynamicCSSFunction);
+    const init = () => {
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", init);
             return;
         }
 
         initStyleElement();
-        processAllElements();
+        processAll();
         initObserver();
     };
 
-    xuiDynamicCSSFunction.refresh = () => {
-        processAllElements();
-    };
-
-    xuiDynamicCSSFunction.destroy = () => {
-        if (observer) observer.disconnect();
-        if (styleElement && styleElement.parentNode) {
-            styleElement.parentNode.removeChild(styleElement);
-        }
-        clearTimeout(observerTimeout);
+    const destroy = () => {
+        observer?.disconnect();
+        if (styleElement?.parentNode) styleElement.parentNode.removeChild(styleElement);
         processedRules.clear();
+        clearTimeout(flushTimer);
     };
 
-    return xuiDynamicCSSFunction;
+    init();
+
+    return Object.assign(init, {
+        refresh: processAll,
+        destroy
+    });
 })();
 
 function xuiRun(){

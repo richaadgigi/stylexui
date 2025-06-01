@@ -702,7 +702,6 @@ const xuiModalClose = (name) => {
 }
 
 const xuiDynamicCSS = () => {
-    // Configuration
     const config = {
         styleId: "xui-dynamic-css-styles",
         propertyMap: {
@@ -759,7 +758,7 @@ const xuiDynamicCSS = () => {
 
     const initStyleElement = () => {
         if (!document.head) return false;
-        
+
         styleElement = document.getElementById(config.styleId);
         if (!styleElement) {
             styleElement = document.createElement('style');
@@ -771,64 +770,56 @@ const xuiDynamicCSS = () => {
 
     const generateValidCSSClass = (str) => {
         return str.replace(/[^a-zA-Z0-9-]/g, '-')
-                 .replace(/-+/g, '-')
-                 .replace(/^-|-$/g, '');
+                  .replace(/-+/g, '-')
+                  .replace(/^-|-$/g, '');
     };
 
     const processClass = (cls) => {
-        // Match ONLY square-bracket classes (e.g., xui-[...], xui-lg-[...], xui-bg-[...])
         const match = cls.match(/xui-(sm|md|lg|xl)?-?([a-z-]+)?-\[([^\]]+)\]/);
-        if (!match) return null; // Skip if not a bracket class
+        if (!match) return null;
 
-        const [, breakpoint, propKey, value] = match;
+        const [, breakpoint, propKey, rawValue] = match;
         const prop = propKey ? config.propertyMap[`xui-${propKey}`] : null;
-
-        // If no propKey (e.g., xui-[72px]), default to "font-size"
         const cssProperty = prop || (propKey ? null : "font-size");
         if (!cssProperty) {
             console.warn(`No property mapping found for: ${propKey}`);
             return null;
         }
 
-        const safeValue = value.trim();
-        const selectorClass = generateValidCSSClass(cls);
+        const hasImportant = /\s*!important\s*$/i.test(rawValue);
+        const value = rawValue.trim().replace(/\s*!important\s*$/i, '');
+
+        // Make class names safe by removing `!important` and ensuring valid CSS class name
+        const cleanClassForName = cls.replace(/\s*!important\s*(?=\])/, '').replace(' !important', '');
+        const selectorClass = generateValidCSSClass(cleanClassForName);
         const selector = `.${selectorClass}`;
 
-        const getImportantCSS = (propList) => {
+        const getCSS = (propList) => {
+            const suffix = hasImportant ? ' !important' : '';
             if (Array.isArray(propList)) {
-                return propList.map(p => `${p}: ${safeValue} !important`).join('; ');
+                return propList.map(p => `${p}: ${value}${suffix}`).join('; ');
             }
-            return `${propList}: ${safeValue} !important`;
+            return `${propList}: ${value}${suffix}`;
         };
 
-        // Responsive case (with media query)
+        const ruleBody = `${selector} { ${getCSS(cssProperty)}; }`;
+
         if (breakpoint && config.responsiveMap[`xui-${breakpoint}`]) {
             const mediaQuery = config.responsiveMap[`xui-${breakpoint}`];
             return {
-                rule: `@media ${mediaQuery} { ${selector} { ${getImportantCSS(cssProperty)}; } }`,
+                rule: `@media ${mediaQuery} { ${ruleBody} }`,
                 selectorClass
             };
         }
 
-        // Non-responsive case
         return {
-            rule: `${selector} { ${getImportantCSS(cssProperty)}; }`,
+            rule: ruleBody,
             selectorClass
         };
     };
 
     const processElements = () => {
         if (!styleElement) return;
-
-        // Clear existing rules
-        if (styleElement.sheet) {
-            while (styleElement.sheet.cssRules.length > 0) {
-                styleElement.sheet.deleteRule(0);
-            }
-        } else {
-            styleElement.textContent = '';
-        }
-        appliedRules.clear();
 
         const ruleBuckets = {
             base: [],
@@ -838,7 +829,6 @@ const xuiDynamicCSS = () => {
             xl: []
         };
 
-        // Process all elements with xui- classes
         document.querySelectorAll('[class*="xui-"]').forEach(el => {
             const classes = el.className.split(/\s+/);
             classes.forEach(cls => {
@@ -847,7 +837,15 @@ const xuiDynamicCSS = () => {
                 const result = processClass(cls);
                 if (!result || !result.rule) return;
 
-                // Determine the bucket
+                const { selectorClass, rule } = result;
+
+                if (appliedRules.has(selectorClass)) {
+                    if (!el.classList.contains(selectorClass)) {
+                        el.classList.add(selectorClass);
+                    }
+                    return;
+                }
+
                 if (cls.startsWith("xui-xl-")) {
                     ruleBuckets.xl.push(result);
                 } else if (cls.startsWith("xui-lg-")) {
@@ -860,24 +858,25 @@ const xuiDynamicCSS = () => {
                     ruleBuckets.base.push(result);
                 }
 
-                if (!el.classList.contains(result.selectorClass)) {
-                    el.classList.add(result.selectorClass);
+                if (!el.classList.contains(selectorClass)) {
+                    el.classList.add(selectorClass);
                 }
             });
         });
 
-        // Insert rules in order: base < sm < md < lg < xl
         ["base", "sm", "md", "lg", "xl"].forEach(key => {
             ruleBuckets[key].forEach(({ rule, selectorClass }) => {
-                try {
-                    if (styleElement.sheet) {
-                        styleElement.sheet.insertRule(rule, styleElement.sheet.cssRules.length);
-                    } else {
-                        styleElement.textContent += rule + '\n';
+                if (!appliedRules.has(selectorClass)) {
+                    try {
+                        if (styleElement.sheet) {
+                            styleElement.sheet.insertRule(rule, styleElement.sheet.cssRules.length);
+                        } else {
+                            styleElement.textContent += rule + '\n';
+                        }
+                        appliedRules.add(selectorClass);
+                    } catch (e) {
+                        console.error(`Error inserting rule for ${selectorClass}:`, e);
                     }
-                    appliedRules.add(selectorClass);
-                } catch (e) {
-                    console.error(`Error inserting rule for ${selectorClass}:`, e);
                 }
             });
         });
@@ -888,31 +887,25 @@ const xuiDynamicCSS = () => {
             setTimeout(init, 50);
             return;
         }
-        
+
         processElements();
-        
-        // Improved MutationObserver
+
         const observer = new MutationObserver((mutations) => {
             let needsUpdate = false;
-            
+
             mutations.forEach((mutation) => {
-                // Case 1: Direct class attribute change
                 if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
                     const oldClasses = mutation.oldValue ? mutation.oldValue.split(/\s+/) : [];
                     const newClasses = mutation.target.className.split(/\s+/);
-                    
-                    // Check if any xui- classes were added/removed
                     const hadXui = oldClasses.some(c => c.startsWith('xui-'));
                     const hasXui = newClasses.some(c => c.startsWith('xui-'));
-                    
                     if (hadXui || hasXui) needsUpdate = true;
                 }
-                
-                // Case 2: New nodes added with xui- classes
+
                 if (mutation.addedNodes) {
                     mutation.addedNodes.forEach(node => {
                         if (node.nodeType === 1 && (
-                            node.classList?.contains('xui-') || 
+                            node.classList?.value.includes('xui-') ||
                             node.querySelector?.('[class*="xui-"]')
                         )) {
                             needsUpdate = true;
@@ -920,7 +913,7 @@ const xuiDynamicCSS = () => {
                     });
                 }
             });
-            
+
             if (needsUpdate) {
                 processElements();
             }
@@ -931,14 +924,14 @@ const xuiDynamicCSS = () => {
             childList: true,
             attributes: true,
             attributeFilter: ['class'],
-            attributeOldValue: true // Needed to track class changes
+            attributeOldValue: true
         });
     };
 
     init();
 
     return {
-        refresh: processElements, // Call this if changes aren't detected
+        refresh: processElements,
         destroy: () => {
             if (styleElement?.parentNode) {
                 styleElement.parentNode.removeChild(styleElement);
