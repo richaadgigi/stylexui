@@ -786,12 +786,12 @@ const xuiDynamicCSS = () => {
             return null;
         }
 
-        const hasImportant = /\s*!important\s*$/i.test(rawValue);
-        const value = rawValue.trim().replace(/\s*!important\s*$/i, '');
+        const hasImportant = rawValue.trim().endsWith('!');
+        const value = rawValue.trim().replace(/!$/, '');
 
-        // Make class names safe by removing `!important` and ensuring valid CSS class name
-        const cleanClassForName = cls.replace(/\s*!important\s*(?=\])/, '').replace(' !important', '');
-        const selectorClass = generateValidCSSClass(cleanClassForName);
+        // Include ! in class name as "--important" to make unique class names for !important variants
+        const clsForName = cls.replace('!', '--important');
+        const selectorClass = generateValidCSSClass(clsForName);
         const selector = `.${selectorClass}`;
 
         const getCSS = (propList) => {

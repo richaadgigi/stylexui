@@ -1117,11 +1117,18 @@ const xuiDynamicCSS = (() => {
     const generateHash = str => `x${Math.abs([...str].reduce((a, c) => (a << 5) - a + c.charCodeAt(0), 0)).toString(36)}`;
 
     const normalizeValue = (propKey, value) => {
-        if (propKey === "xui-bg" && value.startsWith("url")) {
-            const url = value.match(/url\((.*)\)/)?.[1];
-            return { cleanValue: `url(${url})`, suffix: generateHash(url) };
+        const isImportant = value.trim().endsWith('!');
+        const rawValue = value.trim().replace(/!$/, '');
+
+        let suffix;
+        if (propKey === "xui-bg" && rawValue.startsWith("url")) {
+            const url = rawValue.match(/url\((.*)\)/)?.[1];
+            suffix = generateHash(url) + (isImportant ? '--important' : '');
+        } else {
+            suffix = rawValue.replace(/[^a-z0-9]/gi, '-') + (isImportant ? '--important' : '');
         }
-        return { cleanValue: value, suffix: value.replace(/[^a-z0-9]/gi, '-') };
+
+        return { cleanValue: rawValue, suffix, isImportant };
     };
 
     const enqueueRule = (className, rule, mediaQuery) => {
@@ -1152,11 +1159,11 @@ const xuiDynamicCSS = (() => {
         const properties = config.propertyMap[propKey];
         if (!properties) return;
 
-        const { cleanValue, suffix } = normalizeValue(propKey, value);
+        const { cleanValue, suffix, isImportant } = normalizeValue(propKey, value);
         const className = buildClassName(propKey, suffix, mediaQuery);
 
         el.classList.add(className);
-        enqueueRule(className, buildRule(properties, cleanValue), mediaQuery);
+        enqueueRule(className, buildRule(properties, cleanValue + (isImportant ? ' !important' : '')), mediaQuery);
     };
 
     const processClass = (el, cls) => {
