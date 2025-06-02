@@ -37,10 +37,10 @@ Add the following `<link>` tag to your HTML file:
 
 ```html
 <!-- CSS -->
-<link rel="stylesheet" href="https://cdn.stylexui.com/@v1.0.0-stable/css/xui.css" />
+<link rel="stylesheet" href="https://cdn.stylexui.com/@v1.0.1/css/xui.css" />
 
 <!-- Optional JavaScript (for interactive components) -->
-<script src="https://cdn.stylexui.com/@v1.0.0-stable/js/xui.js" defer></script>
+<script src="https://cdn.stylexui.com/@v1.0.1/js/xui.js" defer></script>
 ```
 ✅ Best for: Prototyping, static HTML projects, minimal dependencies.
 
@@ -67,7 +67,7 @@ apply();
 
 ### 3️⃣ Manual Download *(Offline or Custom Hosting)*
 
-1. Download the latest version from the [official website](https://stylexui.com) or the [zip file](https://github.com/richaadgigi/stylexui/archive/refs/tags/v1.0.0-beta.zip).
+1. Download the latest version from the [official website](https://stylexui.com) or the [zip file](https://github.com/richaadgigi/stylexui/archive/refs/tags/v1.0.1.zip).
 2. Extract the files and link the CSS in your HTML file:
 
 ```html
