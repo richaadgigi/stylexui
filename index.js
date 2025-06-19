@@ -1,3 +1,5 @@
+import './index.css'; // This triggers the side-effect
+
 // Utility Functions
 const findElementWithAttribute = (element, attributeName) => {
     while (element) {
@@ -788,19 +790,14 @@ const xuiDynamicCSS = () => {
 
         const hasImportant = rawValue.trim().endsWith('!');
         const value = rawValue.trim().replace(/!$/, '');
-
-        // Include ! in class name as "--important" to make unique class names for !important variants
-        const clsForName = cls.replace('!', '--important');
-        const selectorClass = generateValidCSSClass(clsForName);
+        const selectorClass = generateValidCSSClass(cls);
         const selector = `.${selectorClass}`;
+        const suffix = hasImportant ? ' !important' : '';
 
-        const getCSS = (propList) => {
-            const suffix = hasImportant ? ' !important' : '';
-            if (Array.isArray(propList)) {
-                return propList.map(p => `${p}: ${value}${suffix}`).join('; ');
-            }
-            return `${propList}: ${value}${suffix}`;
-        };
+        const getCSS = (propList) =>
+            Array.isArray(propList)
+                ? propList.map(p => `${p}: ${value}${suffix}`).join('; ')
+                : `${propList}: ${value}${suffix}`;
 
         const ruleBody = `${selector} { ${getCSS(cssProperty)}; }`;
 
@@ -821,13 +818,7 @@ const xuiDynamicCSS = () => {
     const processElements = () => {
         if (!styleElement) return;
 
-        const ruleBuckets = {
-            base: [],
-            sm: [],
-            md: [],
-            lg: [],
-            xl: []
-        };
+        const ruleBuckets = { base: [], sm: [], md: [], lg: [], xl: [] };
 
         document.querySelectorAll('[class*="xui-"]').forEach(el => {
             const classes = el.className.split(/\s+/);
@@ -839,12 +830,12 @@ const xuiDynamicCSS = () => {
 
                 const { selectorClass, rule } = result;
 
-                if (appliedRules.has(selectorClass)) {
-                    if (!el.classList.contains(selectorClass)) {
-                        el.classList.add(selectorClass);
-                    }
-                    return;
+                // ✅ Ensure the valid class is added so the style can apply
+                if (!el.classList.contains(selectorClass)) {
+                    el.classList.add(selectorClass);
                 }
+
+                if (appliedRules.has(selectorClass)) return;
 
                 if (cls.startsWith("xui-xl-")) {
                     ruleBuckets.xl.push(result);
@@ -857,13 +848,10 @@ const xuiDynamicCSS = () => {
                 } else {
                     ruleBuckets.base.push(result);
                 }
-
-                if (!el.classList.contains(selectorClass)) {
-                    el.classList.add(selectorClass);
-                }
             });
         });
 
+        // Inject new rules
         ["base", "sm", "md", "lg", "xl"].forEach(key => {
             ruleBuckets[key].forEach(({ rule, selectorClass }) => {
                 if (!appliedRules.has(selectorClass)) {
@@ -1214,7 +1202,7 @@ const apply = () => {
     const init = () => {
       isApplied = true;
       // Initialize components in correct order
-      applyComponent('dynamicCSS', xuiDynamicCSS); // First
+    //   applyComponent('dynamicCSS', xuiDynamicCSS);
       applyComponent('loadingScreen', xuiLoadingScreen);
       applyComponent('alerts', xuiAlerts);
       applyComponent('lazyLoad', xuiLazyLoadings);
@@ -1311,7 +1299,6 @@ if (typeof window !== 'undefined' && typeof document !== 'undefined') {
     const init = () => {
         // Check if already initialized by user
         if (!isApplied) {
-            console.log('Auto-initializing StyleXUI...');
             apply();
         }
     };
