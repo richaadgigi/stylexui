@@ -60,6 +60,7 @@ Then, import it in your project:
 ```js
 import '@richaadgigi/stylexui/css/xui.min.css';
 import { apply } from '@richaadgigi/stylexui';
+import './src/stylexui/dynamic.css'; // Automatically Use Dynamic CSS 
 
 apply();
 ```

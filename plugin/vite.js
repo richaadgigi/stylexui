@@ -66,13 +66,13 @@ function stylexui() {
       if (isDev && !watching) {
         watching = true;
 
-        console.log('[stylexui] 👀 Watching for changes...');
+        // console.log('[stylexui] 👀 Watching for changes...');
         const watcher = chokidar.watch(`${srcDir}/**/*.{js,ts,jsx,tsx,vue,svelte,html}`, {
           ignoreInitial: true,
         });
 
         watcher.on('change', (filePath) => {
-          console.log(`[stylexui] 🔄 File changed: ${filePath}`);
+          // console.log(`[stylexui] 🔄 File changed: ${filePath}`);
           run([srcDir], path.resolve(buildDir, cssFileName));
           loadClassMap();
           copyCssToStyles();
@@ -82,7 +82,7 @@ function stylexui() {
             const mod = server.moduleGraph.getModuleById(filePath);
             if (mod) {
               server.moduleGraph.invalidateModule(mod);
-              console.log(`[stylexui] ♻️ Invalidated module: ${filePath}`);
+              // console.log(`[stylexui] ♻️ Invalidated module: ${filePath}`);
             }
           }
         });
@@ -94,7 +94,7 @@ function stylexui() {
     },
 
     buildStart() {
-      console.log('[stylexui] 🏗️ Initial build...');
+      // console.log('[stylexui] 🏗️ Initial build...');
       run([srcDir], path.resolve(buildDir, cssFileName));
       loadClassMap();
       copyCssToStyles();

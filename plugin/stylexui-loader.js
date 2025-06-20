@@ -10,7 +10,7 @@ function loadClassMap() {
     try {
       classMap = JSON.parse(fs.readFileSync(classMapPath, 'utf-8'));
     } catch (e) {
-      console.warn('[stylexui-loader] ⚠️ Failed to parse classmap:', e);
+      // console.warn('[stylexui-loader] ⚠️ Failed to parse classmap:', e);
       classMap = {};
     }
   }

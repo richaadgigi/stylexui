@@ -50,16 +50,16 @@ function withStylexui(nextConfig = {}) {
 
       if (options.dev && !watching) {
         watching = true;
-        console.log('[stylexui] 👀 Watching for file changes...');
+        // console.log('[stylexui] 👀 Watching for file changes...');
         chokidar.watch(`${srcDir}/**/*.{js,ts,jsx,tsx}`, { ignoreInitial: true })
           .on('change', (filePath) => {
-            console.log(`[stylexui] 🔄 File changed: ${filePath}`);
+            // console.log(`[stylexui] 🔄 File changed: ${filePath}`);
             run([srcDir], path.resolve(buildDir, cssFileName));
             loadClassMap();
             copyCssToStyles();
           });
 
-        console.log('[stylexui] 🏗️ Running initial build...');
+        // console.log('[stylexui] 🏗️ Running initial build...');
         run([srcDir], path.resolve(buildDir, cssFileName));
         loadClassMap();
         copyCssToStyles();
