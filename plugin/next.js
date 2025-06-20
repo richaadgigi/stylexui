@@ -1,76 +1,79 @@
 const fs = require('fs');
 const path = require('path');
 const chokidar = require('chokidar');
-const { run } = require('../../cli/xui-build');
+const { run } = require('../cli/xui-build');
+
+const srcDir = path.resolve('src');
+const buildDir = path.resolve('build');
+const stylesDir = path.resolve('src/stylexui'); // <-- inside src now
+const cssFileName = 'dynamic.css';
 
 let classMap = {};
 let watching = false;
 
 function loadClassMap() {
-  const classMapPath = path.resolve('build/xui-classmap.json');
+  const classMapPath = path.resolve(buildDir, 'xui-classmap.json');
   if (fs.existsSync(classMapPath)) {
     try {
-      const data = fs.readFileSync(classMapPath, 'utf-8');
-      classMap = JSON.parse(data);
-      console.log(`[stylexui] 🔁 Reloaded ${Object.keys(classMap).length} class mappings.`);
-    } catch (err) {
-      console.warn('[stylexui] ⚠️ Failed to parse classmap:', err);
+      classMap = JSON.parse(fs.readFileSync(classMapPath, 'utf-8'));
+      // console.log(`[stylexui] 🔁 Loaded ${Object.keys(classMap).length} class mappings.`);
+    } catch (e) {
+      // console.warn('[stylexui] ⚠️ Failed to parse classmap:', e);
     }
   }
 }
 
-function withStyleXUI(nextConfig = {}) {
+function copyCssToStyles() {
+  const src = path.resolve(buildDir, cssFileName);
+  const dest = path.resolve(stylesDir, cssFileName);
+
+  if (!fs.existsSync(stylesDir)) {
+    fs.mkdirSync(stylesDir, { recursive: true });
+  }
+
+  if (fs.existsSync(src)) {
+    fs.copyFileSync(src, dest);
+    // console.log(`[stylexui] 📄 Copied CSS to src/styles folder: ${dest}`);
+  } else {
+    // console.warn(`[stylexui] ⚠️ CSS file not found to copy: ${src}`);
+  }
+}
+
+function withStylexui(nextConfig = {}) {
   return {
     ...nextConfig,
 
-    webpack(config, { dev, isServer }) {
-      // Step 1: Run builder initially
-      run(['src'], 'build/xui-utilities.css');
-      loadClassMap();
-
-      // Step 2: Inject generated CSS into client entry
-      if (!isServer && config.entry) {
-        const origEntry = config.entry;
-        config.entry = async () => {
-          const entries = await origEntry();
-          if (entries['main.js'] && !entries['main.js'].includes('./build/xui-utilities.css')) {
-            entries['main.js'].unshift('./build/xui-utilities.css');
-          }
-          return entries;
-        };
+    webpack(config, options) {
+      if (typeof nextConfig.webpack === 'function') {
+        config = nextConfig.webpack(config, options);
       }
 
-      // Step 3: Add loader to transform classnames
+      if (options.dev && !watching) {
+        watching = true;
+        console.log('[stylexui] 👀 Watching for file changes...');
+        chokidar.watch(`${srcDir}/**/*.{js,ts,jsx,tsx}`, { ignoreInitial: true })
+          .on('change', (filePath) => {
+            console.log(`[stylexui] 🔄 File changed: ${filePath}`);
+            run([srcDir], path.resolve(buildDir, cssFileName));
+            loadClassMap();
+            copyCssToStyles();
+          });
+
+        console.log('[stylexui] 🏗️ Running initial build...');
+        run([srcDir], path.resolve(buildDir, cssFileName));
+        loadClassMap();
+        copyCssToStyles();
+      }
+
       config.module.rules.push({
-        test: /\.(js|ts|jsx|tsx)$/,
-        use: {
-          loader: require.resolve('./stylexui-loader'),
-          options: {
-            classMap,
-          },
-        },
+        test: /\.[jt]sx?$/,
+        exclude: /node_modules/,
+        use: [{ loader: path.resolve(__dirname, './stylexui-loader.js') }],
       });
 
-      // Step 4: Watch file changes in dev
-      if (dev && !watching) {
-        const watcher = chokidar.watch('src/**/*.{js,ts,jsx,tsx}', {
-          ignoreInitial: true,
-        });
-
-        watcher.on('change', (filePath) => {
-          console.log(`[stylexui] 🔄 Change detected: ${filePath}`);
-          run(['src'], 'build/xui-utilities.css');
-          loadClassMap();
-        });
-
-        watching = true;
-      }
-
-      return typeof nextConfig.webpack === 'function'
-        ? nextConfig.webpack(config, { dev, isServer })
-        : config;
+      return config;
     },
   };
 }
 
-module.exports = withStyleXUI;
+module.exports = withStylexui;

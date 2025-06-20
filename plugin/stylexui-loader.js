@@ -1,17 +1,35 @@
-module.exports = function stylexuiLoader(source, map) {
-  const callback = this.async();
-  const options = this.getOptions() || {};
-  const classMap = options.classMap || {};
+const fs = require('fs');
+const path = require('path');
 
-  let transformed = source;
-  let changed = false;
+let classMap = {};
 
-  for (const [original, sanitized] of Object.entries(classMap)) {
-    if (transformed.includes(original)) {
-      transformed = transformed.split(original).join(sanitized);
-      changed = true;
+// Load classMap fresh every time in dev, once in prod
+function loadClassMap() {
+  const classMapPath = path.resolve('build/xui-classmap.json');
+  if (fs.existsSync(classMapPath)) {
+    try {
+      classMap = JSON.parse(fs.readFileSync(classMapPath, 'utf-8'));
+    } catch (e) {
+      console.warn('[stylexui-loader] ⚠️ Failed to parse classmap:', e);
+      classMap = {};
     }
   }
+}
 
-  callback(null, changed ? transformed : source, map);
+module.exports = function(source) {
+  // In dev mode, reload classMap every time to get latest mapping
+  if (this.mode === 'development') {
+    loadClassMap();
+  } else if (!Object.keys(classMap).length) {
+    // In prod, load once
+    loadClassMap();
+  }
+
+  let transformed = source;
+
+  for (const [original, sanitized] of Object.entries(classMap)) {
+    transformed = transformed.split(original).join(sanitized);
+  }
+
+  return transformed;
 };
