@@ -106,3 +106,8 @@ declare module '@richaadgigi/stylexui' {
   const stylexui: StyleXUI;
   export default stylexui;
 }
+declare module '@richaadgigi/stylexui/plugin/next' {
+  import type { NextConfig } from 'next';
+  function withStylexui(config: NextConfig): NextConfig;
+  export default withStylexui;
+}

@@ -1,6 +1,6 @@
 {
   "name": "@richaadgigi/stylexui",
-  "version": "2.0.0",
+  "version": "2.0.8",
   "description": "Build responsive, beautiful interfaces faster than ever with utility-first classes and smart defaults. No bloat. No fuss. Just results.",
   "main": "index.js",
   "types": "index.d.ts",
@@ -9,23 +9,25 @@
     "*.css",
     "*.js",
     "*.d.ts",
-    "build/",
-    "cli/",
     "css/",
     "assets/",
-    "js/",
-    "plugin/",
-    "types"
+    "js/"
   ],
   "scripts": {
     "clean": "rimraf dist",
     "build:js": "uglifyjs index.js --compress --mangle --output dist/index.min.js",
     "build:css": "cleancss css/xui.css -O2 -o css/xui.min.css",
+    "generate": "node generator/generate.js",
+    "bundle:css": "node scripts/bundle.js",
     "build": "npm run clean && mkdirp dist && npm run build:js && npm run build:css",
     "prepublishOnly": "npm run build",
-    "xui:build": "node tools/xui-build.js ./src ./styles/xui.generated.css",
-    "xui:watch": "onchange 'src/**/*.{ts,tsx,js,jsx,html}' -- npm run xui:build",
-    "postinstall": "node cli/xui-build.js"
+    "build:xui": "node generator/generate.js",
+    "dev:watch": "node watcher.js"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./css/xui.css": "./css/xui.css",
+    "./css/xui.min.css": "./css/xui.min.css"
   },
   "sideEffects": [
     "build/xui-utilities.css",
@@ -58,8 +60,12 @@
   },
   "homepage": "https://github.com/richaadgigi/stylexui#readme",
   "dependencies": {
+    "autoprefixer": "^10.4.21",
     "chokidar-cli": "^3.0.0",
-    "postcss": "^8.5.6"
+    "fast-glob": "^3.3.3",
+    "fs-extra": "^11.3.0",
+    "postcss": "^8.5.6",
+    "webpack-virtual-modules": "^0.6.2"
   },
   "devDependencies": {
     "clean-css-cli": "^5.6.3",

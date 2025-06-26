@@ -1,5 +1,3 @@
-import './index.css'; // This triggers the side-effect
-
 // Utility Functions
 const findElementWithAttribute = (element, attributeName) => {
     while (element) {
@@ -790,8 +788,10 @@ const xuiDynamicCSS = () => {
 
         const hasImportant = rawValue.trim().endsWith('!');
         const value = rawValue.trim().replace(/!$/, '');
-        const selectorClass = generateValidCSSClass(cls);
-        const selector = `.${selectorClass}`;
+        const escapeCSSSelector = (className) =>
+  '.' + className.replace(/([!"#$%&'()*+,./:;<=>?@[\\\]^`{|}~])/g, '\\$1');
+
+        const escapedSelector = escapeCSSSelector(cls);
         const suffix = hasImportant ? ' !important' : '';
 
         const getCSS = (propList) =>
@@ -799,19 +799,19 @@ const xuiDynamicCSS = () => {
                 ? propList.map(p => `${p}: ${value}${suffix}`).join('; ')
                 : `${propList}: ${value}${suffix}`;
 
-        const ruleBody = `${selector} { ${getCSS(cssProperty)}; }`;
+        const ruleBody = `${escapedSelector} { ${getCSS(cssProperty)}; }`;
 
         if (breakpoint && config.responsiveMap[`xui-${breakpoint}`]) {
             const mediaQuery = config.responsiveMap[`xui-${breakpoint}`];
             return {
                 rule: `@media ${mediaQuery} { ${ruleBody} }`,
-                selectorClass
+                selectorClass: cls
             };
         }
 
         return {
             rule: ruleBody,
-            selectorClass
+            selectorClass: cls
         };
     };
 
@@ -1202,7 +1202,7 @@ const apply = () => {
     const init = () => {
       isApplied = true;
       // Initialize components in correct order
-    //   applyComponent('dynamicCSS', xuiDynamicCSS);
+      applyComponent('dynamicCSS', xuiDynamicCSS);
       applyComponent('loadingScreen', xuiLoadingScreen);
       applyComponent('alerts', xuiAlerts);
       applyComponent('lazyLoad', xuiLazyLoadings);
