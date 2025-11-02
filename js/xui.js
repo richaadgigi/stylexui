@@ -1088,8 +1088,17 @@ const xuiDynamicCSS = (() => {
             "xui-line-height": "line-height",
             "xui-letter-spacing": "letter-spacing",
             "xui-grid-gap": "grid-gap",
+            "xui-grid-row-gap": "grid-row-gap",
+            "xui-grid-column-gap": "grid-column-gap",
+            "xui-gap": "gap",
+            "xui-row-gap": "row-gap",
+            "xui-column-gap": "column-gap",
             "xui-flex-grow": "flex-grow",
-            "xui-flex-shrink": "flex-shrink"
+            "xui-flex-shrink": "flex-shrink",
+            "xui-flex-basis": "flex-basis",
+            "xui-basis": "flex-basis",
+            "xui-ls": "list-style",
+            "xui-lsi": "list-style-image",
         },
         responsiveMap: {
             "xui-sm": "(min-width: 640px)",

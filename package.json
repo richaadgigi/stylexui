@@ -1,6 +1,6 @@
 {
   "name": "@richaadgigi/stylexui",
-  "version": "2.0.8",
+  "version": "2.0.9",
   "description": "Build responsive, beautiful interfaces faster than ever with utility-first classes and smart defaults. No bloat. No fuss. Just results.",
   "main": "index.js",
   "types": "index.d.ts",
@@ -15,11 +15,12 @@
   ],
   "scripts": {
     "clean": "rimraf dist",
+    "build:xui-js": "uglifyjs js/xui.js --compress --mangle --output js/xui.min.js",
     "build:js": "uglifyjs index.js --compress --mangle --output dist/index.min.js",
     "build:css": "cleancss css/xui.css -O2 -o css/xui.min.css",
     "generate": "node generator/generate.js",
     "bundle:css": "node scripts/bundle.js",
-    "build": "npm run clean && mkdirp dist && npm run build:js && npm run build:css",
+    "build": "npm run clean && mkdirp dist && npm run build:js && npm run build:xui-js && npm run build:css",
     "prepublishOnly": "npm run build",
     "build:xui": "node generator/generate.js",
     "dev:watch": "node watcher.js"

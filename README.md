@@ -37,10 +37,10 @@ Add the following `<link>` tag to your HTML file:
 
 ```html
 <!-- CSS -->
-<link rel="stylesheet" href="https://cdn.stylexui.com/@v1.0.1/css/xui.css" />
+<link rel="stylesheet" href="https://cdn.stylexui.com/@v1.1.0/css/xui.css" />
 
 <!-- Optional JavaScript (for interactive components) -->
-<script src="https://cdn.stylexui.com/@v1.0.1/js/xui.js" defer></script>
+<script src="https://cdn.stylexui.com/@v1.1.0/js/xui.js" defer></script>
 ```
 ✅ Best for: Prototyping, static HTML projects, minimal dependencies.
 
@@ -60,7 +60,6 @@ Then, import it in your project:
 ```js
 import '@richaadgigi/stylexui/css/xui.min.css';
 import { apply } from '@richaadgigi/stylexui';
-import './src/stylexui/dynamic.css'; // Automatically Use Dynamic CSS 
 
 apply();
 ```
@@ -68,7 +67,7 @@ apply();
 
 ### 3️⃣ Manual Download *(Offline or Custom Hosting)*
 
-1. Download the latest version from the [official website](https://stylexui.com) or the [zip file](https://github.com/richaadgigi/stylexui/archive/refs/tags/v1.0.1.zip).
+1. Download the latest version from the [official website](https://stylexui.com) or the [zip file](https://github.com/richaadgigi/stylexui/archive/refs/tags/v1.1.0.zip).
 2. Extract the files and link the CSS in your HTML file:
 
 ```html
@@ -116,14 +115,18 @@ Visit our documentation to [learn more](https://doc.clickup.com/9012486388/p/h/8
 
 ## 📜 Release Notes
 
-### 🔹 Version 1.0.0 (Beta)
-✅ Initial release of StyleXui! 🚀
+### 🔹 Version 1.1.0
+⚡️ Massive Package Size Reduction: The core font folder (approx. 8MB) has been removed from the distribution. StyleXui now defaults to system fonts, allowing developers to import and optimize custom fonts themselves, resulting in a significantly faster download and build process.
 
-✅ Includes core CSS utilities and components
+🖼️ Asset Cleanup: Included assets and images have been optimized, further reducing the package size.
 
-✅ Optional JavaScript for interactive elements
+📦 New Flexbox Utility Scale (xui-flex-*): Introduced a powerful, simplified scale for the CSS flex shorthand, replacing the need to use separate grow/shrink classes for common use cases.
 
-✅ Comprehensive documentation
+📐 Comprehensive Flex Basis Utilities: Added individual utilities for the flex-basis property, giving users full control over the initial size of flex items.
+
+📏 Modern Gap Utilities (Grid & Flex): Replaced the deprecated grid-gap with the unified gap property, which now works for both Flexbox and CSS Grid layouts.
+
+🌎 Enhanced Container Logic: The core `.xui-container` class has been updated to include max-width at responsive breakpoints and is now centered, implementing the modern standard for fluid, readable content on all screen sizes.
 
 ### 🔹 Version 1.0.1
 ✅ Fixed: Ripple effect animation now works as expected for better visual feedback.
@@ -135,6 +138,15 @@ Visit our documentation to [learn more](https://doc.clickup.com/9012486388/p/h/8
 📂 Dashboard Navigation: Now supports dropdowns for subpages, making multi-level navigation seamless.
 
 🚀 Improved Styling Logic: Dynamic CSS now uses !important to ensure proper style overrides.
+
+### 🔹 Version 1.0.0 (Beta)
+✅ Initial release of StyleXui! 🚀
+
+✅ Includes core CSS utilities and components
+
+✅ Optional JavaScript for interactive elements
+
+✅ Comprehensive documentation
 
 ---
 ## 🌍 Contribution
