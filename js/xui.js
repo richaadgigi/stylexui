@@ -1098,7 +1098,7 @@ const xuiDynamicCSS = (() => {
             "xui-flex-basis": "flex-basis",
             "xui-basis": "flex-basis",
             "xui-ls": "list-style",
-            "xui-lsi": "list-style-image",
+            "xui-lsi": "list-style-image"
         },
         responsiveMap: {
             "xui-sm": "(min-width: 640px)",
