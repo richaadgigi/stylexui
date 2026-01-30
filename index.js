@@ -44,7 +44,7 @@ const xuiLoadingScreen = () => {
 
 const xuiHideSkeleton = (ele) => {
     setTimeout(function () {
-        if(ele !== undefined){
+        if (ele !== undefined) {
             let xuiSkeleton = document.querySelectorAll(ele + " .xui--skeleton");
             let xuiSkeletonBtnSmall = document.querySelectorAll(ele + " .xui--skeleton-btn-small");
             for (let i = 0; i < xuiSkeleton.length; i++) {
@@ -69,13 +69,13 @@ const xuiHideSkeleton = (ele) => {
 const xuiAlerts = () => {
     // Select both close button classes
     let alertBoxesClose = document.querySelectorAll('.xui-alert .xui-alert-close, .xui-alert .cancel');
-    
+
     for (var i = 0; i < alertBoxesClose.length; i++) {
         alertBoxesClose[i].addEventListener('click', ((j) => {
             return function () {
                 // Find the parent alert box for this close button
                 let alertBox = alertBoxesClose[j].closest('.xui-alert');
-                
+
                 let alertBoxAnimation = alertBox.classList.contains('xui-anime');
                 if (alertBoxAnimation) {
                     let animationDuration = alertBox.getAttribute("xui-anime-duration");
@@ -106,7 +106,7 @@ const xuiLazyLoadings = () => {
     (function () {
         const elements = document.querySelectorAll('[xui-bg-img]');
         let loadedElements = 0; // Track how many elements have been lazy-loaded
-    
+
         const lazyLoad = function () {
             elements.forEach((item) => {
                 const rect = item.getBoundingClientRect(); // Get the element's position relative to the viewport
@@ -124,7 +124,7 @@ const xuiLazyLoadings = () => {
                     }
                 }
             });
-    
+
             // Stop listening to scroll events if all elements have been lazy-loaded
             loadedElements = Array.from(elements).filter(el => el.getAttribute('xui-bg-img') === null).length;
             if (loadedElements === elements.length) {
@@ -134,7 +134,7 @@ const xuiLazyLoadings = () => {
                 }
             }
         };
-    
+
         const init = function () {
             if (typeof window !== "undefined") {
                 // Client-side-only code
@@ -147,14 +147,14 @@ const xuiLazyLoadings = () => {
             }
             lazyLoad(); // Initial check in case some elements are already in view
         };
-    
+
         return init();
     })();
-    
+
     (function () {
         const elements = document.querySelectorAll('[xui-img-src]');
         let loadedElements = 0; // Track how many elements have been lazy-loaded
-    
+
         const lazyLoad = function () {
             elements.forEach((item) => {
                 const rect = item.getBoundingClientRect(); // Get the element's position relative to the viewport
@@ -172,7 +172,7 @@ const xuiLazyLoadings = () => {
                     }
                 }
             });
-    
+
             // Stop listening to scroll events if all elements have been lazy-loaded
             loadedElements = Array.from(elements).filter(el => el.getAttribute('xui-img-src') === null).length;
             if (loadedElements === elements.length) {
@@ -182,7 +182,7 @@ const xuiLazyLoadings = () => {
                 }
             }
         };
-    
+
         const init = function () {
             if (typeof window !== "undefined") {
                 // Client-side-only code
@@ -195,17 +195,17 @@ const xuiLazyLoadings = () => {
             }
             lazyLoad(); // Initial check in case some elements are already in view
         };
-    
+
         return init();
     })();
 };
 
 const xuiAnime = (customDefinition) => {
     let xuiCustom = customDefinition;
-    
+
     if (xuiCustom !== undefined) {
         let el = document.querySelector(`[xui-custom="${xuiCustom}"], [xui-anime="${xuiCustom}"]`);
-        
+
         if (el !== null) {
             let elPlaced = el.getAttribute("xui-placed") || el.getAttribute("xui-set");
             let elAnimateReverse = el.getAttribute("xui-anime-reverse");
@@ -276,14 +276,14 @@ const xuiAnimeEnd = (customDefinition) => {
         if (el !== null) {
             let elAnimateDuration = el.getAttribute("xui-anime-duration");
             let duration = 1000; // Default duration in ms
-            
+
             if (elAnimateDuration !== null && elAnimateDuration !== "") {
                 duration = Number(elAnimateDuration) * 1000;
             }
 
             // Start the hide animation
             el.classList.remove("xui-anime");
-            
+
             // Remove the element after animation completes
             setTimeout(() => {
                 if (el !== null) {
@@ -779,8 +779,8 @@ const xuiDynamicCSS = () => {
 
     const generateValidCSSClass = (str) => {
         return str.replace(/[^a-zA-Z0-9-]/g, '-')
-                  .replace(/-+/g, '-')
-                  .replace(/^-|-$/g, '');
+            .replace(/-+/g, '-')
+            .replace(/^-|-$/g, '');
     };
 
     const processClass = (cls) => {
@@ -798,7 +798,7 @@ const xuiDynamicCSS = () => {
         const hasImportant = rawValue.trim().endsWith('!');
         const value = rawValue.trim().replace(/!$/, '');
         const escapeCSSSelector = (className) =>
-  '.' + className.replace(/([!"#$%&'()*+,./:;<=>?@[\\\]^`{|}~])/g, '\\$1');
+            '.' + className.replace(/([!"#$%&'()*+,./:;<=>?@[\\\]^`{|}~])/g, '\\$1');
 
         const escapedSelector = escapeCSSSelector(cls);
         const suffix = hasImportant ? ' !important' : '';
@@ -830,7 +830,8 @@ const xuiDynamicCSS = () => {
         const ruleBuckets = { base: [], sm: [], md: [], lg: [], xl: [] };
 
         document.querySelectorAll('[class*="xui-"]').forEach(el => {
-            const classes = el.className.split(/\s+/);
+            const className = typeof el.className === 'string' ? el.className : (el.getAttribute?.('class') || '');
+            const classes = className.split(/\s+/);
             classes.forEach(cls => {
                 if (!cls.startsWith('xui-')) return;
 
@@ -893,7 +894,8 @@ const xuiDynamicCSS = () => {
             mutations.forEach((mutation) => {
                 if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
                     const oldClasses = mutation.oldValue ? mutation.oldValue.split(/\s+/) : [];
-                    const newClasses = mutation.target.className.split(/\s+/);
+                    const newClassName = typeof mutation.target.className === 'string' ? mutation.target.className : (mutation.target.getAttribute?.('class') || '');
+                    const newClasses = newClassName.split(/\s+/);
                     const hadXui = oldClasses.some(c => c.startsWith('xui-'));
                     const hasXui = newClasses.some(c => c.startsWith('xui-'));
                     if (hadXui || hasXui) needsUpdate = true;
@@ -946,7 +948,7 @@ const setupEventListeners = () => {
             let x = (e.clientX - rect.left) / rect.width - 0.5;
             let y = (e.clientY - rect.top) / rect.height - 0.5;
 
-            let tiltX = y * 45; 
+            let tiltX = y * 45;
             let tiltY = x * -45;
 
             card.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
@@ -964,15 +966,15 @@ const setupEventListeners = () => {
             const xuiNavbarMenu = document.querySelector(".xui-navbar .menu");
             const xuiNavbarLinksMain = document.querySelector(".xui-navbar .links .main");
             const xuiNavbarLinksUrl = document.querySelectorAll(".xui-navbar .links a");
-            if(e.target.closest(".xui-navbar .menu")){
-                if(e.target && e.target.classList.contains('animate')){
-                    if(xuiNavbarLinksMain){
+            if (e.target.closest(".xui-navbar .menu")) {
+                if (e.target && e.target.classList.contains('animate')) {
+                    if (xuiNavbarLinksMain) {
                         xuiNavbarLinksMain.classList.remove("animate");
                     }
                     xuiNavbarMenu.classList.remove("animate");
                 }
                 else {
-                    if(xuiNavbarLinksMain){
+                    if (xuiNavbarLinksMain) {
                         xuiNavbarLinksMain.classList.add("animate");
                     }
                     xuiNavbarMenu.classList.add("animate");
@@ -997,23 +999,23 @@ const setupEventListeners = () => {
         // Functionalities for dashboard goes here
         const xuiDashboard = document.querySelector(".xui-dashboard");
         const xuiDashboardMenu = document.querySelector(".xui-dashboard .menu");
-        if(e.target.closest(".xui-dashboard .menu")){
-            if(e.target && e.target.classList.contains('animate')){
-                if(xuiDashboard){
+        if (e.target.closest(".xui-dashboard .menu")) {
+            if (e.target && e.target.classList.contains('animate')) {
+                if (xuiDashboard) {
                     xuiDashboard.classList.remove("animate");
                 }
                 xuiDashboardMenu.classList.remove("animate");
             }
             else {
-                if(xuiDashboard){
+                if (xuiDashboard) {
                     xuiDashboard.classList.add("animate");
                 }
                 xuiDashboardMenu.classList.add("animate");
             }
         }
-        if(e.target === xuiDashboard){
-            if(e.target && e.target.classList.contains('animate')){
-                if(xuiDashboard){
+        if (e.target === xuiDashboard) {
+            if (e.target && e.target.classList.contains('animate')) {
+                if (xuiDashboard) {
                     xuiDashboard.classList.remove("animate");
                 }
                 xuiDashboardMenu.classList.remove("animate");
@@ -1124,7 +1126,7 @@ const setupEventListeners = () => {
         if (e.target.closest('.xui-accordion-box .xui-accordion-header, .xui-accordion .box .header')) {
             const header = e.target.closest('.xui-accordion-box .xui-accordion-header, .xui-accordion .box .header');
             const index = accordionHeaders.indexOf(header);
-            
+
             // Find elements using all possible selector variations
             const iconOpen = header.querySelector(".xui-accordion-header-icon-open, .xui-accordion .header .icon .open");
             const iconClose = header.querySelector(".xui-accordion-header-icon-close, .xui-accordion .header .icon .close");
@@ -1180,11 +1182,11 @@ const setupEventListeners = () => {
 
         // Functionalities for dashboard sidebar goes here
         const xuiDashboardScreen = document.querySelector('.xui-dashboard .screen');
-        if(e.target.closest(".xui-dashboard [xui-aside-open]")){
+        if (e.target.closest(".xui-dashboard [xui-aside-open]")) {
             xuiDashboardScreen.setAttribute("xui-aside", "true");
         }
-        
-        if(e.target.closest(".xui-dashboard [xui-aside-close]")){
+
+        if (e.target.closest(".xui-dashboard [xui-aside-close]")) {
             xuiDashboardScreen.setAttribute("xui-aside", "false");
         }
         // Functionalities for dashboard sidebar goes here
@@ -1199,31 +1201,31 @@ const applyComponent = (name, initFn) => {
     if (appliedComponents.has(name)) return;
     appliedComponents.add(name);
     try {
-      initFn();
+        initFn();
     } catch (e) {
-      console.error(`Failed to initialize ${name}:`, e);
+        console.error(`Failed to initialize ${name}:`, e);
     }
 };
 
 const apply = () => {
     if (isApplied) return;
-    
+
     const init = () => {
-      isApplied = true;
-      // Initialize components in correct order
-      applyComponent('dynamicCSS', xuiDynamicCSS);
-      applyComponent('loadingScreen', xuiLoadingScreen);
-      applyComponent('alerts', xuiAlerts);
-      applyComponent('lazyLoad', xuiLazyLoadings);
-      applyComponent('scrollAnimation', xuiScrollOnAnimation);
-      setupEventListeners();
+        isApplied = true;
+        // Initialize components in correct order
+        applyComponent('dynamicCSS', xuiDynamicCSS);
+        applyComponent('loadingScreen', xuiLoadingScreen);
+        applyComponent('alerts', xuiAlerts);
+        applyComponent('lazyLoad', xuiLazyLoadings);
+        applyComponent('scrollAnimation', xuiScrollOnAnimation);
+        setupEventListeners();
     };
-  
+
     // Handle DOM readiness
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
-      init();
+        init();
     } else {
-      document.addEventListener('DOMContentLoaded', init);
+        document.addEventListener('DOMContentLoaded', init);
     }
 };
 
@@ -1245,25 +1247,25 @@ const stylexui = {
         },
         loader: xuiLoadingScreen
     },
-    
+
     // Animation Functions
     animate: {
         default: xuiAnime,
         start: xuiAnimeStart,
         end: xuiAnimeEnd
     },
-    
+
     // Effect Functions
     effect: {
         typewriter: xuiTypeWriter
     },
-    
+
     // UI Reveal Functions
     reveal: {
         images: xuiLazyLoadings,
         skeletons: xuiHideSkeleton
     },
-    
+
     // Modal Functions
     modal: {
         show: xuiModalShow,
@@ -1311,7 +1313,7 @@ if (typeof window !== 'undefined' && typeof document !== 'undefined') {
             apply();
         }
     };
-    
+
     // Run either now or when DOM is ready
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
         setTimeout(init, 0);

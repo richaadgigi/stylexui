@@ -1490,18 +1490,18 @@ select:-webkit-autofill:focus {
   justify-content: center;
 }
 
-.xui-alert .xui-alert-icon svg,
+/* .xui-alert .xui-alert-icon svg,
 .xui-alert .icon svg {
   width: 20px;
   height: 20px;
-}
+} */
 
-.xui-alert .xui-alert-icon svg path,
+/* .xui-alert .xui-alert-icon svg path,
 .xui-alert .icon svg path,
 .xui-alert .xui-alert-icon svg polygon,
 .xui-alert .icon svg polygon {
   fill: currentColor;
-}
+} */
 
 .xui-alert .xui-alert-content,
 .xui-alert .content {

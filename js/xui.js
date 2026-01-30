@@ -15,7 +15,7 @@ document.querySelectorAll('.xui-tilt-card').forEach((card) => {
         let x = (e.clientX - rect.left) / rect.width - 0.5;
         let y = (e.clientY - rect.top) / rect.height - 0.5;
 
-        let tiltX = y * 45; 
+        let tiltX = y * 45;
         let tiltY = x * -45;
 
         card.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
@@ -25,7 +25,7 @@ document.querySelectorAll('.xui-tilt-card').forEach((card) => {
         card.style.transform = 'rotateX(0deg) rotateY(0deg)';
     });
 });
-  
+
 // Handling click events
 document.addEventListener("click", (e) => {
     // Functionalities for navabar goes here
@@ -34,15 +34,15 @@ document.addEventListener("click", (e) => {
         const xuiNavbarMenu = document.querySelector(".xui-navbar .menu");
         const xuiNavbarLinksMain = document.querySelector(".xui-navbar .links .main");
         const xuiNavbarLinksUrl = document.querySelectorAll(".xui-navbar .links a");
-        if(e.target.closest(".xui-navbar .menu")){
-            if(e.target && e.target.classList.contains('animate')){
-                if(xuiNavbarLinksMain){
+        if (e.target.closest(".xui-navbar .menu")) {
+            if (e.target && e.target.classList.contains('animate')) {
+                if (xuiNavbarLinksMain) {
                     xuiNavbarLinksMain.classList.remove("animate");
                 }
                 xuiNavbarMenu.classList.remove("animate");
             }
             else {
-                if(xuiNavbarLinksMain){
+                if (xuiNavbarLinksMain) {
                     xuiNavbarLinksMain.classList.add("animate");
                 }
                 xuiNavbarMenu.classList.add("animate");
@@ -67,23 +67,23 @@ document.addEventListener("click", (e) => {
     // Functionalities for dashboard goes here
     const xuiDashboard = document.querySelector(".xui-dashboard");
     const xuiDashboardMenu = document.querySelector(".xui-dashboard .menu");
-    if(e.target.closest(".xui-dashboard .menu")){
-        if(e.target && e.target.classList.contains('animate')){
-            if(xuiDashboard){
+    if (e.target.closest(".xui-dashboard .menu")) {
+        if (e.target && e.target.classList.contains('animate')) {
+            if (xuiDashboard) {
                 xuiDashboard.classList.remove("animate");
             }
             xuiDashboardMenu.classList.remove("animate");
         }
         else {
-            if(xuiDashboard){
+            if (xuiDashboard) {
                 xuiDashboard.classList.add("animate");
             }
             xuiDashboardMenu.classList.add("animate");
         }
     }
-    if(e.target === xuiDashboard){
-        if(e.target && e.target.classList.contains('animate')){
-            if(xuiDashboard){
+    if (e.target === xuiDashboard) {
+        if (e.target && e.target.classList.contains('animate')) {
+            if (xuiDashboard) {
                 xuiDashboard.classList.remove("animate");
             }
             xuiDashboardMenu.classList.remove("animate");
@@ -194,7 +194,7 @@ document.addEventListener("click", (e) => {
     if (e.target.closest('.xui-accordion-box .xui-accordion-header, .xui-accordion .box .header')) {
         const header = e.target.closest('.xui-accordion-box .xui-accordion-header, .xui-accordion .box .header');
         const index = accordionHeaders.indexOf(header);
-        
+
         // Find elements using all possible selector variations
         const iconOpen = header.querySelector(".xui-accordion-header-icon-open, .xui-accordion .header .icon .open");
         const iconClose = header.querySelector(".xui-accordion-header-icon-close, .xui-accordion .header .icon .close");
@@ -250,16 +250,16 @@ document.addEventListener("click", (e) => {
 
     // Functionalities for dashboard sidebar goes here
     const xuiDashboardScreen = document.querySelector('.xui-dashboard .screen');
-    if(e.target.closest(".xui-dashboard [xui-aside-open]")){
+    if (e.target.closest(".xui-dashboard [xui-aside-open]")) {
         xuiDashboardScreen.setAttribute("xui-aside", "true");
     }
-    
-    if(e.target.closest(".xui-dashboard [xui-aside-close]")){
+
+    if (e.target.closest(".xui-dashboard [xui-aside-close]")) {
         xuiDashboardScreen.setAttribute("xui-aside", "false");
     }
     // Functionalities for dashboard sidebar goes here
 });
-function xuiLoadingScreen(){
+function xuiLoadingScreen() {
     let loader = document.querySelector(".xui-loader");
     if (loader !== null) {
         loader.style.display = "flex";
@@ -276,9 +276,9 @@ function xuiLoadingScreen(){
         }
     }, 100);
 };
-function xuiHideSkeleton(ele){
+function xuiHideSkeleton(ele) {
     setTimeout(function () {
-        if(ele !== undefined){
+        if (ele !== undefined) {
             let xuiSkeleton = document.querySelectorAll(ele + " .xui--skeleton");
             let xuiSkeletonBtnSmall = document.querySelectorAll(ele + " .xui--skeleton-btn-small");
             for (let i = 0; i < xuiSkeleton.length; i++) {
@@ -399,13 +399,13 @@ function isHidden(el) {
 function xuiAlerts() {
     // Select both close button classes
     let alertBoxesClose = document.querySelectorAll('.xui-alert .xui-alert-close, .xui-alert .cancel');
-    
+
     for (var i = 0; i < alertBoxesClose.length; i++) {
         alertBoxesClose[i].addEventListener('click', ((j) => {
             return function () {
                 // Find the parent alert box for this close button
                 let alertBox = alertBoxesClose[j].closest('.xui-alert');
-                
+
                 let alertBoxAnimation = alertBox.classList.contains('xui-anime');
                 if (alertBoxAnimation) {
                     let animationDuration = alertBox.getAttribute("xui-anime-duration");
@@ -431,11 +431,11 @@ function xuiAlerts() {
         })(i));
     }
 };
-function xuiLazyLoadings(){
+function xuiLazyLoadings() {
     (function () {
         const elements = document.querySelectorAll('[xui-bg-img]');
         let loadedElements = 0; // Track how many elements have been lazy-loaded
-    
+
         const lazyLoad = function () {
             elements.forEach((item) => {
                 const rect = item.getBoundingClientRect(); // Get the element's position relative to the viewport
@@ -453,7 +453,7 @@ function xuiLazyLoadings(){
                     }
                 }
             });
-    
+
             // Stop listening to scroll events if all elements have been lazy-loaded
             loadedElements = Array.from(elements).filter(el => el.getAttribute('xui-bg-img') === null).length;
             if (loadedElements === elements.length) {
@@ -463,7 +463,7 @@ function xuiLazyLoadings(){
                 }
             }
         };
-    
+
         const init = function () {
             if (typeof window !== "undefined") {
                 // Client-side-only code
@@ -476,14 +476,14 @@ function xuiLazyLoadings(){
             }
             lazyLoad(); // Initial check in case some elements are already in view
         };
-    
+
         return init();
     })();
-    
+
     (function () {
         const elements = document.querySelectorAll('[xui-img-src]');
         let loadedElements = 0; // Track how many elements have been lazy-loaded
-    
+
         const lazyLoad = function () {
             elements.forEach((item) => {
                 const rect = item.getBoundingClientRect(); // Get the element's position relative to the viewport
@@ -501,7 +501,7 @@ function xuiLazyLoadings(){
                     }
                 }
             });
-    
+
             // Stop listening to scroll events if all elements have been lazy-loaded
             loadedElements = Array.from(elements).filter(el => el.getAttribute('xui-img-src') === null).length;
             if (loadedElements === elements.length) {
@@ -511,7 +511,7 @@ function xuiLazyLoadings(){
                 }
             }
         };
-    
+
         const init = function () {
             if (typeof window !== "undefined") {
                 // Client-side-only code
@@ -524,16 +524,16 @@ function xuiLazyLoadings(){
             }
             lazyLoad(); // Initial check in case some elements are already in view
         };
-    
+
         return init();
     })();
 };
 function xuiAnime(customDefinition) {
     let xuiCustom = customDefinition;
-    
+
     if (xuiCustom !== undefined) {
         let el = document.querySelector(`[xui-custom="${xuiCustom}"], [xui-anime="${xuiCustom}"]`);
-        
+
         if (el !== null) {
             let elPlaced = el.getAttribute("xui-placed") || el.getAttribute("xui-set");
             let elAnimateReverse = el.getAttribute("xui-anime-reverse");
@@ -573,7 +573,7 @@ function xuiAnime(customDefinition) {
     }
 }
 
-function xuiAnimeStart(customDefinition){
+function xuiAnimeStart(customDefinition) {
     let xuiCustom = customDefinition;
     if (xuiCustom !== undefined) {
         let el = document.querySelector(`[xui-custom="${xuiCustom}"], [xui-anime="${xuiCustom}"]`);
@@ -603,14 +603,14 @@ function xuiAnimeEnd(customDefinition) {
         if (el !== null) {
             let elAnimateDuration = el.getAttribute("xui-anime-duration");
             let duration = 1000; // Default duration in ms
-            
+
             if (elAnimateDuration !== null && elAnimateDuration !== "") {
                 duration = Number(elAnimateDuration) * 1000;
             }
 
             // Start the hide animation
             el.classList.remove("xui-anime");
-            
+
             // Remove the element after animation completes
             setTimeout(() => {
                 if (el !== null) {
@@ -622,7 +622,7 @@ function xuiAnimeEnd(customDefinition) {
         console.warn("xui.animateEnd() is missing a parameter");
     }
 };
-function xuiTypeWriter(obj){
+function xuiTypeWriter(obj) {
     let quoteArray = obj.words;
     let speed = obj.duration;
     let target = obj.target;
@@ -741,7 +741,7 @@ function xuiTypeWriter(obj){
         console.error("No target found in xui.effect.typewriter(obj)");
     }
 };
-function xuiScrollOnAnimation(){
+function xuiScrollOnAnimation() {
     // Check if xui-aos is available in the body tag
     let xuiBody = document.querySelector("body");
     if (xuiBody !== null) {
@@ -1190,9 +1190,9 @@ const xuiDynamicCSS = (() => {
 
     const processElement = el => {
         const classStr = el.getAttribute?.("class");
-        if (!classStr) return;
+        if (typeof classStr !== 'string') return;
 
-        classStr.split(/\s+/)
+        classStr.trim().split(/\s+/)
             .filter(cls => cls.startsWith("xui-"))
             .forEach(cls => processClass(el, cls));
     };
@@ -1275,7 +1275,7 @@ const xuiDynamicCSS = (() => {
     });
 })();
 
-function xuiRun(){
+function xuiRun() {
     xuiLazyLoadings();
     xuiAlerts();
     xuiScrollOnAnimation();
@@ -1358,7 +1358,7 @@ let xui = {
     }
 };
 // For modules usage
-function autoRun(){
+function autoRun() {
     let body = document.querySelector("body");
     if (body !== null) {
         let xuiRun = body.getAttribute("xui-run");
