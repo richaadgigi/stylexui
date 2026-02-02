@@ -830,7 +830,7 @@ const xuiDynamicCSS = () => {
         const ruleBuckets = { base: [], sm: [], md: [], lg: [], xl: [] };
 
         document.querySelectorAll('[class*="xui-"]').forEach(el => {
-            const className = typeof el.className === 'string' ? el.className : (el.getAttribute?.('class') || '');
+            const className = (el.getAttribute?.('class') || '');
             const classes = className.split(/\s+/);
             classes.forEach(cls => {
                 if (!cls.startsWith('xui-')) return;
@@ -894,7 +894,7 @@ const xuiDynamicCSS = () => {
             mutations.forEach((mutation) => {
                 if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
                     const oldClasses = mutation.oldValue ? mutation.oldValue.split(/\s+/) : [];
-                    const newClassName = typeof mutation.target.className === 'string' ? mutation.target.className : (mutation.target.getAttribute?.('class') || '');
+                    const newClassName = (mutation.target.getAttribute?.('class') || '');
                     const newClasses = newClassName.split(/\s+/);
                     const hadXui = oldClasses.some(c => c.startsWith('xui-'));
                     const hasXui = newClasses.some(c => c.startsWith('xui-'));
@@ -904,7 +904,7 @@ const xuiDynamicCSS = () => {
                 if (mutation.addedNodes) {
                     mutation.addedNodes.forEach(node => {
                         if (node.nodeType === 1 && (
-                            node.classList?.value.includes('xui-') ||
+                            (node.getAttribute?.('class') || '').includes('xui-') ||
                             node.querySelector?.('[class*="xui-"]')
                         )) {
                             needsUpdate = true;
