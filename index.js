@@ -76,6 +76,8 @@ const xuiAlerts = () => {
                 // Find the parent alert box for this close button
                 let alertBox = alertBoxesClose[j].closest('.xui-alert');
 
+                if (!alertBox) return;
+
                 let alertBoxAnimation = alertBox.classList.contains('xui-anime');
                 if (alertBoxAnimation) {
                     let animationDuration = alertBox.getAttribute("xui-anime-duration");
@@ -1004,13 +1006,17 @@ const setupEventListeners = () => {
                 if (xuiDashboard) {
                     xuiDashboard.classList.remove("animate");
                 }
-                xuiDashboardMenu.classList.remove("animate");
+                if (xuiDashboardMenu) {
+                    xuiDashboardMenu.classList.remove("animate");
+                }
             }
             else {
                 if (xuiDashboard) {
                     xuiDashboard.classList.add("animate");
                 }
-                xuiDashboardMenu.classList.add("animate");
+                if (xuiDashboardMenu) {
+                    xuiDashboardMenu.classList.add("animate");
+                }
             }
         }
         if (e.target === xuiDashboard) {
@@ -1018,7 +1024,9 @@ const setupEventListeners = () => {
                 if (xuiDashboard) {
                     xuiDashboard.classList.remove("animate");
                 }
-                xuiDashboardMenu.classList.remove("animate");
+                if (xuiDashboardMenu) {
+                    xuiDashboardMenu.classList.remove("animate");
+                }
             }
         }
         // Closing animations when a link with url is clicked
@@ -1026,8 +1034,8 @@ const setupEventListeners = () => {
         if (link.closest('.xui-dashboard .navigator .links a')) {
             const href = link.getAttribute("href");
             if ((href !== "#") && (href !== "")) {
-                xuiDashboard.classList.remove("animate");
-                xuiDashboardMenu.classList.remove("animate");
+                if (xuiDashboard) xuiDashboard.classList.remove("animate");
+                if (xuiDashboardMenu) xuiDashboardMenu.classList.remove("animate");
             }
         }
         // Functionalities for dashboard goes here
