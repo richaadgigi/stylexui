@@ -2485,7 +2485,6 @@ select:-webkit-autofill:focus {
 }
 
 .xui-dashboard .navigator .links {
-  padding-bottom: 200px;
   position: relative;
   min-height: calc(100% - (var(--default-sidebar-top-height) + 100px));
 }
@@ -2563,7 +2562,7 @@ select:-webkit-autofill:focus {
 }
 
 .xui-dashboard .navigator .links .link-box .icon {
-  display: inline-block;
+  display: inline-flex;
   margin-right: 8px;
   min-width: 20px;
   min-height: 20px;
